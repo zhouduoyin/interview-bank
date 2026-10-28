@@ -68,17 +68,27 @@
             <span class="muted small">Markdown 渲染</span>
           </div>
           <MarkdownView v-if="question.content" :content="question.content" />
-          <p v-else class="muted">还没有填写题目描述，<router-link class="text-link" :to="`/questions/${question.id}/edit`">去补充</router-link></p>
+          <p v-else class="muted">
+            还没有填写题目描述，<router-link class="text-link" :to="`/questions/${question.id}/edit`"
+              >去补充</router-link
+            >
+          </p>
         </section>
 
         <section class="card answer-card">
           <div class="card-head">
             <h3>参考答案</h3>
-            <el-button text size="small" @click="showAnswer = !showAnswer">{{ showAnswer ? '先藏起来' : '展开答案' }}</el-button>
+            <el-button text size="small" @click="showAnswer = !showAnswer">{{
+              showAnswer ? '先藏起来' : '展开答案'
+            }}</el-button>
           </div>
           <template v-if="showAnswer">
             <MarkdownView v-if="question.answer" :content="question.answer" />
-            <p v-else class="muted">还没有参考答案，<router-link class="text-link" :to="`/questions/${question.id}/edit`">去写一份</router-link></p>
+            <p v-else class="muted">
+              还没有参考答案，<router-link class="text-link" :to="`/questions/${question.id}/edit`"
+                >去写一份</router-link
+              >
+            </p>
           </template>
           <div v-else class="answer-hidden" @click="showAnswer = true">
             <el-icon><View /></el-icon>
@@ -97,8 +107,15 @@
             <router-link to="/interviews" class="text-link">全部面试 →</router-link>
           </div>
           <div class="linked-interviews">
-            <router-link v-for="it in interviews" :key="it.recordId" :to="`/interviews/${it.recordId}`" class="linked-interview">
-              <span class="company-avatar" :style="{ background: colorOf(it.company) }">{{ initials(it.company) }}</span>
+            <router-link
+              v-for="it in interviews"
+              :key="it.recordId"
+              :to="`/interviews/${it.recordId}`"
+              class="linked-interview"
+            >
+              <span class="company-avatar" :style="{ background: colorOf(it.company) }">{{
+                initials(it.company)
+              }}</span>
               <div>
                 <b>{{ it.company }}</b>
                 <small>{{ it.round || '面试' }} · {{ fmtDate(it.interviewDate, 'M月D日') }}</small>
@@ -114,9 +131,18 @@
         <section class="card review-card">
           <div class="card-head"><h3>复习状态</h3></div>
           <div class="review-stat-row">
-            <div><b>{{ question.reviewCount }}</b><span>复习次数</span></div>
-            <div><b>{{ question.intervalDays }}</b><span>间隔天数</span></div>
-            <div><b>{{ question.easeFactor?.toFixed?.(2) ?? '2.50' }}</b><span>难度系数</span></div>
+            <div>
+              <b>{{ question.reviewCount }}</b
+              ><span>复习次数</span>
+            </div>
+            <div>
+              <b>{{ question.intervalDays }}</b
+              ><span>间隔天数</span>
+            </div>
+            <div>
+              <b>{{ question.easeFactor?.toFixed?.(2) ?? '2.50' }}</b
+              ><span>难度系数</span>
+            </div>
           </div>
           <div class="next-review" :class="{ due: isDue }">
             <el-icon><Clock /></el-icon>
@@ -127,7 +153,14 @@
           </div>
           <div class="rating-title">现在过一遍？</div>
           <div class="rating-grid">
-            <button v-for="(r, key) in RATING" :key="key" type="button" class="rating-btn" :style="{ color: r.color, borderColor: `${r.color}33`, background: r.bg }" @click="rate(key)">
+            <button
+              v-for="(r, key) in RATING"
+              :key="key"
+              type="button"
+              class="rating-btn"
+              :style="{ color: r.color, borderColor: `${r.color}33`, background: r.bg }"
+              @click="rate(key)"
+            >
               <b>{{ r.label }}</b>
               <small>{{ r.hint }}</small>
             </button>
@@ -144,7 +177,9 @@
               <i :style="{ background: ratingColor(log.rating) }" />
               <div>
                 <b>{{ ratingLabel(log.rating) }}</b>
-                <small>{{ fmtDateTime(log.createdAt) }} · 间隔 {{ log.prevInterval }} → {{ log.intervalDays }} 天</small>
+                <small
+                  >{{ fmtDateTime(log.createdAt) }} · 间隔 {{ log.prevInterval }} → {{ log.intervalDays }} 天</small
+                >
               </div>
             </div>
           </div>

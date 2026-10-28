@@ -4,6 +4,7 @@ server/target/
 server/src/main/resources/static/
 web/dist/
 web/node_modules/
+web/coverage/
 node_modules/
 
 # 日志与临时文件

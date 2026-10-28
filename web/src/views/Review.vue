@@ -22,7 +22,10 @@
     </template>
 
     <template v-else-if="!queue.length">
-      <EmptyState title="今天没有需要复习的题" description="所有题目都还在记忆保鲜期内。可以去题库补充新题，或者提前复习收藏的题。">
+      <EmptyState
+        title="今天没有需要复习的题"
+        description="所有题目都还在记忆保鲜期内。可以去题库补充新题，或者提前复习收藏的题。"
+      >
         <template #action>
           <el-button type="primary" @click="$router.push('/questions/new')">记录一道新题</el-button>
           <el-button @click="$router.push('/questions?starred=1')">看看收藏的题</el-button>
@@ -56,7 +59,9 @@
               {{ current.category?.name || '未分类' }}
             </span>
             <span class="mini-pill" :style="diffStyle">{{ diffLabel }}</span>
-            <span v-if="current.reviewCount === 0" class="mini-pill" style="color:#7c3aed;background:#f3e8ff">第一次见</span>
+            <span v-if="current.reviewCount === 0" class="mini-pill" style="color: #7c3aed; background: #f3e8ff"
+              >第一次见</span
+            >
             <span class="spacer" />
             <span class="muted small">已复习 {{ current.reviewCount }} 次</span>
           </div>
@@ -81,7 +86,11 @@
           <div v-else class="answer-area">
             <div class="answer-divider"><span>参考答案</span></div>
             <MarkdownView v-if="current.answer" :content="current.answer" />
-            <p v-else class="muted">这道题还没有写参考答案，<router-link class="text-link" :to="`/questions/${current.id}/edit`">去补充</router-link></p>
+            <p v-else class="muted">
+              这道题还没有写参考答案，<router-link class="text-link" :to="`/questions/${current.id}/edit`"
+                >去补充</router-link
+              >
+            </p>
 
             <div class="rating-title">刚才回忆得怎么样？</div>
             <div class="rating-grid four">
@@ -115,7 +124,6 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
 import { View, Right } from '@element-plus/icons-vue'
 import MarkdownView from '@/components/MarkdownView.vue'
 import EmptyState from '@/components/EmptyState.vue'

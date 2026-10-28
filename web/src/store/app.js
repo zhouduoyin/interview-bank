@@ -31,11 +31,7 @@ export function toggleCollapsed() {
 
 export async function refreshMeta() {
   try {
-    const [categories, tags, queue] = await Promise.all([
-      api.categories.list(),
-      api.tags.list(),
-      api.review.queue(1)
-    ])
+    const [categories, tags, queue] = await Promise.all([api.categories.list(), api.tags.list(), api.review.queue(1)])
     appState.categories = categories
     appState.tags = tags
     appState.dueCount = queue.dueCount

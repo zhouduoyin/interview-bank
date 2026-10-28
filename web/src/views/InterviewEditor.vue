@@ -34,7 +34,13 @@
         </label>
         <label class="field">
           <span>面试日期</span>
-          <el-date-picker v-model="form.interviewDate" type="date" value-format="YYYY-MM-DD" placeholder="选择日期" style="width: 100%" />
+          <el-date-picker
+            v-model="form.interviewDate"
+            type="date"
+            value-format="YYYY-MM-DD"
+            placeholder="选择日期"
+            style="width: 100%"
+          />
         </label>
         <label class="field">
           <span>结果</span>
@@ -84,21 +90,39 @@
             <span class="option-cat">{{ q.category?.name || '未分类' }}</span>
           </el-option>
         </el-select>
-        <el-input v-model="pendingNote" placeholder="现场回答 / 追问（可选）" class="link-note" @keyup.enter="addSelected" />
+        <el-input
+          v-model="pendingNote"
+          placeholder="现场回答 / 追问（可选）"
+          class="link-note"
+          @keyup.enter="addSelected"
+        />
         <el-button type="primary" plain :disabled="!pendingQuestionId" @click="addSelected">添加</el-button>
       </div>
       <div class="quick-create-row">
         <el-icon><Plus /></el-icon>
-        <el-input v-model="quickTitle" placeholder="没有这题？直接输入题目，回车现场新建" @keyup.enter="createQuickQuestion" />
-        <el-button text type="primary" :disabled="!quickTitle.trim()" :loading="creating" @click="createQuickQuestion">新建并加入</el-button>
+        <el-input
+          v-model="quickTitle"
+          placeholder="没有这题？直接输入题目，回车现场新建"
+          @keyup.enter="createQuickQuestion"
+        />
+        <el-button text type="primary" :disabled="!quickTitle.trim()" :loading="creating" @click="createQuickQuestion"
+          >新建并加入</el-button
+        >
       </div>
 
       <div v-if="form.questions.length" class="linked-list">
         <div v-for="(item, i) in form.questions" :key="item.questionId" class="linked-item">
           <span class="linked-index">{{ i + 1 }}</span>
           <div class="linked-main">
-            <router-link :to="`/questions/${item.questionId}`" target="_blank" class="linked-title">{{ item.title }}</router-link>
-            <el-input v-model="item.note" size="small" placeholder="这道题的回答 / 面试官追问" class="linked-note-input" />
+            <router-link :to="`/questions/${item.questionId}`" target="_blank" class="linked-title">{{
+              item.title
+            }}</router-link>
+            <el-input
+              v-model="item.note"
+              size="small"
+              placeholder="这道题的回答 / 面试官追问"
+              class="linked-note-input"
+            />
           </div>
           <el-button text type="danger" size="small" @click="removeQuestion(i)">移除</el-button>
         </div>

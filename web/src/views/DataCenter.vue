@@ -34,7 +34,9 @@
           </template>
         </el-upload>
         <div class="paste-toggle">
-          <el-button link type="primary" @click="showPaste = !showPaste">{{ showPaste ? '收起粘贴框' : '或者直接粘贴 JSON' }}</el-button>
+          <el-button link type="primary" @click="showPaste = !showPaste">{{
+            showPaste ? '收起粘贴框' : '或者直接粘贴 JSON'
+          }}</el-button>
           <span v-if="fileName" class="muted small">已选择：{{ fileName }}</span>
         </div>
         <el-input
@@ -108,7 +110,8 @@
     <section class="card danger-card">
       <div class="card-head"><h3>数据安全</h3></div>
       <p class="muted">
-        默认使用 H2 文件数据库（运行目录下的 <code>data/</code> 文件夹）；MySQL 模式保存在 <code>interview_bank</code> 数据库。两种模式都不经过任何第三方服务器。
+        默认使用 H2 文件数据库（运行目录下的 <code>data/</code> 文件夹）；MySQL 模式保存在
+        <code>interview_bank</code> 数据库。两种模式都不经过任何第三方服务器。
       </p>
       <div class="danger-row">
         <div>
@@ -256,7 +259,9 @@ async function renameTag(tag) {
 
 async function deleteTag(tag) {
   try {
-    await ElMessageBox.confirm(`从所有题目里移除标签 #${tag.name}？（${tag.count} 道题）`, '删除标签', { type: 'warning' })
+    await ElMessageBox.confirm(`从所有题目里移除标签 #${tag.name}？（${tag.count} 道题）`, '删除标签', {
+      type: 'warning'
+    })
     await api.tags.remove(tag.name)
     ElMessage.success('标签已删除')
     await Promise.all([load(), refreshMeta()])
@@ -267,7 +272,9 @@ async function deleteTag(tag) {
 
 async function clearDemo() {
   try {
-    await ElMessageBox.confirm('只删除示例数据，自己记录的题目不受影响。确定继续？', '清除示例数据', { type: 'warning' })
+    await ElMessageBox.confirm('只删除示例数据，自己记录的题目不受影响。确定继续？', '清除示例数据', {
+      type: 'warning'
+    })
     const result = await api.data.clearDemo()
     ElMessage.success(`已清除：${result.questions} 道题、${result.interviews} 条面试记录`)
     await Promise.all([load(), refreshMeta()])

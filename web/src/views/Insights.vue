@@ -1,14 +1,38 @@
 <template>
   <div v-loading="loading" class="page insights-page">
     <section class="stat-grid">
-      <StatCard label="题库总量" :value="ov.totalQuestions || 0" suffix="题" tone="indigo" :icon="Collection"
-        :hint="`${ov.newCount || 0} 题还没开始复习`" />
-      <StatCard label="掌握率" :value="ov.masteryRate || 0" suffix="%" tone="green" :icon="CircleCheck"
-        :hint="`已掌握 ${ov.mastered || 0} 题`" />
-      <StatCard label="累计复习" :value="ov.totalReviews || 0" suffix="次" tone="rose" :icon="TrendCharts"
-        :hint="`平均每题 ${avgReviews} 次`" />
-      <StatCard label="面试记录" :value="ov.interviewCount || 0" suffix="场" tone="amber" :icon="ChatLineSquare"
-        :hint="`连续复习 ${ov.streakDays || 0} 天`" />
+      <StatCard
+        label="题库总量"
+        :value="ov.totalQuestions || 0"
+        suffix="题"
+        tone="indigo"
+        :icon="Collection"
+        :hint="`${ov.newCount || 0} 题还没开始复习`"
+      />
+      <StatCard
+        label="掌握率"
+        :value="ov.masteryRate || 0"
+        suffix="%"
+        tone="green"
+        :icon="CircleCheck"
+        :hint="`已掌握 ${ov.mastered || 0} 题`"
+      />
+      <StatCard
+        label="累计复习"
+        :value="ov.totalReviews || 0"
+        suffix="次"
+        tone="rose"
+        :icon="TrendCharts"
+        :hint="`平均每题 ${avgReviews} 次`"
+      />
+      <StatCard
+        label="面试记录"
+        :value="ov.interviewCount || 0"
+        suffix="场"
+        tone="amber"
+        :icon="ChatLineSquare"
+        :hint="`连续复习 ${ov.streakDays || 0} 天`"
+      />
     </section>
 
     <div class="insight-grid">
@@ -29,7 +53,15 @@
                   <stop offset="100%" style="stop-color: var(--primary); stop-opacity: 0" />
                 </linearGradient>
               </defs>
-              <line v-for="g in [0.25, 0.5, 0.75, 1]" :key="g" x1="10" :y1="170 - g * 150" x2="610" :y2="170 - g * 150" class="trend-grid" />
+              <line
+                v-for="g in [0.25, 0.5, 0.75, 1]"
+                :key="g"
+                x1="10"
+                :y1="170 - g * 150"
+                x2="610"
+                :y2="170 - g * 150"
+                class="trend-grid"
+              />
               <path v-if="chart.area" :d="chart.area" fill="url(#trendFill)" />
               <path v-if="chart.line" :d="chart.line" fill="none" class="trend-line" />
               <circle v-for="(p, i) in chart.pts" :key="i" :cx="p[0]" :cy="p[1]" r="3" class="trend-dot">
@@ -111,7 +143,10 @@
         </section>
 
         <section class="card">
-          <div class="card-head"><h3>高频标签</h3><span class="muted small">{{ tags.length }} 个</span></div>
+          <div class="card-head">
+            <h3>高频标签</h3>
+            <span class="muted small">{{ tags.length }} 个</span>
+          </div>
           <div class="tag-stat-list">
             <div
               v-for="t in tags.slice(0, 12)"
@@ -137,7 +172,9 @@
               class="weak-item"
               @click.prevent="goCategory(c)"
             >
-              <span class="cat-name"><i class="dot" :style="{ background: c.color || 'var(--text-3)' }" />{{ c.name }}</span>
+              <span class="cat-name"
+                ><i class="dot" :style="{ background: c.color || 'var(--text-3)' }" />{{ c.name }}</span
+              >
               <span class="weak-rate">{{ c.rate }}%</span>
             </router-link>
           </div>

@@ -86,8 +86,18 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  Collection, DataAnalysis, House, ChatLineSquare, AlarmClock, Setting,
-  Plus, Search, Fold, Expand, Moon, Sunny
+  Collection,
+  DataAnalysis,
+  House,
+  ChatLineSquare,
+  AlarmClock,
+  Setting,
+  Plus,
+  Search,
+  Fold,
+  Expand,
+  Moon,
+  Sunny
 } from '@element-plus/icons-vue'
 import QuickAddDialog from '@/components/QuickAddDialog.vue'
 import { appState, refreshMeta, toggleCollapsed, toggleTheme } from '@/store/app'

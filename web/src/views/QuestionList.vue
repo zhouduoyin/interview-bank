@@ -34,13 +34,26 @@
         <el-select v-model="filters.categoryId" placeholder="全部分类" clearable class="filter-select" @change="reload">
           <el-option v-for="c in appState.categories" :key="c.id" :label="c.name" :value="c.id" />
         </el-select>
-        <el-select v-model="filters.difficulty" placeholder="难度" clearable class="filter-select narrow" @change="reload">
+        <el-select
+          v-model="filters.difficulty"
+          placeholder="难度"
+          clearable
+          class="filter-select narrow"
+          @change="reload"
+        >
           <el-option v-for="(v, k) in DIFFICULTY" :key="k" :label="v.label" :value="k" />
         </el-select>
         <el-select v-model="filters.mastery" placeholder="掌握程度" clearable class="filter-select" @change="reload">
           <el-option v-for="(v, k) in MASTERY" :key="k" :label="v.label" :value="k" />
         </el-select>
-        <el-select v-model="filters.tag" placeholder="标签" clearable filterable class="filter-select narrow" @change="reload">
+        <el-select
+          v-model="filters.tag"
+          placeholder="标签"
+          clearable
+          filterable
+          class="filter-select narrow"
+          @change="reload"
+        >
           <el-option v-for="t in appState.tags" :key="t.name" :label="`${t.name} (${t.count})`" :value="t.name" />
         </el-select>
         <el-select v-model="filters.sort" class="filter-select narrow" @change="reload">
@@ -66,7 +79,9 @@
                 <el-icon><StarFilled v-if="q.starred" /><Star v-else /></el-icon>
               </button>
               <el-dropdown trigger="click" @command="(cmd) => onCommand(cmd, q)">
-                <button type="button" class="more-btn"><el-icon><MoreFilled /></el-icon></button>
+                <button type="button" class="more-btn">
+                  <el-icon><MoreFilled /></el-icon>
+                </button>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item command="edit">编辑</el-dropdown-item>
@@ -111,7 +126,9 @@
 
     <div v-else class="card table-card">
       <div v-if="selection.length" class="batch-bar">
-        <span>已选 <b>{{ selection.length }}</b> 题</span>
+        <span
+          >已选 <b>{{ selection.length }}</b> 题</span
+        >
         <el-button size="small" @click="batch('mastery', 'MASTERED')">标记已掌握</el-button>
         <el-button size="small" @click="batch('star')">加入收藏</el-button>
         <el-button size="small" type="danger" plain @click="batchDelete">删除</el-button>
@@ -190,9 +207,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import {
-  Search, Plus, Grid, List, Star, StarFilled, MoreFilled
-} from '@element-plus/icons-vue'
+import { Search, Plus, Grid, List, Star, StarFilled, MoreFilled } from '@element-plus/icons-vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { api } from '@/api'
 import { appState, refreshMeta } from '@/store/app'
@@ -222,10 +237,15 @@ const filters = reactive({
 let timer = null
 
 const hasFilter = computed(() =>
-  Boolean(filters.keyword || filters.categoryId || filters.difficulty || filters.mastery || filters.tag || filters.starred)
+  Boolean(
+    filters.keyword || filters.categoryId || filters.difficulty || filters.mastery || filters.tag || filters.starred
+  )
 )
-const activeFilterCount = computed(() =>
-  [filters.keyword, filters.categoryId, filters.difficulty, filters.mastery, filters.tag, filters.starred].filter(Boolean).length
+const activeFilterCount = computed(
+  () =>
+    [filters.keyword, filters.categoryId, filters.difficulty, filters.mastery, filters.tag, filters.starred].filter(
+      Boolean
+    ).length
 )
 
 function catStyle(q) {

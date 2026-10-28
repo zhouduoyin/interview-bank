@@ -109,7 +109,7 @@ java -jar server\target\interview-bank.jar
 
 ```powershell
 cd web
-npm install
+npm ci
 npm run dev
 ```
 
@@ -119,6 +119,8 @@ npm run dev
 VITE_API_BASE_URL=/api
 VITE_PROXY_TARGET=http://127.0.0.1:8090
 ```
+
+工程化命令：`npm run lint`、`npm run test`、`npm run format:check`、`npm run build`；CI 配置在 `.github/workflows/web-ci.yml`。
 
 如果前端要单独部署到另一个域名，把 `VITE_API_BASE_URL` 改成完整地址，例如：
 
@@ -132,7 +134,7 @@ VITE_API_BASE_URL=https://api.example.com/api
 
 ```powershell
 cd web
-npm install
+npm ci
 npm run build
 ```
 

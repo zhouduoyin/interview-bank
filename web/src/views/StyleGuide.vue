@@ -5,8 +5,7 @@
       <h1>把面试准备，<em>写成一本手记</em></h1>
       <p>
         一套为长时间阅读与每日复习而生的界面语言：暖纸、墨色、朱砂批注，
-        衬线标题负责记忆点，无衬线正文负责效率。它不追求“更像一个后台”，
-        而是让每一次记录都像在纸上落下一笔。
+        衬线标题负责记忆点，无衬线正文负责效率。它不追求“更像一个后台”， 而是让每一次记录都像在纸上落下一笔。
       </p>
       <div class="sg-hero-meta">
         <span>Direction · Field Notes</span>
@@ -35,8 +34,7 @@
         <div>
           <h3 class="sg-h3">像纸，而不是像屏幕</h3>
           <p class="sg-small">
-            暖白纸色、极轻的横向纹理、1px 装订线。信息靠字号、字重和留白分层，
-            而不是靠一层层阴影和胶囊。
+            暖白纸色、极轻的横向纹理、1px 装订线。信息靠字号、字重和留白分层， 而不是靠一层层阴影和胶囊。
           </p>
         </div>
         <div>
@@ -49,15 +47,13 @@
         <div>
           <h3 class="sg-h3">可扫读，也可久读</h3>
           <p class="sg-small">
-            列表用无衬线、短行高密度；详情与复盘用衬线大标题和 1.8 行高。
-            扫的时候快，读的时候不累。
+            列表用无衬线、短行高密度；详情与复盘用衬线大标题和 1.8 行高。 扫的时候快，读的时候不累。
           </p>
         </div>
         <div>
           <h3 class="sg-h3">动效是标点</h3>
           <p class="sg-small">
-            一次页面入场、一次卡片抬起、一次状态确认，足够。所有移动只使用
-            transform 与 opacity，并尊重 reduced-motion。
+            一次页面入场、一次卡片抬起、一次状态确认，足够。所有移动只使用 transform 与 opacity，并尊重 reduced-motion。
           </p>
         </div>
       </div>
@@ -96,11 +92,31 @@
 
       <h4 class="sg-sub">语义色</h4>
       <div class="sg-row">
-        <span class="mini-pill" style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)">已掌握</span>
-        <span class="mini-pill" style="color: var(--accent-4); background: color-mix(in srgb, var(--accent-4) 12%, transparent)">复习中</span>
-        <span class="mini-pill" style="color: var(--text-3); background: color-mix(in srgb, var(--text-3) 12%, transparent)">未掌握</span>
-        <span class="mini-pill" style="color: var(--accent-3); background: color-mix(in srgb, var(--accent-3) 13%, transparent)">中等</span>
-        <span class="mini-pill" style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)">困难</span>
+        <span
+          class="mini-pill"
+          style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)"
+          >已掌握</span
+        >
+        <span
+          class="mini-pill"
+          style="color: var(--accent-4); background: color-mix(in srgb, var(--accent-4) 12%, transparent)"
+          >复习中</span
+        >
+        <span
+          class="mini-pill"
+          style="color: var(--text-3); background: color-mix(in srgb, var(--text-3) 12%, transparent)"
+          >未掌握</span
+        >
+        <span
+          class="mini-pill"
+          style="color: var(--accent-3); background: color-mix(in srgb, var(--accent-3) 13%, transparent)"
+          >中等</span
+        >
+        <span
+          class="mini-pill"
+          style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)"
+          >困难</span
+        >
       </div>
       <p class="sg-footnote" style="margin-top: 12px">
         语义色全部使用 CSS 变量与 color-mix，深浅主题切换时无需改组件。
@@ -135,8 +151,7 @@
           <span class="tag">BODY · 14</span>
           <div class="demo">
             <p class="sg-body">
-              按遗忘曲线过一遍，比重读十遍更有效。每道题都保留自己的复习轨迹，
-              答不上来也没关系，下一次会更牢。
+              按遗忘曲线过一遍，比重读十遍更有效。每道题都保留自己的复习轨迹， 答不上来也没关系，下一次会更牢。
             </p>
           </div>
         </div>
@@ -166,7 +181,15 @@
           <h4 class="sg-sub">间距阶梯</h4>
           <div class="sg-row" style="align-items: flex-end; gap: 12px">
             <div v-for="s in spaces" :key="s.token" style="text-align: center">
-              <div :style="{ width: s.px + 'px', height: s.px + 'px', background: 'var(--primary)', opacity: 0.85, borderRadius: '1px' }" />
+              <div
+                :style="{
+                  width: s.px + 'px',
+                  height: s.px + 'px',
+                  background: 'var(--primary)',
+                  opacity: 0.85,
+                  borderRadius: '1px'
+                }"
+              />
               <div class="sg-mono" style="margin-top: 6px">{{ s.token }}</div>
             </div>
           </div>
@@ -189,14 +212,38 @@
       <div class="sg-table-wrap">
         <table class="sg-table" style="margin-top: 16px">
           <thead>
-            <tr><th>Token</th><th>Value</th><th>用途</th></tr>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>用途</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td><code>--radius-sm</code></td><td>6px</td><td>标签、输入框、徽章</td></tr>
-            <tr><td><code>--radius</code></td><td>8px</td><td>卡片、题目、面试记录</td></tr>
-            <tr><td><code>--radius-lg</code></td><td>12px</td><td>Hero、弹窗、设计规范面板</td></tr>
-            <tr><td><code>--shadow-hard</code></td><td>3px 3px 0 alpha 6%</td><td>纸片层叠、悬停抬起</td></tr>
-            <tr><td><code>--shadow</code></td><td>柔和环境阴影</td><td>浮层、粘性侧栏</td></tr>
+            <tr>
+              <td><code>--radius-sm</code></td>
+              <td>6px</td>
+              <td>标签、输入框、徽章</td>
+            </tr>
+            <tr>
+              <td><code>--radius</code></td>
+              <td>8px</td>
+              <td>卡片、题目、面试记录</td>
+            </tr>
+            <tr>
+              <td><code>--radius-lg</code></td>
+              <td>12px</td>
+              <td>Hero、弹窗、设计规范面板</td>
+            </tr>
+            <tr>
+              <td><code>--shadow-hard</code></td>
+              <td>3px 3px 0 alpha 6%</td>
+              <td>纸片层叠、悬停抬起</td>
+            </tr>
+            <tr>
+              <td><code>--shadow</code></td>
+              <td>柔和环境阴影</td>
+              <td>浮层、粘性侧栏</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -244,11 +291,22 @@
       <h4 class="sg-sub">标签与状态</h4>
       <div class="sg-demo">
         <div class="sg-row">
-          <span class="cat-pill" style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)">
+          <span
+            class="cat-pill"
+            style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)"
+          >
             <i class="dot" style="background: var(--primary)" />Java 基础
           </span>
-          <span class="mini-pill" style="color: var(--accent-3); background: color-mix(in srgb, var(--accent-3) 13%, transparent)">中等</span>
-          <span class="mini-pill" style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)">已掌握</span>
+          <span
+            class="mini-pill"
+            style="color: var(--accent-3); background: color-mix(in srgb, var(--accent-3) 13%, transparent)"
+            >中等</span
+          >
+          <span
+            class="mini-pill"
+            style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)"
+            >已掌握</span
+          >
           <span class="tag-chip">#HashMap</span>
           <span class="tag-chip">#扩容</span>
           <span class="star-flag">重点</span>
@@ -260,7 +318,10 @@
       <div class="sg-demo" style="padding: 16px">
         <div class="q-card" style="cursor: default">
           <div class="q-card-top">
-            <span class="cat-pill" style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)">
+            <span
+              class="cat-pill"
+              style="color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent)"
+            >
               <i class="dot" style="background: var(--primary)" />Java 基础
             </span>
             <div class="q-card-actions" style="opacity: 1">
@@ -281,12 +342,32 @@
       <div class="sg-table-wrap">
         <table class="sg-table">
           <thead>
-            <tr><th>题目</th><th>分类</th><th>难度</th><th>下次复习</th></tr>
+            <tr>
+              <th>题目</th>
+              <th>分类</th>
+              <th>难度</th>
+              <th>下次复习</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td>HashMap 的底层结构与扩容机制？</td><td>Java 基础</td><td><span class="mini-pill" style="color: var(--accent-3)">中等</span></td><td>明天</td></tr>
-            <tr><td>Spring Bean 的生命周期？</td><td>Spring</td><td><span class="mini-pill" style="color: var(--accent-2)">简单</span></td><td>3 天后</td></tr>
-            <tr><td>MySQL 索引为什么用 B+ 树？</td><td>数据库</td><td><span class="mini-pill" style="color: var(--primary)">困难</span></td><td>今天</td></tr>
+            <tr>
+              <td>HashMap 的底层结构与扩容机制？</td>
+              <td>Java 基础</td>
+              <td><span class="mini-pill" style="color: var(--accent-3)">中等</span></td>
+              <td>明天</td>
+            </tr>
+            <tr>
+              <td>Spring Bean 的生命周期？</td>
+              <td>Spring</td>
+              <td><span class="mini-pill" style="color: var(--accent-2)">简单</span></td>
+              <td>3 天后</td>
+            </tr>
+            <tr>
+              <td>MySQL 索引为什么用 B+ 树？</td>
+              <td>数据库</td>
+              <td><span class="mini-pill" style="color: var(--primary)">困难</span></td>
+              <td>今天</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -302,9 +383,7 @@
         <div>
           <h4 class="sg-sub">编排示例</h4>
           <div class="sg-demo">
-            <div class="sg-motion" aria-hidden="true">
-              <i /><i /><i /><i /><i /><i />
-            </div>
+            <div class="sg-motion" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
             <p class="sg-footnote" style="margin-top: 10px">悬停整组，子项按 35ms 递进抬起。</p>
           </div>
         </div>
@@ -313,12 +392,30 @@
           <div class="sg-table-wrap">
             <table class="sg-table">
               <tbody>
-                <tr><td>悬停 / 按下</td><td><code>120ms</code> · linear</td></tr>
-                <tr><td>卡片抬起</td><td><code>180ms</code> · ease-out</td></tr>
-                <tr><td>页面入场</td><td><code>260ms</code> · ease-out</td></tr>
-                <tr><td>退场</td><td>比入场快 20–30%</td></tr>
-                <tr><td>只动</td><td><code>transform / opacity</code></td></tr>
-                <tr><td>降级</td><td><code>prefers-reduced-motion</code></td></tr>
+                <tr>
+                  <td>悬停 / 按下</td>
+                  <td><code>120ms</code> · linear</td>
+                </tr>
+                <tr>
+                  <td>卡片抬起</td>
+                  <td><code>180ms</code> · ease-out</td>
+                </tr>
+                <tr>
+                  <td>页面入场</td>
+                  <td><code>260ms</code> · ease-out</td>
+                </tr>
+                <tr>
+                  <td>退场</td>
+                  <td>比入场快 20–30%</td>
+                </tr>
+                <tr>
+                  <td>只动</td>
+                  <td><code>transform / opacity</code></td>
+                </tr>
+                <tr>
+                  <td>降级</td>
+                  <td><code>prefers-reduced-motion</code></td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -343,9 +440,7 @@
           </ul>
         </div>
         <div>
-          <blockquote class="sg-quote">
-            “好的界面不是让人赞叹，而是让人第二天还想打开。”
-          </blockquote>
+          <blockquote class="sg-quote">“好的界面不是让人赞叹，而是让人第二天还想打开。”</blockquote>
           <p class="sg-footnote" style="margin-top: 10px">
             设计语言参考 Anthropic <code>frontend-design</code> 与本地 <code>ui-motion</code> 技能：
             明确的观点、系统字体、纸感层次、克制的朱砂与有目的的动效。
@@ -495,7 +590,9 @@ const spaces = [
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: border-color var(--dur-fast) linear, color var(--dur-fast) linear,
+  transition:
+    border-color var(--dur-fast) linear,
+    color var(--dur-fast) linear,
     background-color var(--dur-fast) linear;
 }
 

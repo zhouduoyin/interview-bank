@@ -2,8 +2,14 @@
   <div class="md-editor" :class="{ compact }">
     <div class="md-toolbar">
       <div class="md-tools">
-        <button v-for="tool in tools" :key="tool.label" type="button" class="md-tool"
-                :title="tool.title" @click="tool.run">
+        <button
+          v-for="tool in tools"
+          :key="tool.label"
+          type="button"
+          class="md-tool"
+          :title="tool.title"
+          @click="tool.run"
+        >
           <span v-html="tool.label" />
         </button>
       </div>

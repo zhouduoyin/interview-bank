@@ -1,6 +1,8 @@
 <template>
   <div class="empty-state">
-    <div class="empty-icon"><el-icon><component :is="icon" /></el-icon></div>
+    <div class="empty-icon">
+      <el-icon><component :is="icon" /></el-icon>
+    </div>
     <h3>{{ title }}</h3>
     <p>{{ description }}</p>
     <div class="empty-action"><slot name="action" /></div>

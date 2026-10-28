@@ -85,7 +85,11 @@
           <p>可以放面试官的原话、追问，或者代码片段。</p>
         </div>
       </div>
-      <MarkdownEditor v-model="form.content" :min-height="200" placeholder="面试官问：…&#10;&#10;要求 / 场景 / 追问：" />
+      <MarkdownEditor
+        v-model="form.content"
+        :min-height="200"
+        placeholder="面试官问：…&#10;&#10;要求 / 场景 / 追问："
+      />
     </section>
 
     <section class="card">
@@ -94,9 +98,15 @@
           <h3>参考答案</h3>
           <p>用自己的话写一遍，比复制标准答案更有效。</p>
         </div>
-        <el-button v-if="!form.answer" size="small" text type="primary" @click="insertAnswerTemplate">插入答案模板</el-button>
+        <el-button v-if="!form.answer" size="small" text type="primary" @click="insertAnswerTemplate"
+          >插入答案模板</el-button
+        >
       </div>
-      <MarkdownEditor v-model="form.answer" :min-height="320" placeholder="## 一句话回答&#10;&#10;## 关键点&#10;&#10;- …" />
+      <MarkdownEditor
+        v-model="form.answer"
+        :min-height="320"
+        placeholder="## 一句话回答&#10;&#10;## 关键点&#10;&#10;- …"
+      />
     </section>
 
     <section class="card">

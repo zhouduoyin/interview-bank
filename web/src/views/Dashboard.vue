@@ -38,14 +38,38 @@
     </section>
 
     <section class="stat-grid">
-      <StatCard label="题库总量" :value="ov.totalQuestions || 0" suffix="题" tone="indigo" :icon="Collection"
-        :hint="`本月新增 ${ov.monthNew || 0} 题`" />
-      <StatCard label="今日待复习" :value="ov.due || 0" suffix="题" tone="amber" :icon="AlarmClock"
-        :hint="`今日已复习 ${ov.todayReviews || 0} 题`" />
-      <StatCard label="已掌握" :value="ov.mastered || 0" suffix="题" tone="green" :icon="CircleCheck"
-        :hint="`掌握率 ${ov.masteryRate || 0}%`" />
-      <StatCard label="累计复习" :value="ov.totalReviews || 0" suffix="次" tone="rose" :icon="TrendCharts"
-        :hint="`标签 ${ov.tagCount || 0} 个`" />
+      <StatCard
+        label="题库总量"
+        :value="ov.totalQuestions || 0"
+        suffix="题"
+        tone="indigo"
+        :icon="Collection"
+        :hint="`本月新增 ${ov.monthNew || 0} 题`"
+      />
+      <StatCard
+        label="今日待复习"
+        :value="ov.due || 0"
+        suffix="题"
+        tone="amber"
+        :icon="AlarmClock"
+        :hint="`今日已复习 ${ov.todayReviews || 0} 题`"
+      />
+      <StatCard
+        label="已掌握"
+        :value="ov.mastered || 0"
+        suffix="题"
+        tone="green"
+        :icon="CircleCheck"
+        :hint="`掌握率 ${ov.masteryRate || 0}%`"
+      />
+      <StatCard
+        label="累计复习"
+        :value="ov.totalReviews || 0"
+        suffix="次"
+        tone="rose"
+        :icon="TrendCharts"
+        :hint="`标签 ${ov.tagCount || 0} 个`"
+      />
     </section>
 
     <div class="dash-grid">
@@ -54,7 +78,9 @@
           <div class="card-head">
             <div>
               <h3>复习热力图</h3>
-              <p>过去 17 周共复习 <b>{{ heatTotal }}</b> 次，保持节奏比突击更有效。</p>
+              <p>
+                过去 17 周共复习 <b>{{ heatTotal }}</b> 次，保持节奏比突击更有效。
+              </p>
             </div>
             <router-link to="/insights" class="text-link">查看洞察 →</router-link>
           </div>
@@ -111,9 +137,15 @@
             </div>
           </div>
           <div class="mastery-legend">
-            <div><i class="dot" style="background: var(--accent-2)" /><span>已掌握</span><b>{{ ov.mastered || 0 }}</b></div>
-            <div><i class="dot" style="background: var(--accent-4)" /><span>复习中</span><b>{{ ov.learning || 0 }}</b></div>
-            <div><i class="dot" style="background: var(--text-3)" /><span>未掌握</span><b>{{ ov.newCount || 0 }}</b></div>
+            <div>
+              <i class="dot" style="background: var(--accent-2)" /><span>已掌握</span><b>{{ ov.mastered || 0 }}</b>
+            </div>
+            <div>
+              <i class="dot" style="background: var(--accent-4)" /><span>复习中</span><b>{{ ov.learning || 0 }}</b>
+            </div>
+            <div>
+              <i class="dot" style="background: var(--text-3)" /><span>未掌握</span><b>{{ ov.newCount || 0 }}</b>
+            </div>
           </div>
         </section>
 
@@ -134,7 +166,10 @@
                 <span class="cat-count">{{ c.count }}</span>
               </div>
               <div class="cat-bar">
-                <div class="cat-bar-fill" :style="{ width: `${Math.max(4, (c.count / maxCat) * 100)}%`, background: c.color }" />
+                <div
+                  class="cat-bar-fill"
+                  :style="{ width: `${Math.max(4, (c.count / maxCat) * 100)}%`, background: c.color }"
+                />
               </div>
             </div>
             <div v-if="!categories.length" class="muted small">还没有分类数据</div>
@@ -156,7 +191,9 @@
               <span class="mini-pill" :style="resultStyle(r.result)">{{ resultLabel(r.result) }}</span>
             </router-link>
           </div>
-          <div v-else class="muted small">还没有面试记录，<router-link to="/interviews/new" class="text-link">记一场 →</router-link></div>
+          <div v-else class="muted small">
+            还没有面试记录，<router-link to="/interviews/new" class="text-link">记一场 →</router-link>
+          </div>
         </section>
       </div>
     </div>
@@ -166,14 +203,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import dayjs from 'dayjs'
-import {
-  AlarmClock, Plus, ChatLineSquare, Collection, CircleCheck, TrendCharts
-} from '@element-plus/icons-vue'
+import { AlarmClock, Plus, ChatLineSquare, Collection, CircleCheck, TrendCharts } from '@element-plus/icons-vue'
 import StatCard from '@/components/StatCard.vue'
 import Heatmap from '@/components/Heatmap.vue'
 import EmptyState from '@/components/EmptyState.vue'
 import { api } from '@/api'
-import { DIFFICULTY, MASTERY, RESULT } from '@/utils/dict'
+import { MASTERY, RESULT } from '@/utils/dict'
 import { colorOf, fmtDate, fromNow, greeting, initials } from '@/utils/format'
 
 const loading = ref(true)

@@ -7,7 +7,9 @@
     </div>
 
     <div v-if="record" class="interview-hero card">
-      <span class="company-avatar xl" :style="{ background: colorOf(record.company) }">{{ initials(record.company) }}</span>
+      <span class="company-avatar xl" :style="{ background: colorOf(record.company) }">{{
+        initials(record.company)
+      }}</span>
       <div class="interview-hero-main">
         <div class="badge-row">
           <span class="mini-pill" :style="resultStyle">{{ resultLabel }}</span>
@@ -34,7 +36,9 @@
           </div>
           <MarkdownView v-if="record.summary" :content="record.summary" />
           <p v-else class="muted">
-            还没有写复盘，<router-link class="text-link" :to="`/interviews/${record.id}/edit`">趁记忆新鲜补上</router-link>。
+            还没有写复盘，<router-link class="text-link" :to="`/interviews/${record.id}/edit`"
+              >趁记忆新鲜补上</router-link
+            >。
           </p>
         </section>
 
@@ -52,14 +56,20 @@
                 </router-link>
                 <p v-if="iq.note" class="interview-question-note">{{ iq.note }}</p>
                 <div class="interview-question-meta">
-                  <span class="mini-pill" :style="masteryStyle(iq.question.mastery)">{{ masteryLabel(iq.question.mastery) }}</span>
+                  <span class="mini-pill" :style="masteryStyle(iq.question.mastery)">{{
+                    masteryLabel(iq.question.mastery)
+                  }}</span>
                   <span class="muted small">{{ iq.question.reviewCount }} 次复习</span>
                   <router-link :to="`/questions/${iq.question.id}`" class="text-link small">查看答案 →</router-link>
                 </div>
               </div>
             </div>
           </div>
-          <p v-else class="muted">这场面试还没有关联题目，<router-link class="text-link" :to="`/interviews/${record.id}/edit`">去关联</router-link>。</p>
+          <p v-else class="muted">
+            这场面试还没有关联题目，<router-link class="text-link" :to="`/interviews/${record.id}/edit`"
+              >去关联</router-link
+            >。
+          </p>
         </section>
       </div>
 
@@ -67,13 +77,27 @@
         <section class="card">
           <div class="card-head"><h3>面试信息</h3></div>
           <div class="info-list">
-            <div><span>日期</span><b>{{ fmtDate(record.interviewDate) }}</b></div>
-            <div><span>轮次</span><b>{{ record.round || '—' }}</b></div>
-            <div><span>渠道</span><b>{{ record.channel || '—' }}</b></div>
-            <div><span>薪资</span><b>{{ record.salaryRange || '—' }}</b></div>
-            <div><span>结果</span><b :style="{ color: resultColor }">{{ resultLabel }}</b></div>
-            <div><span>自评</span><b>{{ record.selfRating ? `${record.selfRating} / 5` : '—' }}</b></div>
-            <div><span>创建时间</span><b>{{ fmtDate(record.createdAt) }}</b></div>
+            <div>
+              <span>日期</span><b>{{ fmtDate(record.interviewDate) }}</b>
+            </div>
+            <div>
+              <span>轮次</span><b>{{ record.round || '—' }}</b>
+            </div>
+            <div>
+              <span>渠道</span><b>{{ record.channel || '—' }}</b>
+            </div>
+            <div>
+              <span>薪资</span><b>{{ record.salaryRange || '—' }}</b>
+            </div>
+            <div>
+              <span>结果</span><b :style="{ color: resultColor }">{{ resultLabel }}</b>
+            </div>
+            <div>
+              <span>自评</span><b>{{ record.selfRating ? `${record.selfRating} / 5` : '—' }}</b>
+            </div>
+            <div>
+              <span>创建时间</span><b>{{ fmtDate(record.createdAt) }}</b>
+            </div>
           </div>
           <el-rate v-if="record.selfRating" :model-value="record.selfRating" disabled class="detail-rate" />
         </section>
@@ -81,7 +105,12 @@
         <section class="card">
           <div class="card-head"><h3>这场面试的题</h3></div>
           <div class="side-question-list">
-            <router-link v-for="iq in record.questions" :key="iq.id" :to="`/questions/${iq.question.id}`" class="side-question">
+            <router-link
+              v-for="iq in record.questions"
+              :key="iq.id"
+              :to="`/questions/${iq.question.id}`"
+              class="side-question"
+            >
               <i class="dot" :style="{ background: iq.question.category?.color || 'var(--text-3)' }" />
               <span>{{ iq.question.title }}</span>
             </router-link>

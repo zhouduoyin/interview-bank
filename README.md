@@ -2,6 +2,8 @@
 
 一个给自己用的面试题记录 + 间隔复习 + 面试复盘工具。前端 Vue 3、后端 Spring Boot、数据库 MySQL，三部分可以独立构建和部署；也保留 H2 单机模式，解压即用，不依赖任何第三方服务。
 
+[![web-ci](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml/badge.svg)](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml)
+
 > 记录每一道被问到的题，写下自己的答案，在忘记之前复习它。
 
 界面采用「暖纸 · 墨色 · 朱砂」的**面试手记**视觉体系：像一本摊在桌上的工作笔记，而不是又一个蓝紫渐变后台。完整设计规范见 [docs/design-system.md](docs/design-system.md)，启动后也可以访问 `/styleguide` 查看活文档。
@@ -120,7 +122,7 @@ cd ..
 
 ```powershell
 cd web
-npm install
+npm ci
 npm run dev
 ```
 
@@ -148,19 +150,19 @@ docker compose up -d --build
 
 ```powershell
 cd web
-npm install
+npm ci
 cd ..
 .\build.ps1
 java -jar server\target\interview-bank.jar
 ```
 
-构建需要 JDK 17+、Maven 与 Node.js 18+，并保持网络可用以下载 Maven / npm 依赖。
+构建需要 JDK 17+、Maven 与 Node.js 22.13+，并保持网络可用以下载 Maven / npm 依赖。
 
 ### 环境要求
 
 - JDK 17 及以上（开发时使用 JDK 21 运行）
 - MySQL 8.0+ 或 Docker（仅 MySQL / 分离模式需要）
-- Node.js 18+ 与 Maven（重新构建前端 / 后端时需要）
+- Node.js 22.13+（推荐 24 LTS）与 Maven（重新构建前端 / 后端时需要）
 
 ### 端口
 
@@ -198,6 +200,27 @@ npm run dev
 ```
 
 打开 <http://127.0.0.1:5173>。
+
+### 前端工程化
+
+`web/` 是一个标准 Vite 工程，已包含 ESLint、Prettier、Vitest 与 GitHub Actions：
+
+```powershell
+cd web
+npm ci              # 按 package-lock.json 安装，CI / Docker 同样使用
+npm run dev         # 开发服务器，默认 5173
+npm run lint        # ESLint flat config
+npm run format:check
+npm run test        # Vitest + jsdom
+npm run build       # 产物在 web/dist
+npm run preview     # 预览生产构建
+```
+
+- 环境变量：`.env.development` / `.env.production` 提供默认值，个人配置写 `.env.local`（不提交）
+- Vite 配置：`vite.config.js`，支持 `VITE_DEV_PORT`、`VITE_PROXY_TARGET`、`VITE_PUBLIC_BASE`
+- 路径别名：`@` → `src/`，IDE 使用 `jsconfig.json`
+- 代码规范：`eslint.config.js`、`.prettierrc.json`、`.editorconfig`
+- CI：`.github/workflows/web-ci.yml` 执行 `npm ci` → lint → test → build
 
 ### 重新构建
 
