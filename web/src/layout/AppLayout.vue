@@ -38,7 +38,7 @@
           <span>{{ isDark ? '浅色模式' : '深色模式' }}</span>
         </button>
         <router-link to="/styleguide" class="sidebar-link">设计规范 <span>↗</span></router-link>
-        <div class="sidebar-tip">数据保存在本机 H2 数据库</div>
+        <div class="sidebar-tip">数据保存在你的数据库</div>
       </div>
     </aside>
 

@@ -108,7 +108,7 @@
     <section class="card danger-card">
       <div class="card-head"><h3>数据安全</h3></div>
       <p class="muted">
-        数据保存在本机 H2 文件数据库（运行目录下的 <code>data/</code> 文件夹），不经过任何第三方服务器。
+        默认使用 H2 文件数据库（运行目录下的 <code>data/</code> 文件夹）；MySQL 模式保存在 <code>interview_bank</code> 数据库。两种模式都不经过任何第三方服务器。
       </p>
       <div class="danger-row">
         <div>

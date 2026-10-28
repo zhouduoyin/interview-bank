@@ -1,6 +1,6 @@
 # 面试题库 · 面试手记
 
-一个给自己用的面试题记录 + 间隔复习 + 面试复盘工具。前后端分离，数据全部保存在本机，不依赖任何第三方服务。
+一个给自己用的面试题记录 + 间隔复习 + 面试复盘工具。前端 Vue 3、后端 Spring Boot、数据库 MySQL，三部分可以独立构建和部署；也保留 H2 单机模式，解压即用，不依赖任何第三方服务。
 
 > 记录每一道被问到的题，写下自己的答案，在忘记之前复习它。
 
@@ -79,14 +79,9 @@ Markdown 渲染的题目与答案、复习状态、历史记录、关联面试�
 
 ## 快速开始
 
-### 环境要求
+### 方式一：H2 零配置（最快体验）
 
-- JDK 17 及以上（开发时使用 JDK 21 运行）
-- 只有重新构建前端时才需要 Node.js 18+ 与 Maven
-
-### 直接运行（拿到的是已构建目录）
-
-本地这份目录已经包含构建好的 `server/target/interview-bank.jar`，**无需联网安装依赖**即可运行。
+本地这份目录已经包含构建好的 `server/target/interview-bank.jar`，**无需安装数据库、无需联网**即可运行。
 
 双击 `start.bat`（推荐），或在项目根目录执行：
 
@@ -94,11 +89,62 @@ Markdown 渲染的题目与答案、复习状态、历史记录、关联面试�
 java -jar server\target\interview-bank.jar
 ```
 
-浏览器访问 <http://127.0.0.1:8090>。
+浏览器访问 <http://127.0.0.1:8090>。首次启动会自动建库并写入 20 道示例题、10 个分类、2 条面试记录；数据保存在 `data/` 的 H2 文件中。
+
+停止：关闭运行窗口，或在项目根目录执行 `.\stop.ps1`。
+
+### 方式二：MySQL + 前后端分离（正式使用）
+
+这是标准的 Spring Boot + Vue + MySQL 三端结构：
+
+```text
+Vue 3（Nginx / Vite :5173） --/api--> Spring Boot（:8090） --JDBC--> MySQL（:3306）
+```
+
+1. 初始化数据库（本机 MySQL 需先启动）：
+
+```powershell
+mysql -u root -p -e "source sql/init.sql"
+```
+
+2. 构建并启动后端：
+
+```powershell
+cd server
+mvn -DskipTests package
+cd ..
+.\start-mysql.bat
+```
+
+3. 另开一个终端启动前端：
+
+```powershell
+cd web
+npm install
+npm run dev
+```
+
+打开 <http://127.0.0.1:5173>。Vite 会把 `/api` 代理到 `http://127.0.0.1:8090`。
+
+完整说明（账号、环境变量、表结构、H2 数据迁移、Nginx 配置）见 **[docs/mysql.md](docs/mysql.md)**。
+
+### 方式三：Docker Compose 一键三端
+
+根目录的 `docker-compose.yml` 会同时启动 MySQL、Spring Boot 与 Nginx：
+
+```powershell
+docker compose up -d --build
+```
+
+- 前端：<http://127.0.0.1:18090>
+- 后端 API：<http://127.0.0.1:18089/api/stats/dashboard>
+- MySQL：`127.0.0.1:13307`，库 `interview_bank`，用户 `interview / interview_pass`
+
+端口和密码可通过根目录 `.env` 覆盖（参考 `.env.example`）。停止：`docker compose down`。
 
 ### 从 GitHub 克隆（只有源码）
 
-仓库按常规忽略 `node_modules/`、`web/dist/` 与 `server/target/`，因此第一次需要自行构建：
+仓库按常规忽略 `node_modules/`、`web/dist/` 与 `server/target/`。H2 单机模式第一次需要自行构建：
 
 ```powershell
 cd web
@@ -108,21 +154,17 @@ cd ..
 java -jar server\target\interview-bank.jar
 ```
 
-构建需要 JDK 17+、Maven 与 Node.js 18+，并保持网络可用以下载 Maven / npm 依赖。构建完成后同样访问 <http://127.0.0.1:8090>。
+构建需要 JDK 17+、Maven 与 Node.js 18+，并保持网络可用以下载 Maven / npm 依赖。
 
-首次启动会自动建库并写入 20 道示例题、10 个分类、2 条面试记录，方便直接体验；这些示例数据可以在「数据管理」里一键清除，不会影响你自己记录的内容。
+### 环境要求
 
-停止服务：
-
-```powershell
-.\stop.ps1
-```
-
-或直接关闭运行 `java -jar` 的窗口。
+- JDK 17 及以上（开发时使用 JDK 21 运行）
+- MySQL 8.0+ 或 Docker（仅 MySQL / 分离模式需要）
+- Node.js 18+ 与 Maven（重新构建前端 / 后端时需要）
 
 ### 端口
 
-默认使用 `8090`。如果端口被占用，可以换一个：
+默认后端使用 `8090`，前端开发服务器使用 `5173`。端口被占用时可以换：
 
 ```powershell
 $env:SERVER_PORT=8091; java -jar server\target\interview-bank.jar
@@ -130,10 +172,21 @@ $env:SERVER_PORT=8091; java -jar server\target\interview-bank.jar
 
 ## 开发模式
 
-后端（Spring Boot，端口 8090，热重启需手动）：
+后端（Spring Boot，默认 H2，端口 8090）：
 
 ```powershell
 cd server
+mvn spring-boot:run
+```
+
+后端使用 MySQL：
+
+```powershell
+cd server
+$env:SPRING_PROFILES_ACTIVE='mysql'
+$env:DB_URL='jdbc:mysql://127.0.0.1:3306/interview_bank?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC'
+$env:DB_USERNAME='interview'
+$env:DB_PASSWORD='interview_pass'
 mvn spring-boot:run
 ```
 
@@ -148,11 +201,25 @@ npm run dev
 
 ### 重新构建
 
+单 jar（H2 演示 / 最简单）仍然使用：
+
 ```powershell
 .\build.ps1
 ```
 
 脚本会依次执行：前端 `npm run build` → 把 `web/dist` 复制进后端 `src/main/resources/static` → `mvn -DskipTests package`，最终产物为 `server/target/interview-bank.jar`（前端已打进 jar，单文件即可运行）。
+
+前后端分离部署时，两边分别构建即可：
+
+```powershell
+# 后端
+cd server
+mvn -DskipTests package
+
+# 前端，产物在 web/dist，交给 Nginx
+cd web
+npm run build
+```
 
 ## 快捷键
 
@@ -179,23 +246,26 @@ npm run dev
 
 ## 数据说明
 
-- 数据保存在运行目录下的 `data/` 文件夹（H2 文件数据库，`interview-bank.mv.db`），单机单用户，无登录。
-- 备份：直接复制 `data/` 文件夹，或在「数据管理」里导出 JSON。
-- 恢复：把 JSON 导入即可；导入按标题去重，不会覆盖已有题目。
-- 重置：停止服务后删除 `data/` 文件夹，下次启动会重新生成示例数据。
+- **H2 模式**（默认）：数据保存在运行目录下的 `data/` 文件夹（`interview-bank.mv.db`），单机单用户，无登录。
+- **MySQL 模式**：数据保存在 `interview_bank` 数据库，连接信息由 `DB_URL / DB_USERNAME / DB_PASSWORD` 控制；空库首次启动会自动建表并写入示例数据。
+- 备份：H2 直接复制 `data/` 文件夹；MySQL 使用 `mysqldump`，或在「数据管理」里导出 JSON。
+- 恢复 / 迁移：把 JSON 导入即可；导入按标题去重，不会覆盖已有题目。H2 → MySQL 的迁移步骤见 [docs/mysql.md](docs/mysql.md)。
+- 重置：H2 停止服务后删除 `data/`；MySQL 删除 `interview_bank` 库后重新创建。
 - 清空全部：在「数据管理」里输入「清空」确认，会删除题目、分类、标签、面试记录与复习历史。
 
 ## 技术栈
 
-- 后端：Spring Boot 3.5、Spring Web、Spring Data JPA、Bean Validation、H2、Lombok
+- 后端：Spring Boot 3.5、Spring Web、Spring Data JPA、Bean Validation、Lombok
+- 数据库：MySQL 8（`mysql` profile）/ H2（`h2` profile，零配置演示）
 - 前端：Vue 3、Vue Router 4、Element Plus、Vite、marked + DOMPurify + highlight.js、dayjs
+- 部署：Vite 开发代理 / Nginx 反向代理 / Docker Compose 三端编排
 - 样式：设计令牌 + 原生 CSS；亮 / 暗双主题；Element Plus 变量映射；无第三方 UI 模板依赖
 
 ## 目录结构
 
 ```
 interview-bank/
-├─ server/                       Spring Boot 后端
+├─ server/                       Spring Boot 后端（独立 API）
 │  ├─ src/main/java/com/interviewbank/
 │  │  ├─ domain/                 实体与枚举
 │  │  ├─ repo/                   JPA Repository
@@ -203,10 +273,13 @@ interview-bank/
 │  │  ├─ web/                    REST Controller 与 SPA 转发
 │  │  └─ common/                 统一返回、异常处理
 │  ├─ src/main/resources/
-│  │  ├─ application.yml
-│  │  └─ static/                 构建后的前端静态资源
+│  │  ├─ application.yml         公共配置，默认 h2 profile
+│  │  ├─ application-h2.yml      H2 文件数据库
+│  │  ├─ application-mysql.yml   MySQL 数据源
+│  │  └─ static/                 单 jar 模式下的前端静态资源
+│  ├─ Dockerfile                 Maven 构建 + JRE 运行
 │  └─ target/interview-bank.jar  可直接运行的产物
-├─ web/                          Vue 3 前端
+├─ web/                          Vue 3 前端（独立 SPA）
 │  ├─ src/
 │  │  ├─ views/                  工作台、题库、复习、面试、洞察、数据、设计规范
 │  │  ├─ components/             Markdown 编辑器 / 阅读器、热力图等
@@ -216,14 +289,20 @@ interview-bank/
 │  │     ├─ tokens.css           设计 token（颜色、字体、间距、动效、EP 变量）
 │  │     ├─ main.css             结构、布局与组件骨架
 │  │     └─ theme.css            视觉层（纸感、墨色侧栏、组件外观、响应式）
+│  ├─ nginx.conf                 生产环境 SPA + /api 反向代理
+│  ├─ Dockerfile                 Node 构建 + Nginx 运行
 │  └─ dist/                      构建产物
+├─ sql/init.sql                  创建 MySQL 库与开发用户
 ├─ docs/
 │  ├─ design-system.md           完整设计规范
+│  ├─ mysql.md                   MySQL 与三端分离部署说明
 │  └─ screenshots/               界面截图
-├─ start.bat / start.ps1         一键启动
+├─ docker-compose.yml            MySQL + Spring Boot + Nginx 编排
+├─ start.bat / start.ps1         H2 单机一键启动
+├─ start-mysql.bat / .ps1        MySQL 模式启动后端
 ├─ stop.ps1                      停止服务
-├─ build.ps1                     一键构建
-└─ data/                         运行后生成的本地数据库（不提交）
+├─ build.ps1                     单 jar 一键构建
+└─ data/                         H2 运行后生成的本地数据库（不提交）
 ```
 
 ## 主要接口
@@ -252,11 +331,17 @@ interview-bank/
 **启动后浏览器提示无法连接？**  
 首次启动需要初始化数据库，约 20 秒；`start.ps1` 会等接口就绪后再打开浏览器。若手动启动，请看到 `Started InterviewBankApplication` 后再访问。
 
+**MySQL 模式启动报 `Communications link failure`？**  
+说明 Spring Boot 连不上 MySQL。确认 MySQL 已启动、`interview_bank` 库已创建、账号密码与 `DB_URL / DB_USERNAME / DB_PASSWORD` 一致；Docker 模式要等 `mysql` 健康检查通过后再启动后端。
+
+**MySQL 模式前端接口 404？**  
+后端在 `mysql` profile 下只提供 `/api/**`，不再托管前端；请通过 Vite（5173）或 Nginx 访问前端，不要直接打开 8090。
+
 **8090 端口被占用？**  
 用 `stop.ps1` 检查并停止旧实例，或通过 `SERVER_PORT` 换端口。
 
 **想把自己的数据带到另一台电脑？**  
-在「数据管理」导出 JSON，把文件拷过去后导入即可；也可以直接复制 `data/` 文件夹。
+在「数据管理」导出 JSON，把文件拷过去后导入即可。H2 也可以直接复制 `data/` 文件夹；MySQL 建议用 JSON 或 `mysqldump`。
 
 **示例数据会一直存在吗？**  
-只在第一次启动时写入一次。点击「清除示例数据」后不会再自动生成，除非删掉整个 `data/` 目录重新开始。
+只在第一次启动时写入一次。点击「清除示例数据」后不会再自动生成，除非删掉整个 `data/` 目录或 MySQL 库重新开始；初始化标记保存在数据库的 `app_meta` 表中，H2 与 MySQL 互不影响。

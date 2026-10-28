@@ -3,11 +3,9 @@ package com.interviewbank.service;
 import com.interviewbank.domain.*;
 import com.interviewbank.repo.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -18,20 +16,19 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SeedService {
 
+    private static final String SEEDED_KEY = "demo_seeded";
+
     private final QuestionRepository questionRepository;
     private final CategoryRepository categoryRepository;
     private final ReviewLogRepository reviewLogRepository;
     private final InterviewRecordRepository recordRepository;
-
-    @Value("${interview-bank.data-dir:./data}")
-    private String dataDir;
+    private final AppMetaRepository appMetaRepository;
 
     @Transactional
     public void seedIfEmpty() {
-        File marker = new File(dataDir, ".seeded");
-        if (marker.exists()) return;
+        if (appMetaRepository.existsById(SEEDED_KEY)) return;
         if (questionRepository.count() > 0) {
-            touch(marker);
+            markSeeded();
             return;
         }
 
@@ -830,7 +827,7 @@ public class SeedService {
         r2.getQuestions().add(new InterviewQuestion(r2, byTitle(qs, "Redis 分布式锁怎么实现？Redisson 的看门狗了解吗？"), "讲了 SETNX + Lua + 看门狗续期", 1));
         recordRepository.save(r2);
 
-        touch(marker);
+        markSeeded();
     }
 
     private Question byTitle(List<Question> questions, String title) {
@@ -863,12 +860,9 @@ public class SeedService {
         return q;
     }
 
-    private void touch(File marker) {
-        try {
-            File parent = marker.getParentFile();
-            if (parent != null && !parent.exists()) parent.mkdirs();
-            if (!marker.exists()) marker.createNewFile();
-        } catch (Exception ignored) {
+    private void markSeeded() {
+        if (!appMetaRepository.existsById(SEEDED_KEY)) {
+            appMetaRepository.save(new AppMeta(SEEDED_KEY, Instant.now().toString()));
         }
     }
 }

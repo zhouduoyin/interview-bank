@@ -1,6 +1,6 @@
 import { ElMessage } from 'element-plus'
 
-const BASE = '/api'
+const BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
 
 function toQuery(params) {
   if (!params) return ''

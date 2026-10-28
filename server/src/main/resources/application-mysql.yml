@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/interview_bank?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME:interview}
+    password: ${DB_PASSWORD:interview_pass}
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 10000
+      pool-name: InterviewBankPool
+  h2:
+    console:
+      enabled: false
+  web:
+    resources:
+      add-mappings: false
+
+app:
+  spa:
+    enabled: false
