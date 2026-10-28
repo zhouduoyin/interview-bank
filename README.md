@@ -40,7 +40,7 @@
 
 ## 内置前端 2026 题库
 
-仓库里的 [`docs/frontend-2026-question-bank.json`](docs/frontend-2026-question-bank.json) 是一份按 2025–2026 前端面试常见方向整理的可导入题库，共 **61 道题、10 个分类**：
+仓库里的 [`docs/frontend-2026-question-bank.json`](docs/frontend-2026-question-bank.json) 是一份按 2025–2026 前端面试常见方向整理的可导入题库，共 **61 道题、10 个新分类**（另有 3 道算法题归入现有的「算法与数据结构」分类）：
 
 - JavaScript 核心、CSS 与布局、Vue 3、React 19
 - 浏览器与网络、前端工程化、性能优化、TypeScript
