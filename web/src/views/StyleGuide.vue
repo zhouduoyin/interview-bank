@@ -442,7 +442,7 @@
         <div>
           <blockquote class="sg-quote">“好的界面不是让人赞叹，而是让人第二天还想打开。”</blockquote>
           <p class="sg-footnote" style="margin-top: 10px">
-            设计语言参考 Anthropic <code>frontend-design</code> 与本地 <code>ui-motion</code> 技能：
+            设计语言参考 Anthropic <code>frontend-design</code> 的工作方式与通用动效原则：
             明确的观点、系统字体、纸感层次、克制的朱砂与有目的的动效。
           </p>
         </div>

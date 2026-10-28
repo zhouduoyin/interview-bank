@@ -83,11 +83,11 @@
 | `--text` | `#201D16` | 正文、标题 |
 | `--text-2` | `#5B5346` | 次级正文 |
 | `--text-3` | `#756A58` | 元信息、占位符（≥4.5:1） |
-| `--primary` | `#B8432A` | 朱砂：主操作、今日、掌握 |
+| `--primary` | `#B8432A` | 朱砂：主操作、今日、长期记忆 |
 | `--primary-strong` | `#97331D` | 按下、链接悬停 |
 | `--primary-soft` | `#F0D9CF` | 主色浅底、今日回想块 |
 | `--on-primary` | `#FFF6E8` | 主色上的文字 |
-| `--accent-2` | `#3F5B45` | 苔绿：已掌握、简单 |
+| `--accent-2` | `#3F5B45` | 苔绿：长期记忆、简单 |
 | `--accent-3` | `#8A6420` | 赭石：中等、重点 |
 | `--accent-4` | `#2E5A74` | 石青：信息、链接类状态 |
 | `--rose` | `#A34A5F` | 玫红：困难、负向提醒 |
@@ -531,7 +531,7 @@ background: color-mix(in srgb, ${color} 12%, transparent);
 这套视觉不是套用某个现成后台模板，而是按以下方法重新制定的：
 
 - 参考 Anthropic 官方 `frontend-design` skill 的工作方式：先定概念与反例，再定色彩、字体、动效，最后落到组件；避免「默认 SaaS 脸」。
-- 参考 `ui-motion` skill 的动效原则：目的先于时长、只动 `transform/opacity`、尊重 reduced-motion、编排而非堆叠。
+- 动效原则：目的先于时长、只动 `transform/opacity`、尊重 reduced-motion、编排而非堆叠。
 - 两个 skill 均来自本机通过 GitHub 插件市场安装的版本；本项目只采用其方法，不复制第三方 UI 代码。
 
 相关链接：
