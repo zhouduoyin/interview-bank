@@ -38,6 +38,28 @@
 - **数据管理**：JSON 一键导出 / 导入（按标题去重合并）、Markdown 导出、分类与标签管理、清除示例数据、清空全部数据。
 - **体验细节**：亮 / 暗色主题、侧栏折叠、全局搜索（`Ctrl + K`）、列表卡片 / 表格两种视图、批量操作、分页、空状态引导、响应式布局。
 
+## 内置前端 2026 题库
+
+仓库里的 [`docs/frontend-2026-question-bank.json`](docs/frontend-2026-question-bank.json) 是一份按 2025–2026 前端面试常见方向整理的可导入题库，共 **61 道题、10 个分类**：
+
+- JavaScript 核心、CSS 与布局、Vue 3、React 19
+- 浏览器与网络、前端工程化、性能优化、TypeScript
+- 手写代码、前端场景（权限、上传、主题、监控、AI 流式）
+
+题目覆盖闭包、事件循环、Vue 编译优化、React 19 Actions / `use` / RSC、HTTP 缓存与 HTTP/3、Core Web Vitals 的 INP、Vite、Tree Shaking、Monorepo、容器查询、`satisfies`、防抖节流、Promise.all、LRU 等高频考点。答案按面试口述的深度编写，不是一句话结论。
+
+本地已经导入时无需重复操作；新环境可以在应用启动后导入：
+
+```powershell
+$body = Get-Content -Raw -Encoding UTF8 .\docs\frontend-2026-question-bank.json
+Invoke-RestMethod -Method Post `
+  -Uri 'http://127.0.0.1:8090/api/data/import' `
+  -ContentType 'application/json; charset=utf-8' `
+  -Body ([Text.Encoding]::UTF8.GetBytes($body))
+```
+
+导入按题目标题去重，重复执行不会产生重复题目；分类不存在时会自动创建。
+
 ## 设计：把面试准备写成一本手记
 
 这套界面不是套模板，而是先定了概念，再落成一套可复用的设计系统。

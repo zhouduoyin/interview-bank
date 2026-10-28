@@ -1,0 +1,1138 @@
+{
+  "app": "interview-bank",
+  "version": 1,
+  "exportedAt": "2026-10-28T09:55:46.060Z",
+  "source": "2025-2026 前端面试高频方向整理",
+  "categories": [
+    {
+      "name": "JavaScript 核心",
+      "color": "#b8862f",
+      "description": "闭包、this、事件循环、异步与内存",
+      "sortOrder": 11
+    },
+    {
+      "name": "CSS 与布局",
+      "color": "#2f7d7a",
+      "description": "盒模型、BFC、Flex/Grid 与 CSS 新特性",
+      "sortOrder": 12
+    },
+    {
+      "name": "Vue 3",
+      "color": "#3f7d5a",
+      "description": "响应式、编译优化、Pinia 与 3.5 新特性",
+      "sortOrder": 13
+    },
+    {
+      "name": "React 19",
+      "color": "#2e6f8e",
+      "description": "Actions、Hooks、Fiber 与 RSC",
+      "sortOrder": 14
+    },
+    {
+      "name": "浏览器与网络",
+      "color": "#8a5a44",
+      "description": "渲染、缓存、跨域、HTTP/3 与安全",
+      "sortOrder": 15
+    },
+    {
+      "name": "前端工程化",
+      "color": "#6b5b95",
+      "description": "Vite、Tree Shaking、Monorepo、SSR 与微前端",
+      "sortOrder": 16
+    },
+    {
+      "name": "性能优化",
+      "color": "#b8432a",
+      "description": "Core Web Vitals、首屏、长列表与监控",
+      "sortOrder": 17
+    },
+    {
+      "name": "TypeScript",
+      "color": "#3b6ea5",
+      "description": "类型系统、泛型、收窄与工程实践",
+      "sortOrder": 18
+    },
+    {
+      "name": "手写代码",
+      "color": "#7f5a2a",
+      "description": "防抖节流、Promise、深拷贝与调度器",
+      "sortOrder": 19
+    },
+    {
+      "name": "前端场景",
+      "color": "#5f7334",
+      "description": "权限、上传、主题、监控与 AI 流式",
+      "sortOrder": 20
+    }
+  ],
+  "questions": [
+    {
+      "title": "闭包是什么？为什么它既能封装状态，又可能导致内存问题？",
+      "content": "",
+      "answer": "### 定义\n\n闭包是函数和它定义时所在词法环境的组合。函数记住了外部变量，即使外层函数已经返回，这些变量仍然可以被访问。\n\n### 常见用途\n\n- 私有变量、模块模式\n- 函数工厂、柯里化\n- 防抖/节流里保存 timer\n- 事件回调里捕获当时的状态\n\n### 内存问题\n\n闭包本身不会泄漏。真正的问题是长生命周期的闭包一直持有不再需要的大对象，比如 DOM、缓存、定时器。排查时在 DevTools Memory 里看 Heap Snapshot 和 Retainers，确认是谁还在引用。",
+      "note": "追问：闭包和垃圾回收里的“可达性”是什么关系？",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "闭包",
+        "作用域",
+        "内存"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "JavaScript 的事件循环怎么理解？宏任务、微任务和渲染的先后顺序是什么？",
+      "content": "",
+      "answer": "### 浏览器里的一轮\n\n1. 执行调用栈里的同步代码\n2. 栈空后清空微任务队列：Promise.then、queueMicrotask、MutationObserver\n3. 取一个宏任务执行：setTimeout、事件回调、I/O\n4. 每个宏任务之后，浏览器可能进行渲染，requestAnimationFrame 在渲染前执行\n\n### 关键结论\n\n微任务优先级高于下一个宏任务，所以 Promise.resolve().then 会比 setTimeout(0) 先执行。async/await 中 await 后面的代码，本质上也进入微任务队列。\n\n不要用“宏任务一定先于渲染”这种绝对说法；渲染时机由浏览器根据帧率和任务情况决定。",
+      "note": "追问：Node.js 的事件循环和浏览器有哪些差异？",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "事件循环",
+        "微任务",
+        "异步"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "this 的绑定规则有哪些？箭头函数为什么没有自己的 this？",
+      "content": "",
+      "answer": "### 绑定优先级\n\nnew 绑定 > 显式 call/apply/bind > 方法调用 obj.fn() > 普通函数调用（严格模式是 undefined，非严格模式是全局对象）。\n\n### 箭头函数\n\n箭头函数没有自己的 this、arguments、super，也不能被 new。它的 this 在定义时就取外层作用域，之后不会被 call/apply 改变。\n\n适合回调和需要继承外层 this 的场景；不适合作为对象方法，也不适合需要动态 this 的场景。",
+      "note": "追问：bind 之后还能被 new 改变 this 吗？",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "this",
+        "箭头函数",
+        "绑定"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "var、let、const 有什么区别？暂时性死区是怎么回事？",
+      "content": "",
+      "answer": "### 区别\n\n- var：函数作用域，会变量提升，可重复声明，全局声明会成为 window 属性\n- let/const：块级作用域，不可重复声明\n- const：绑定不可重新赋值，但对象内部属性仍然可以修改\n\n### 暂时性死区\n\n在 let/const 声明之前访问变量会抛 ReferenceError。它不是“没有提升”，而是提升后处于未初始化状态，直到执行到声明语句才完成初始化。",
+      "note": "",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "EASY",
+      "mastery": "NEW",
+      "tags": [
+        "作用域",
+        "变量提升",
+        "TDZ"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Promise 和 async/await 是什么关系？async 函数一定返回 Promise 吗？",
+      "content": "",
+      "answer": "### 关系\n\nasync 函数一定返回 Promise。return 的值会被 Promise.resolve 包装，throw 会变成 rejected Promise。\n\nawait 会暂停当前 async 函数的执行，把后续代码放进微任务；它不会阻塞整个线程。\n\n### 错误处理\n\n用 try/catch 捕获 await 的 rejection。多个互不依赖的任务用 Promise.all 或 allSettled 并行，避免在循环里串行 await 把总耗时拉长。",
+      "note": "",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Promise",
+        "async/await",
+        "异步"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "深拷贝和浅拷贝有什么区别？structuredClone 有什么限制？",
+      "content": "",
+      "answer": "### 区别\n\n浅拷贝只复制第一层，嵌套对象仍然共享引用；深拷贝会递归复制所有层级。\n\n### 常用方式\n\n- 浅拷贝：展开运算符、Object.assign、slice\n- 深拷贝：structuredClone 是浏览器/Node 的原生方案，支持循环引用、Map/Set、Date\n- JSON.parse(JSON.stringify()) 会丢 undefined、函数、Symbol，Date 变字符串，也不支持循环引用\n\nstructuredClone 不能克隆函数、DOM 节点，也不会保留自定义类的原型，使用前要确认数据边界。",
+      "note": "",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "深拷贝",
+        "structuredClone",
+        "引用类型"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "前端常见的内存泄漏有哪些？你会怎么排查？",
+      "content": "",
+      "answer": "### 常见场景\n\n- 未清理的定时器、事件监听、WebSocket\n- 全局缓存只增不减\n- 闭包长期持有大对象或 DOM\n- 节点已经从 DOM 移除，但仍被 JS 引用\n- 组件卸载后异步回调继续更新状态\n\n### 排查方式\n\nChrome DevTools 的 Memory 面板：Heap Snapshot 对比两次快照、Allocation timeline 看分配趋势、Retainers 看引用链。Performance 面板也能观察内存是否持续上升。\n\n修复的核心是明确生命周期：组件卸载、路由离开、请求结束时，把监听器和缓存一起清理。",
+      "note": "",
+      "categoryName": "JavaScript 核心",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "内存泄漏",
+        "DevTools",
+        "垃圾回收"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "标准盒模型和 border-box 有什么区别？为什么项目里常全局设置 border-box？",
+      "content": "",
+      "answer": "### 两种盒模型\n\n- content-box：width 只计算内容区，padding 和 border 额外增加元素尺寸\n- border-box：width 包含 content + padding + border，布局更直观\n\n### 实践\n\n全局设置 box-sizing: border-box，通常配合 *、*::before、*::after。这样给元素设 width: 100% 时，再加 padding 不会把布局撑破。\n\nmargin 不计入 width，仍然需要单独考虑外边距折叠。",
+      "note": "",
+      "categoryName": "CSS 与布局",
+      "difficulty": "EASY",
+      "mastery": "NEW",
+      "tags": [
+        "盒模型",
+        "box-sizing",
+        "布局"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "BFC 是什么？它能解决哪些布局问题？",
+      "content": "",
+      "answer": "BFC 是块级格式化上下文。它内部的块级盒子独立布局，不会影响外部。\n\n### 触发方式\n\nfloat 不为 none、position 为 absolute/fixed、display 为 inline-block/flex/grid/table-cell、overflow 不为 visible、display: flow-root、contain 等。\n\n### 典型用途\n\n- 清除浮动，让父容器包住浮动子元素\n- 阻止相邻块级元素的 margin 合并\n- 防止浮动元素环绕文字\n- 实现自适应两栏布局\n\nflow-root 专门用来创建 BFC，不会像 overflow: hidden 那样意外裁剪内容。",
+      "note": "追问：display: flow-root 为什么比 overflow: hidden 更安全？",
+      "categoryName": "CSS 与布局",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "BFC",
+        "布局",
+        "浮动"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "Flex 和 Grid 分别适合什么场景？实际项目里怎么选？",
+      "content": "",
+      "answer": "Flex 是一维布局，适合一行或一列内的排列、对齐和剩余空间分配，比如导航、按钮组、表单行。\n\nGrid 是二维布局，适合页面骨架、卡片网格、复杂行列对齐。\n\n### 实践建议\n\n页面整体用 Grid，组件内部用 Flex。响应式卡片可以用 repeat(auto-fit, minmax(280px, 1fr))，让列数随容器宽度自动变化。\n\n不要为了“新”而全部用 Grid；简单的一维排列 Flex 更直接。",
+      "note": "",
+      "categoryName": "CSS 与布局",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Flex",
+        "Grid",
+        "响应式"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "CSS 选择器优先级怎么计算？为什么建议少用 !important？",
+      "content": "",
+      "answer": "优先级从高到低大致是：!important > 内联样式 > ID > 类/属性/伪类 > 元素/伪元素。通配符和继承不参与比较。\n\n比较是逐位比较，不是把各类选择器数量当成十进制相加。同等优先级时，后写的规则生效。\n\n!important 会破坏正常的层叠关系，让后续覆盖只能继续加 !important，最终难以维护。组件库应尽量使用低优先级的类选择器，方便业务方覆盖。",
+      "note": "",
+      "categoryName": "CSS 与布局",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "CSS优先级",
+        "选择器",
+        "可维护性"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "水平垂直居中你能写出几种方案？各自适合什么场景？",
+      "content": "",
+      "answer": "### 常见方案\n\n1. Flex：display: flex; align-items: center; justify-content: center\n2. Grid：display: grid; place-items: center\n3. 绝对定位 + transform: translate(-50%, -50%)\n4. 绝对定位 + inset: 0 + margin: auto，需要固定宽高\n5. 单行文本：line-height 等于容器高度，再配合 text-align: center\n\n优先 Flex/Grid；绝对定位适合弹层、脱离文档流的元素；文本场景再用 line-height。",
+      "note": "",
+      "categoryName": "CSS 与布局",
+      "difficulty": "EASY",
+      "mastery": "NEW",
+      "tags": [
+        "居中",
+        "Flex",
+        "Grid"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "容器查询和媒体查询有什么区别？:has() 能解决什么问题？",
+      "content": "",
+      "answer": "媒体查询根据视口宽度改变样式；容器查询 @container 根据父容器尺寸改变子元素样式，更适合可复用的卡片、侧栏和组件。\n\n:has() 允许根据后代或兄弟状态选择元素，例如 .card:has(img) 只给包含图片的卡片加样式，或者用表单的 :has(:invalid) 做整组校验提示。\n\n它们依赖较新的浏览器能力，生产上可以结合 @supports 做渐进增强，核心布局仍要有降级方案。",
+      "note": "追问：生产环境如何为这些新特性做渐进增强？",
+      "categoryName": "CSS 与布局",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "容器查询",
+        ":has",
+        "响应式",
+        "CSS新特性"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Vue 3 的 ref 和 reactive 有什么区别？应该怎么选？",
+      "content": "",
+      "answer": "ref 可以包装任意类型，通过 .value 访问；在模板里会自动解包。reactive 只能代理对象或数组，直接访问属性。\n\nreactive 解构会丢失响应性；ref 解构后仍然是 ref，在模板中自动解包。\n\n### 选择建议\n\n基础类型、需要整体替换的对象用 ref；一组相关的对象状态用 reactive；跨组件共享状态用 Pinia。\n\n不要因为“少写 .value”而滥用 reactive，尤其是需要重新赋值整个对象的场景。",
+      "note": "",
+      "categoryName": "Vue 3",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Vue3",
+        "ref",
+        "reactive",
+        "响应式"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Vue 3 的 watch 和 watchEffect 有什么区别？什么时候用哪个？",
+      "content": "",
+      "answer": "watch 需要明确指定依赖，能拿到新旧值，默认懒执行，适合异步请求和开销较大的副作用。\n\nwatchEffect 会自动收集依赖并立即执行，适合依赖多个响应式值的同步副作用。\n\n需要清理时用 onCleanup 或 onWatcherCleanup，比如取消上一次请求、移除监听器。\n\n避免在 watch 里修改被监听的值，容易形成循环；复杂依赖关系优先拆成多个小的 watch。",
+      "note": "",
+      "categoryName": "Vue 3",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Vue3",
+        "watch",
+        "watchEffect",
+        "副作用"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Vue 3 的编译优化有哪些？Patch Flags、静态提升和 Block Tree 分别解决什么？",
+      "content": "",
+      "answer": "Vue 3 在编译阶段分析模板，把结果告诉运行时：\n\n- 静态提升：不变的节点只创建一次，后续复用\n- Patch Flags：给动态属性打标记，diff 时只比较真正会变的部分\n- Block Tree：把动态节点收集到 block 中，跳过整棵静态子树\n- 缓存事件处理函数，减少不必要的子组件更新\n\n这些优化让运行时 diff 更轻，尤其是大模板里只有少量动态节点的场景。它不是“没有虚拟 DOM”，而是让虚拟 DOM 的比较更有针对性。",
+      "note": "追问：这些优化为什么对“大模板 + 少量动态节点”效果最明显？",
+      "categoryName": "Vue 3",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "Vue3",
+        "编译优化",
+        "PatchFlags",
+        "虚拟DOM"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "Vue 3.5 的响应式 Props 解构和 useTemplateRef 解决了什么痛点？",
+      "content": "",
+      "answer": "3.5 之前，直接解构 defineProps 会丢失响应性，需要 toRefs 或写 getter。3.5 的响应式 Props 解构让 const { title } = defineProps() 保持响应性，模板和计算属性都能正常追踪。\n\nuseTemplateRef('input') 提供类型更友好的模板 ref 获取方式，减少 ref(null) 加同名变量的样板代码。\n\nuseId() 用于 SSR 场景生成客户端/服务端一致的稳定 ID。\n\n这些 API 减少了样板代码，但升级时要保证 vue 和编译器版本匹配。",
+      "note": "追问：升级 Vue 3.5 时，编译器和运行时版本要注意什么？",
+      "categoryName": "Vue 3",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Vue3.5",
+        "props解构",
+        "useTemplateRef",
+        "SSR"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Pinia 和 Vuex 有什么区别？为什么 Vue 3 新项目更推荐 Pinia？",
+      "content": "",
+      "answer": "Pinia 是 Vue 官方推荐的状态管理方案：\n\n- 没有 mutations，action 同步/异步统一\n- 对 TypeScript 的类型推导更完整\n- 支持多个 store、组合式写法\n- 支持 devtools、SSR\n\nVuex 4 仍然可用，但新项目优先 Pinia。小型应用不必上状态库，props/emit、provide/inject 或组合式函数可能就够了。\n\n状态管理的关键不是选库，而是明确哪些状态需要跨组件共享、哪些应该留在组件内部。",
+      "note": "",
+      "categoryName": "Vue 3",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Pinia",
+        "Vuex",
+        "状态管理"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Vue 的 nextTick 原理是什么？什么场景必须用？",
+      "content": "",
+      "answer": "Vue 的 DOM 更新是异步批量的：修改响应式数据后，更新任务进入微任务队列，同一轮事件循环里只更新一次。\n\nnextTick 返回一个 Promise，在 DOM 更新完成后执行。需要读取更新后的 DOM 尺寸、焦点、滚动位置时使用。\n\n不要用 setTimeout 猜时机；nextTick 更可靠。它本质上是在当前更新队列之后安排一个回调。",
+      "note": "",
+      "categoryName": "Vue 3",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Vue3",
+        "nextTick",
+        "DOM更新"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 19 的 Actions 是什么？它解决了表单提交中的哪些问题？",
+      "content": "",
+      "answer": "Actions 是把异步函数接入表单和 Transition 的约定。\n\n- 可以直接写 form action={fn}，提交时自动调用异步函数\n- 提供 pending 状态机制，配合 useFormStatus/useActionState 使用\n- 支持渐进增强：JS 还没加载时，表单仍然可以提交\n- 配合 useOptimistic 做乐观更新\n\n它减少的是手写 loading、error、重置表单等样板代码。它不替代数据请求库，也不意味着所有请求都要写成 Action。",
+      "note": "追问：Actions 和普通 onSubmit 事件处理器有什么本质区别？",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React19",
+        "Actions",
+        "表单",
+        "异步"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "useActionState、useFormStatus、useOptimistic 分别适合什么场景？",
+      "content": "",
+      "answer": "- useActionState：把 action 的结果和 pending 状态放进 state，适合表单提交后展示错误或成功信息\n- useFormStatus：在子组件里读取最近一次表单提交的 pending，适合提交按钮的禁用和 loading\n- useOptimistic：先本地乐观更新，请求失败后回滚，适合点赞、评论、列表插入\n\n选择原则：需要结果状态用 useActionState；只需要 pending 用 useFormStatus；需要即时反馈用 useOptimistic。\n\n它们解决的是交互状态，不负责缓存、重试和请求去重，这些仍然要交给数据层。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React19",
+        "Hooks",
+        "表单",
+        "乐观更新"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 的 use 和普通 Hook 有什么不同？为什么它可以在条件语句里调用？",
+      "content": "",
+      "answer": "use 是 React 19 的新 API，可以读取 Promise 或 Context。\n\n普通 Hook 依赖固定的调用顺序，所以不能放在条件、循环里。use 不依赖 Hook 槽位，React 允许它在条件语句和循环中调用。\n\n读取 Promise 时要配合 Suspense，并且 Promise 要有稳定引用，不能在每次渲染时新建，否则会反复挂起。\n\n它是“读取异步资源”的新写法，但不是所有数据请求的替代品；缓存、错误边界和请求去重仍要单独设计。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React19",
+        "use",
+        "Suspense"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React Hooks 为什么不能写在条件语句里？",
+      "content": "",
+      "answer": "React 通过 Hook 的调用顺序来匹配状态。每个 Hook 在内部对应一个槽位，第一次渲染是什么顺序，后续就必须保持一致。\n\n如果 Hook 放在条件、循环或提前 return 之后，某次渲染可能少调用或多调用一个 Hook，后面的槽位全部错位，状态就会串。\n\n规则是：只在函数组件或自定义 Hook 的顶层调用。需要条件逻辑时，把条件放到 Hook 内部，或者拆分组件。\n\nESLint 的 react-hooks/rules-of-hooks 可以自动检查大部分问题。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "Hooks",
+        "规则"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "useEffect 和 useLayoutEffect 的执行时机有什么区别？",
+      "content": "",
+      "answer": "useEffect 在浏览器绘制后异步执行，不阻塞渲染，适合数据请求、订阅、日志。\n\nuseLayoutEffect 在 DOM 更新后、浏览器绘制前同步执行，适合测量布局、同步修改 DOM、避免闪烁。\n\nuseLayoutEffect 会阻塞绘制，不要在里面做耗时操作。\n\nSSR 中 useLayoutEffect 会产生警告，可以用 useIsomorphicLayoutEffect 在服务端回退到 useEffect。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "useEffect",
+        "useLayoutEffect",
+        "渲染"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 的 Fiber 架构解决了什么问题？",
+      "content": "",
+      "answer": "React 15 的递归渲染一旦开始就无法中断，长任务会阻塞主线程，输入和动画都容易卡。\n\nFiber 把渲染拆成可中断的工作单元，配合 Scheduler 按优先级调度：\n\n- 时间切片，避免长时间占用主线程\n- 高优先级更新可以打断低优先级更新\n- 为 Transition、Suspense 等并发特性打基础\n\nFiber 不是“更快的 DOM”，而是让渲染变得可调度。它也有调度和协调成本，简单页面未必能感受到收益。",
+      "note": "追问：时间切片为什么不能彻底消除卡顿？",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "Fiber",
+        "并发",
+        "Scheduler"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "React Server Components 和 SSR 是一回事吗？",
+      "content": "",
+      "answer": "不是。\n\nSSR 是在服务端把组件渲染成 HTML，浏览器再 hydration。组件代码仍然会发送到客户端。\n\nRSC 是在服务端执行 Server Component，只把序列化结果和客户端组件引用发给浏览器；Server Component 本身不进入客户端 bundle。\n\n二者可以组合：Next.js App Router 用 RSC 做数据获取，用 SSR 输出首屏 HTML。RSC 改变的是组件运行位置和打包边界，不是单纯把 SSR 做得更快。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "RSC",
+        "SSR",
+        "Next.js"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "memo、useMemo、useCallback 分别解决什么问题？什么时候不该用？",
+      "content": "",
+      "answer": "memo 缓存组件，props 浅比较相等时跳过渲染；useMemo 缓存计算结果；useCallback 缓存函数引用。\n\n它们解决的是“引用变化导致重复渲染或重复计算”，不是所有性能问题的默认答案。\n\n不该用的情况：计算很便宜、依赖经常变化、组件本来就会重新渲染。滥用 memo 会增加比较成本和代码复杂度。\n\n优先拆分组件、把状态下移、减少不必要的 effect；用 Profiler 确认瓶颈后再加缓存。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "性能",
+        "memo",
+        "useMemo",
+        "useCallback"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "浏览器渲染流程中，重排、重绘和合成分别发生在什么阶段？",
+      "content": "",
+      "answer": "HTML 解析成 DOM，CSS 解析成 CSSOM，合成 Render Tree，然后进入 Layout（重排）→ Paint（重绘）→ Composite（合成）。\n\n- 重排：几何属性变化，比如 width、height、top、display\n- 重绘：颜色、背景、阴影等不影响布局的变化\n- 合成：transform、opacity 等可以只走合成层\n\n优化思路：动画优先用 transform/opacity，避免频繁读写布局属性，批量修改 DOM，减少强制同步布局。",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "浏览器",
+        "渲染",
+        "重排",
+        "重绘",
+        "合成"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "HTTP 强缓存和协商缓存怎么配合？前端项目应该怎么设置？",
+      "content": "",
+      "answer": "强缓存命中后浏览器直接使用本地副本，不发请求，常见响应头是 Cache-Control: max-age、immutable，旧方案是 Expires。\n\n协商缓存会向服务器确认：ETag/If-None-Match、Last-Modified/If-Modified-Since。服务器返回 304 时，浏览器复用本地副本。\n\n### 实践\n\n- HTML 用 no-cache 或较短缓存，保证能拿到新资源\n- 带 hash 的 JS/CSS 用长缓存 + immutable\n- 接口按业务设置，用户相关数据不要长时间强缓存\n- 部署时注意 index.html 和静态资源的缓存配合",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "HTTP缓存",
+        "Cache-Control",
+        "ETag",
+        "304"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "跨域是什么？CORS 预检请求什么时候触发？",
+      "content": "",
+      "answer": "同源策略限制跨源读取响应。CORS 通过响应头授权跨源访问。\n\n简单请求直接发送。非简单请求会先发 OPTIONS 预检，例如 PUT/DELETE、自定义请求头、Content-Type 为 application/json 的请求。\n\n服务器需要在预检响应里返回 Access-Control-Allow-Origin、Allow-Methods、Allow-Headers。\n\n带 Cookie 时 Access-Control-Allow-Origin 不能是 *，必须指定具体源，并设置 credentials。预检结果可以用 Access-Control-Max-Age 缓存。",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "跨域",
+        "CORS",
+        "预检",
+        "同源策略"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "Cookie、localStorage、sessionStorage、IndexedDB 应该怎么选？",
+      "content": "",
+      "answer": "- Cookie：随请求自动发送，容量约 4KB，适合会话标识；要设置 HttpOnly、Secure、SameSite\n- localStorage：约 5-10MB，同源共享、持久化，同步 API，不适合存敏感信息\n- sessionStorage：同标签页会话级，关闭标签页清空\n- IndexedDB：大容量、异步、支持索引和事务，适合离线数据和大量结构化数据\n\n选择看三点：是否需要随请求发送、是否需要持久化、数据量和读写频率。敏感 token 优先 HttpOnly Cookie，不要把长期凭证放在 localStorage。",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "存储",
+        "Cookie",
+        "localStorage",
+        "IndexedDB"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "HTTP/1.1、HTTP/2、HTTP/3 的核心差异是什么？",
+      "content": "",
+      "answer": "HTTP/1.1 是文本协议，存在队头阻塞，Keep-Alive 和管道化能缓解但不能根治。\n\nHTTP/2 使用二进制分帧、多路复用、HPACK 头压缩，解决应用层队头阻塞；但底层 TCP 仍可能因丢包阻塞。\n\nHTTP/3 基于 QUIC/UDP，握手更快，支持连接迁移，避免 TCP 层队头阻塞，适合弱网和移动端。\n\nHTTP/2 的服务器推送已经弱化，不要把它当成必答优势。",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "HTTP/2",
+        "HTTP/3",
+        "QUIC",
+        "网络"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "XSS 和 CSRF 有什么区别？前端分别怎么防？",
+      "content": "",
+      "answer": "XSS 是把恶意脚本注入页面，目标是执行脚本、偷数据。防御：输出编码、富文本白名单、CSP、HttpOnly Cookie、避免 innerHTML。\n\nCSRF 是诱导用户在已登录状态下发起请求，目标是借用户身份操作。防御：SameSite Cookie、CSRF Token、校验 Origin/Referer、敏感操作二次确认。\n\n两者目标不同：XSS 是“注入脚本”，CSRF 是“借用身份”。前端防护不能替代后端校验，权限和输入校验必须在服务端再做一遍。",
+      "note": "",
+      "categoryName": "浏览器与网络",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "安全",
+        "XSS",
+        "CSRF",
+        "CSP"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "Vite 为什么比 Webpack 启动快？依赖预构建做了什么？",
+      "content": "",
+      "answer": "开发环境利用浏览器原生 ESM，按需编译，不先打包整个应用。启动时只做依赖预构建，所以冷启动很快。\n\n依赖预构建用 esbuild 把 CommonJS 和深层依赖转成 ESM，并合并请求，减少网络瀑布；同时缓存结果，第二次启动更快。\n\n生产构建仍然要打包，早期用 Rollup，新版本可使用 Rolldown，做 Tree Shaking、代码分割和压缩。\n\nVite 快在“按需 + 预构建”，不是简单把 Webpack 换掉；大型项目仍要关注依赖数量和预构建配置。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Vite",
+        "ESM",
+        "依赖预构建",
+        "构建工具"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Tree Shaking 生效需要哪些条件？哪些写法会阻碍它？",
+      "content": "",
+      "answer": "Tree Shaking 基于 ESM 的静态结构，删除没有被使用的导出。\n\n### 生效条件\n\n- 使用 ESM 语法\n- 生产模式\n- 没有副作用，或 package.json 的 sideEffects 标记正确\n- 压缩器配合删除死代码\n\n### 阻碍因素\n\nCommonJS、动态导入、顶层副作用、把整个模块挂到全局，都会让静态分析变难。\n\n可以用 /*#__PURE__*/ 标记纯函数调用，帮助压缩器判断。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "TreeShaking",
+        "ESM",
+        "构建优化"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Monorepo 是什么？pnpm workspace 解决了什么问题？",
+      "content": "",
+      "answer": "Monorepo 是把多个包放在一个仓库里，统一依赖、脚本、CI 和版本管理。\n\npnpm 用内容寻址存储加硬链接，节省磁盘；workspace 管理包之间的依赖；严格的 node_modules 结构避免幽灵依赖。\n\n适合组件库、多个应用共享代码、需要统一工程规范的项目。\n\n代价是仓库变大、CI 需要按影响范围构建、权限和发布流程更复杂。小项目不必为了 Monorepo 而 Monorepo。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "Monorepo",
+        "pnpm",
+        "workspace",
+        "工程化"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "微前端适合什么场景？qiankun 和 Module Federation 的侧重点有什么不同？",
+      "content": "",
+      "answer": "微前端把大型应用拆成可独立开发、独立部署的子应用，适合多团队协作、技术栈并存、渐进式迁移。\n\nqiankun 侧重运行时：路由分发、JS 沙箱、样式隔离、生命周期管理。\n\nModule Federation 侧重构建时：共享模块和依赖，减少重复打包，适合多个应用共享组件库或工具函数。\n\n代价是样式/JS 隔离、通信、路由、版本管理和性能都更复杂。小团队不要为了“时髦”上微前端。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "微前端",
+        "qiankun",
+        "ModuleFederation"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "SSR、CSR、SSG、ISR 怎么选？",
+      "content": "",
+      "answer": "- CSR：首屏靠 JS，SEO 和首屏较弱，适合后台系统\n- SSR：服务端输出 HTML，首屏快、SEO 好，需要 Node 服务和 hydration\n- SSG：构建时生成静态页，适合内容站，部署简单\n- ISR：增量静态再生成，兼顾静态和内容更新\n\n选择看 SEO、首屏、数据实时性、运维成本。不是越新越好：后台系统用 CSR 往往更简单，内容站用 SSG 更划算。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "SSR",
+        "CSR",
+        "SSG",
+        "ISR",
+        "渲染模式"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "什么是 Hydration？为什么会出现 hydration mismatch？",
+      "content": "",
+      "answer": "服务端渲染出 HTML 后，客户端需要复用 DOM 并绑定事件，这个过程叫 hydration。\n\nmismatch 的常见原因：服务端和客户端渲染结果不一致，比如 Date、随机数、window、浏览器扩展、非法 HTML 嵌套。\n\n解决方式：保持首屏数据一致；避免在渲染阶段读取浏览器 API；把客户端差异放到 useEffect；检查 HTML 结构是否合法。\n\nmismatch 不只是警告，严重时会导致 DOM 被重建、交互丢失。",
+      "note": "",
+      "categoryName": "前端工程化",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "hydration",
+        "SSR",
+        "mismatch"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "2025 年 Core Web Vitals 关注哪些指标？INP 为什么替代了 FID？",
+      "content": "",
+      "answer": "Core Web Vitals 三项：\n\n- LCP：最大内容绘制，目标 ≤2.5s\n- INP：交互到下一次绘制，目标 ≤200ms\n- CLS：累积布局偏移，目标 ≤0.1\n\nINP 在 2024 年 3 月替代 FID。FID 只测首次输入延迟，无法反映交互后的渲染卡顿；INP 覆盖整个交互过程，更接近真实体验。\n\n优化 INP 要减少长任务、拆分同步工作、避免不必要的重渲染，并关注事件处理到下一帧的时间。",
+      "note": "",
+      "categoryName": "性能优化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "CoreWebVitals",
+        "INP",
+        "LCP",
+        "CLS"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "首屏加载优化你会从哪些方面入手？",
+      "content": "",
+      "answer": "先测量，再优化。用 Lighthouse、Performance 面板和真实用户数据找瓶颈。\n\n### 常见手段\n\n- 路由和组件懒加载，做代码分割\n- 关键 CSS 内联，非关键 CSS 异步加载\n- 图片压缩、响应式图、懒加载，首屏 LCP 图不要懒加载\n- 接口并行、缓存、SSR/SSG\n- CDN、HTTP/2/3、gzip/brotli\n- 减少第三方脚本，拆分长任务\n\n不要一上来就“上 SSR”；如果瓶颈是图片和第三方脚本，先解决这些更划算。",
+      "note": "",
+      "categoryName": "性能优化",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "首屏",
+        "性能优化",
+        "代码分割"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "长列表卡顿怎么优化？虚拟列表的原理是什么？",
+      "content": "",
+      "answer": "长列表一次渲染大量 DOM 会卡顿。虚拟列表只渲染可视区域加缓冲区，滚动时根据 scrollTop 计算起始索引和偏移量。\n\n关键点：容器高度、行高（固定或动态）、缓冲区、滚动事件节流、滚动位置恢复。\n\n动态高度可以用 ResizeObserver 测量并维护位置缓存。\n\n还要考虑键盘导航、屏幕阅读器、选中态和搜索定位，虚拟列表不能只优化视觉，忽略可访问性。",
+      "note": "",
+      "categoryName": "性能优化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "虚拟列表",
+        "长列表",
+        "性能"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "图片性能优化有哪些手段？",
+      "content": "",
+      "answer": "- 选择合适格式：WebP/AVIF，兼容性回退\n- 响应式图片 srcset/sizes，按 DPR 选图\n- 非首屏图片 loading=\"lazy\"，首屏 LCP 图不要懒加载\n- 设置宽高或 aspect-ratio，避免 CLS\n- CDN 压缩、裁剪、格式转换\n- 小图标用 SVG 或字体图标，减少请求\n\n图片往往是 LCP 的主要来源，优先优化首屏大图，而不是平均用力。",
+      "note": "",
+      "categoryName": "性能优化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "图片优化",
+        "LCP",
+        "AVIF"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "如何做前端性能监控和 RUM？",
+      "content": "",
+      "answer": "RUM 在真实用户环境采集性能数据：\n\n- 用 PerformanceObserver 采集 LCP、INP、CLS、资源耗时、长任务\n- 监听 error、unhandledrejection 采集错误\n- 采样、批量、节流上报，卸载时用 sendBeacon\n- 按页面、设备、地区、版本聚合，结合 Source Map 还原堆栈\n\n注意隐私合规、数据量和采样率。监控本身不能成为性能瓶颈。\n\n指标要能对应到业务和版本，否则只是“有一堆图”，很难定位问题。",
+      "note": "",
+      "categoryName": "性能优化",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "性能监控",
+        "RUM",
+        "PerformanceObserver",
+        "错误上报"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "any、unknown、never 有什么区别？为什么推荐用 unknown 接收外部输入？",
+      "content": "",
+      "answer": "- any：放弃类型检查，可以赋值给任何类型，尽量不用\n- unknown：未知类型，使用前必须收窄，安全\n- never：不可能的值或永不返回，适合穷尽检查\n\n推荐用 unknown 接收接口响应、用户输入等外部数据，再通过 typeof、in、instanceof 或断言函数收窄。\n\nany 会让错误一路传播；unknown 强制你在边界处做校验，类型安全更好。",
+      "note": "",
+      "categoryName": "TypeScript",
+      "difficulty": "EASY",
+      "mastery": "NEW",
+      "tags": [
+        "TypeScript",
+        "unknown",
+        "never",
+        "类型安全"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "TypeScript 泛型是什么？如何写一个类型安全的 API 响应类型？",
+      "content": "",
+      "answer": "泛型让类型随输入变化，而不是用 any 把类型信息丢掉。\n\n~~~ts\ntype ApiResponse<T> = {\n  code: number\n  data: T\n  message?: string\n}\n\nasync function request<T>(url: string): Promise<ApiResponse<T>> {\n  const res = await fetch(url)\n  return res.json()\n}\n~~~\n\n可以用 extends 约束泛型，例如 T extends { id: number }；也可以给默认类型 T = unknown。\n\n不要过度泛型化：只有类型关系确实需要参数化时才用泛型，否则普通类型更易读。",
+      "note": "",
+      "categoryName": "TypeScript",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "TypeScript",
+        "泛型",
+        "API"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "interface 和 type 有什么区别？实际项目怎么选？",
+      "content": "",
+      "answer": "interface 可以声明合并，适合对象契约、类的实现、需要被第三方扩展的类型。\n\ntype 可以表达联合、交叉、元组、条件类型、映射类型等更复杂的类型运算。\n\n对象类型两者大多可以互换。需要扩展第三方 interface 用 interface；需要复杂类型组合用 type。\n\n团队统一风格比选哪个更重要。不要为了“性能”纠结，类型别名和接口在运行时都不存在。",
+      "note": "",
+      "categoryName": "TypeScript",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "TypeScript",
+        "interface",
+        "type"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "TypeScript 的 satisfies 解决什么问题？和类型注解有什么区别？",
+      "content": "",
+      "answer": "satisfies 会在保留字面量推断的同时校验类型。\n\n~~~ts\nconst routes = {\n  home: '/',\n  user: '/users/:id'\n} satisfies Record<string, string>\n~~~\n\n如果用 : Record<string, string> 注解，值的类型会被拓宽成 string；satisfies 会保留 '/'、'/users/:id' 这样的字面量类型，后续还能做更精确的推导。\n\n适合配置对象、路由表、主题 token 等“既要校验又要保留具体类型”的场景。",
+      "note": "",
+      "categoryName": "TypeScript",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "TypeScript",
+        "satisfies",
+        "类型推断"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "手写防抖和节流，并说明它们的区别。",
+      "content": "",
+      "answer": "~~~js\nfunction debounce(fn, delay) {\n  let timer\n  return function (...args) {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn.apply(this, args), delay)\n  }\n}\n\nfunction throttle(fn, interval) {\n  let last = 0\n  return function (...args) {\n    const now = Date.now()\n    if (now - last >= interval) {\n      last = now\n      fn.apply(this, args)\n    }\n  }\n}\n~~~\n\n防抖：事件停止触发后延迟执行，适合搜索输入、窗口 resize。\n\n节流：固定频率执行，适合滚动、拖拽、鼠标移动。\n\n上面是基础版；生产要考虑 leading/trailing、取消、this 和参数、定时器清理。",
+      "note": "",
+      "categoryName": "手写代码",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "手写",
+        "防抖",
+        "节流"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "手写 Promise.all，需要注意哪些边界？",
+      "content": "",
+      "answer": "~~~js\nfunction promiseAll(promises) {\n  return new Promise((resolve, reject) => {\n    const list = Array.from(promises)\n    const results = new Array(list.length)\n    let count = 0\n    if (!list.length) return resolve([])\n    list.forEach((p, i) => {\n      Promise.resolve(p).then(\n        (value) => {\n          results[i] = value\n          if (++count === list.length) resolve(results)\n        },\n        reject\n      )\n    })\n  })\n}\n~~~\n\n要点：结果顺序与输入一致；空数组立即 resolve；非 Promise 值用 Promise.resolve 包装；任一 reject 立即 reject；只 settle 一次。\n\nPromise.all 是“全成功才成功”，如果需要拿到所有结果，用 allSettled。",
+      "note": "",
+      "categoryName": "手写代码",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "手写",
+        "Promise.all",
+        "异步"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "手写深拷贝，如何处理循环引用？",
+      "content": "",
+      "answer": "~~~js\nfunction deepClone(value, map = new WeakMap()) {\n  if (value === null || typeof value !== 'object') return value\n  if (map.has(value)) return map.get(value)\n  if (value instanceof Date) return new Date(value)\n  if (value instanceof RegExp) return new RegExp(value.source, value.flags)\n\n  const copy = Array.isArray(value) ? [] : Object.create(Object.getPrototypeOf(value))\n  map.set(value, copy)\n\n  Reflect.ownKeys(value).forEach((key) => {\n    copy[key] = deepClone(value[key], map)\n  })\n  return copy\n}\n~~~\n\n用 WeakMap 处理循环引用；保留原型、Symbol 键、Date/RegExp；函数通常按引用复制。\n\n生产优先 structuredClone，但要确认它不支持函数、DOM 和自定义类的原型。",
+      "note": "",
+      "categoryName": "手写代码",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "手写",
+        "深拷贝",
+        "WeakMap",
+        "循环引用"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "手写 EventEmitter，支持 on、off、once、emit。",
+      "content": "",
+      "answer": "~~~js\nclass EventEmitter {\n  constructor() {\n    this.events = new Map()\n  }\n  on(name, fn) {\n    if (!this.events.has(name)) this.events.set(name, new Set())\n    this.events.get(name).add(fn)\n    return () => this.off(name, fn)\n  }\n  off(name, fn) {\n    this.events.get(name)?.delete(fn)\n  }\n  once(name, fn) {\n    const wrapper = (...args) => {\n      this.off(name, wrapper)\n      fn(...args)\n    }\n    this.on(name, wrapper)\n  }\n  emit(name, ...args) {\n    this.events.get(name)?.forEach((fn) => fn(...args))\n  }\n}\n~~~\n\n要点：用 Set 保存监听器；on 返回取消订阅函数；once 包装后先移除再执行；emit 时复制一份，避免遍历中修改集合。",
+      "note": "",
+      "categoryName": "手写代码",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "手写",
+        "EventEmitter",
+        "发布订阅"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "实现一个带并发限制的异步任务调度器。",
+      "content": "",
+      "answer": "~~~js\nfunction createLimiter(limit) {\n  let active = 0\n  const queue = []\n\n  const next = () => {\n    if (active >= limit || !queue.length) return\n    active++\n    const { task, resolve, reject } = queue.shift()\n    Promise.resolve()\n      .then(task)\n      .then(resolve, reject)\n      .finally(() => {\n        active--\n        next()\n      })\n  }\n\n  return (task) =>\n    new Promise((resolve, reject) => {\n      queue.push({ task, resolve, reject })\n      next()\n    })\n}\n~~~\n\n要点：维护运行数和等待队列；任务完成或失败都要释放槽位；返回 Promise 让调用方拿到结果。\n\n并发限制不是限速，如果还需要控制 QPS，要额外加时间窗口。",
+      "note": "",
+      "categoryName": "手写代码",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "手写",
+        "并发控制",
+        "Promise"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "如何设计一个前端权限系统？按钮级权限怎么做？",
+      "content": "",
+      "answer": "前端权限通常分三层：路由权限、页面/菜单权限、按钮/接口权限。\n\n登录后从后端获取角色和权限码，路由守卫动态注册可访问路由；菜单按权限过滤；按钮用自定义指令或 Hook 判断权限码。\n\n接口权限必须由后端校验，前端只负责体验，不能把安全寄托在隐藏按钮上。\n\n权限变化时要刷新权限缓存和路由；退出登录要清理动态路由和 store。",
+      "note": "",
+      "categoryName": "前端场景",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "权限",
+        "路由守卫",
+        "RBAC"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "大文件上传如何实现断点续传和秒传？",
+      "content": "",
+      "answer": "大文件上传一般做分片、并发控制、断点续传和秒传。\n\n流程：计算文件 hash（可以用抽样或 Web Worker）→ 后端检查已上传分片 → 上传缺失分片 → 合并 → 校验。\n\n断点续传记录 uploadId 和已完成分片；秒传用 hash 命中已有文件；注意分片大小、重试、进度、暂停和取消。\n\nhash 计算可能很耗时，要避免阻塞主线程；分片并发也不要过高，否则会拖慢其他请求。",
+      "note": "",
+      "categoryName": "前端场景",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "大文件上传",
+        "断点续传",
+        "秒传",
+        "分片"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "前端如何做主题切换和暗色模式？",
+      "content": "",
+      "answer": "用 CSS 变量定义主题 token，根节点切换 data-theme 或 class，组件只消费变量。\n\n暗色模式可以监听 prefers-color-scheme，同时允许用户手动选择并持久化。首屏要在 HTML 内联脚本里设置主题，避免闪烁。\n\n复杂主题可以分层：基础色、语义色、组件变量。这样换主题时不需要改组件样式。\n\n还要考虑图片、阴影、图表、代码高亮的暗色适配，不能只改背景色。",
+      "note": "",
+      "categoryName": "前端场景",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "主题切换",
+        "CSS变量",
+        "暗色模式"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "如何设计一个前端监控与错误上报方案？",
+      "content": "",
+      "answer": "监控通常分错误、性能和业务三类。\n\n错误：window.onerror、unhandledrejection、框架 errorHandler、资源加载错误。\n\n性能：PerformanceObserver 采集 LCP/INP/CLS、长任务、资源耗时。\n\n上报：采样、批量、sendBeacon、失败重试；用 Source Map 还原堆栈；按版本、页面、设备聚合，设置告警。\n\n注意隐私和上报量，避免监控本身影响性能。没有 Source Map 的堆栈基本不可读。",
+      "note": "",
+      "categoryName": "前端场景",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "前端监控",
+        "错误上报",
+        "性能",
+        "SourceMap"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "AI 对话前端如何做流式渲染和 Markdown 增量渲染？",
+      "content": "",
+      "answer": "大模型输出通常用 SSE 或 fetch + ReadableStream 逐块返回。前端解析 data: 行，累积文本并增量渲染 Markdown。\n\n要点：流式解析要处理半截 JSON 和未闭合的代码块；渲染要节流，比如按帧或每几十毫秒更新；自动滚动到底部；支持中断（AbortController）和错误重试。\n\n不要每收到一个字符就重渲染整篇 Markdown，长对话还要配合虚拟列表。\n\n安全和体验同样重要：过滤 HTML、限制 Markdown 能力、处理超长输出。",
+      "note": "追问：流式输出时如何处理代码块只返回了一半的情况？",
+      "categoryName": "前端场景",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "AI",
+        "SSE",
+        "流式渲染",
+        "Markdown"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "手写数组扁平化，并说明递归和迭代的取舍。",
+      "content": "",
+      "answer": "~~~js\nfunction flatten(arr, depth = Infinity) {\n  if (depth <= 0) return arr.slice()\n  return arr.reduce((acc, item) => {\n    return acc.concat(Array.isArray(item) ? flatten(item, depth - 1) : item)\n  }, [])\n}\n~~~\n\n递归写法清晰，但层级很深时可能栈溢出；超大数组可以用显式栈迭代。\n\n原生 flat(Infinity) 是最简方案；要注意稀疏数组和类数组的差异。",
+      "note": "",
+      "categoryName": "算法与数据结构",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "算法",
+        "数组扁平化",
+        "递归"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "实现一个 LRU 缓存。",
+      "content": "",
+      "answer": "~~~js\nclass LRUCache {\n  constructor(capacity) {\n    this.capacity = capacity\n    this.map = new Map()\n  }\n\n  get(key) {\n    if (!this.map.has(key)) return -1\n    const value = this.map.get(key)\n    this.map.delete(key)\n    this.map.set(key, value)\n    return value\n  }\n\n  put(key, value) {\n    if (this.map.has(key)) this.map.delete(key)\n    this.map.set(key, value)\n    if (this.map.size > this.capacity) {\n      this.map.delete(this.map.keys().next().value)\n    }\n  }\n}\n~~~\n\nMap 会保持插入顺序；get 命中后删除再插入，把节点移到末尾；put 超容量时删除第一个 key。时间复杂度 O(1)。",
+      "note": "",
+      "categoryName": "算法与数据结构",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "算法",
+        "LRU",
+        "Map"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "两数之和：给定数组和目标值，返回两个数的下标。",
+      "content": "",
+      "answer": "~~~js\nfunction twoSum(nums, target) {\n  const map = new Map()\n  for (let i = 0; i < nums.length; i++) {\n    const need = target - nums[i]\n    if (map.has(need)) return [map.get(need), i]\n    map.set(nums[i], i)\n  }\n  return []\n}\n~~~\n\n一次遍历，哈希表存“值 → 下标”。先查后存，避免同一个元素被使用两次。\n\n时间 O(n)，空间 O(n)。面试时可以先说暴力 O(n²)，再优化到哈希表。",
+      "note": "",
+      "categoryName": "算法与数据结构",
+      "difficulty": "EASY",
+      "mastery": "NEW",
+      "tags": [
+        "算法",
+        "哈希表",
+        "两数之和"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    }
+  ],
+  "interviews": []
+}

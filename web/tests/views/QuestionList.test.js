@@ -71,4 +71,35 @@ describe('QuestionList 分类导航', () => {
     expect(router.currentRoute.value.query.category).toBe('1')
     expect(wrapper.findAll('.category-item')[1].classes()).toContain('active')
   })
+
+  it('题目没有描述时不显示占位文案', async () => {
+    api.questions.list.mockResolvedValueOnce({
+      content: [
+        {
+          id: 99,
+          title: '只记录了问题和答案的题目',
+          excerpt: '',
+          category: { id: 1, name: 'JavaScript 核心', color: '#b8862f' },
+          difficulty: 'MEDIUM',
+          mastery: 'NEW',
+          starred: false,
+          tags: [],
+          updatedAt: '2026-10-28T00:00:00Z',
+          nextReviewAt: '2026-10-28T00:00:00Z'
+        }
+      ],
+      totalElements: 1,
+      totalPages: 1
+    })
+
+    const router = makeRouter()
+    await router.push('/questions')
+    await router.isReady()
+
+    const wrapper = mount(QuestionList, { global: { plugins: [router, ElementPlus] } })
+    await flushPromises()
+
+    expect(wrapper.find('.q-card').exists()).toBe(true)
+    expect(wrapper.text()).not.toContain('还没有填写题目描述')
+  })
 })

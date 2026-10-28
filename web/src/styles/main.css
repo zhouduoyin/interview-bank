@@ -1236,11 +1236,22 @@ span.tag-chip:hover {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  max-height: calc(100vh - 112px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
   padding: 13px 11px 11px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+.category-rail::-webkit-scrollbar {
+  width: 5px;
+}
+.category-rail::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: var(--border-strong);
 }
 .category-rail-head {
   display: flex;
@@ -3077,8 +3088,10 @@ html.dark .el-button--primary {
     flex-direction: row;
     align-items: center;
     gap: 5px;
+    max-height: none;
     padding: 8px;
     overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: none;
   }
   .category-rail::-webkit-scrollbar {

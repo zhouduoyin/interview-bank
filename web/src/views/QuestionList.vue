@@ -127,7 +127,7 @@
               </div>
 
               <h3 class="q-title">{{ q.title }}</h3>
-              <p class="q-excerpt">{{ q.excerpt || '还没有填写题目描述' }}</p>
+              <p v-if="q.excerpt" class="q-excerpt">{{ q.excerpt }}</p>
 
               <div class="q-tags">
                 <span v-for="t in q.tags.slice(0, 3)" :key="t" class="tag-chip" @click.stop="openTag(t)">#{{ t }}</span>
