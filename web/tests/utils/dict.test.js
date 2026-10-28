@@ -8,7 +8,7 @@ describe('dict', () => {
   })
 
   it('exposes mastery and rating labels', () => {
-    expect(MASTERY.MASTERED.label).toBe('已掌握')
+    expect(MASTERY.MASTERED.label).toBe('长期记忆')
     expect(RATING.GOOD.key).toBe('3')
     expect(RESULT.PASS.label).toBe('通过')
   })

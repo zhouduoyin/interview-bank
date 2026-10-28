@@ -52,7 +52,7 @@
             </el-select>
           </label>
           <label class="field">
-            <span>掌握程度</span>
+            <span>记忆状态</span>
             <el-select v-model="form.mastery">
               <el-option v-for="(v, k) in MASTERY" :key="k" :label="v.label" :value="k" />
             </el-select>
@@ -221,7 +221,7 @@ async function save() {
     const saved = isEdit.value
       ? await api.questions.update(route.params.id, payload())
       : await api.questions.create(payload())
-    ElMessage.success(isEdit.value ? '已保存' : '题目已记录，开始安排复习')
+    ElMessage.success(isEdit.value ? '已保存' : '题目已记录，开始安排回想')
     await refreshMeta()
     router.push(`/questions/${saved.id}`)
   } catch (e) {

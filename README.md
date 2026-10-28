@@ -1,6 +1,8 @@
-# 面试题库 · 面试手记
+# 面试记忆助手
 
-一个给自己用的面试题记录 + 间隔复习 + 面试复盘工具。前端 Vue 3、后端 Spring Boot、数据库 MySQL，三部分可以独立构建和部署；也保留 H2 单机模式，解压即用，不依赖任何第三方服务。
+> 把每一次面试，变成下一次的答案。
+
+一个给自己用的**面试记忆系统**：记录被问到的题 → 合上答案主动回想 → 四档评分 → 按间隔自动安排 → 面试复盘 → 看见记忆结构。前端 Vue 3、后端 Spring Boot、数据库默认 H2（可选 MySQL），三部分可以独立构建和部署；H2 单机模式解压即用，不依赖任何第三方服务。
 
 [![web-ci](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml/badge.svg)](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml)
 
@@ -19,23 +21,41 @@
 关键点：`server/target/interview-bank.jar` 是**已经打包好的最终程序**，里面包含前端页面。  
 所以日常使用只需要双击 `start.bat`，不用开前端、后端、数据库三个窗口。
 
-> 记录每一道被问到的题，写下自己的答案，在忘记之前复习它。
+> 记录每一道被问到的题，写下自己的答案，在忘记之前主动想起它。
 
-界面采用「暖纸 · 墨色 · 朱砂」的**面试手记**视觉体系：像一本摊在桌上的工作笔记，而不是又一个蓝紫渐变后台。完整设计规范见 [docs/design-system.md](docs/design-system.md)，启动后也可以访问 `/styleguide` 查看活文档。
+界面采用「暖纸 · 墨色 · 朱砂」的**手记感**视觉体系：像一本摊在桌上的工作笔记，而不是又一个蓝紫渐变后台。完整设计规范见 [docs/design-system.md](docs/design-system.md)，启动后也可以访问 `/styleguide` 查看活文档。
 
-![工作台](docs/screenshots/dashboard.png)
+![今日](docs/screenshots/dashboard.png)
+
+## 它和普通题库有什么不同
+
+普通题库关心“你收藏了多少题”，面试记忆助手关心“下一次被问到时，你能不能讲出来”。
+
+```text
+捕获 → 回想 → 评分 → 安排 → 复盘
+```
+
+- **今日**只回答一个问题：今天最该加固什么；
+- **记忆训练**默认藏起答案，先逼自己提取，再诚实评分；
+- **题库**保留题目、答案、来源和追问，是可以回查的资产；
+- **面试档案**把现场、公司、轮次和题目串起来；
+- **成长洞察**告诉你哪一类记忆最薄，而不是只给一张好看的趋势图；
+- **记忆方法**解释为什么这样安排，让节奏可以持续。
+
+产品定义见 [docs/PRODUCT.md](docs/PRODUCT.md)，系统架构见 [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
 ## 功能
 
-- **题库管理**：新建 / 编辑 / 删除题目，支持 Markdown 书写题目描述与参考答案（代码高亮、表格、引用），支持分类、难度、标签、来源公司 / 岗位、收藏。
-- **快速记录**：新建题目只显示「问题 + 答案」两个输入框，分类、标签等高级信息可在编辑页补充。
+- **今日记忆闭环**：待回想数量、连续回想天数、本周节奏、薄弱分类“优先加固”入口，一屏决定今天做什么。
+- **记忆训练**：翻卡式主动回想，支持 `空格` 核对、`1–4` 评分；完成后显示本轮评分分布，可再来一轮。
+- **题库管理**：新建 / 编辑 / 删除题目，支持 Markdown 题目描述与参考答案（代码高亮、表格、引用），支持分类、难度、标签、来源公司 / 岗位、收藏。
+- **快速记录**：新建题目只显示「问题 + 答案」两个输入框，分类、标签等高级信息可在编辑页补充；任意页面 `Ctrl + N` 呼出。
 - **分类导航**：题库左侧分类栏显示每个分类的题目数量，点击即可切换分类题库，分类会同步到 URL，方便刷新和分享。
-- **快速记题**：任意页面 `Ctrl + N` 呼出快速记录框，先记下题目，之后再补答案。
-- **间隔复习**：内置 SM-2 简化版算法，根据「忘记 / 有点难 / 记得 / 很简单」自动安排下次复习时间；今日复习页提供翻卡式自测，支持键盘操作。
-- **题目详情**：参考答案可折叠，复习历史时间线，掌握程度快捷调整，展示这道题出现在哪些面试里。
-- **面试记录**：按场次记录公司、岗位、轮次、日期、渠道、薪资、结果、自评与复盘，可关联题库中的题目，写下面试官追问和自己的回答。
-- **数据洞察**：复习热力图、30 天趋势、分类掌握度、难度分布、高频标签、薄弱分类提醒、连续复习天数。
-- **数据管理**：JSON 一键导出 / 导入（按标题去重合并）、Markdown 导出、分类与标签管理、清除示例数据、清空全部数据。
+- **间隔回想**：内置 SM-2 简化版算法，根据「忘记 / 有点难 / 记得 / 很简单」自动安排下次回想时间；题目状态分为待开始 / 加固中 / 长期记忆。
+- **题目详情**：参考答案可折叠，回想历史时间线，记忆状态快捷调整，展示这道题出现在哪些面试里。
+- **面试档案**：按场次记录公司、岗位、轮次、日期、渠道、薪资、结果、自评与复盘，可关联题库中的题目，写下面试官追问和自己的回答。
+- **成长洞察**：17 周回想热力图、30 天趋势、分类记忆结构、难度分布、高频标签、连续回想天数。
+- **设置与数据**：JSON 一键导出 / 导入（按标题去重合并）、Markdown 导出、分类与标签管理、清除示例数据、清空全部数据。
 - **体验细节**：亮 / 暗色主题、侧栏折叠、全局搜索（`Ctrl + K`）、列表卡片 / 表格两种视图、批量操作、分页、空状态引导、响应式布局。
 
 ## 内置前端 2026 题库
@@ -62,7 +82,7 @@ Invoke-RestMethod -Method Post `
 
 导入按题目标题去重，重复执行不会产生重复题目；分类不存在时会自动创建。
 
-## 设计：把面试准备写成一本手记
+## 设计：把面试经历写成可回想的记忆
 
 这套界面不是套模板，而是先定了概念，再落成一套可复用的设计系统。
 
@@ -80,23 +100,35 @@ Invoke-RestMethod -Method Post `
 
 ## 界面预览
 
+### 今日
+
+今天该加固什么、连续多久、哪一类最薄，一屏看完。
+
+![今日](docs/screenshots/dashboard.png)
+
+### 记忆训练
+
+先合上答案，主动回想，再用四个按钮决定下一次什么时候再见。
+
+![记忆训练](docs/screenshots/review.png)
+
 ### 题库
 
-卡片 / 表格双视图，支持关键词、分类、难度、掌握度、标签、收藏筛选。
+卡片 / 表格双视图，支持关键词、分类、难度、记忆状态、标签、收藏筛选。
 
 ![题库](docs/screenshots/questions.png)
 
 ### 题目详情
 
-Markdown 渲染的题目与答案、复习状态、历史记录、关联面试。
+Markdown 渲染的题目与答案、记忆状态、回想历史、关联面试。
 
 ![题目详情](docs/screenshots/question-detail.png)
 
-### 今日复习
+### 记忆方法
 
-先自己想，再翻答案，然后用四个按钮决定下次什么时候再见。
+四步闭环、评分规则和一条能坚持的日常节奏。
 
-![今日复习](docs/screenshots/review.png)
+![记忆方法](docs/screenshots/method.png)
 
 ### 快速记题
 
@@ -104,21 +136,22 @@ Markdown 渲染的题目与答案、复习状态、历史记录、关联面试�
 
 ![快速记题](docs/screenshots/quick-add.png)
 
-### 面试记录
+### 面试档案
 
 一场面试一条记录，关联被问到的题目，复盘时能串起来看。
 
-![面试记录](docs/screenshots/interviews.png)
+![面试档案](docs/screenshots/interviews.png)
 
-### 数据洞察
+### 成长洞察
 
-复习趋势、分类掌握度、难度分布、高频标签和需要加强的方向。
+回想趋势、分类记忆结构、难度分布、高频标签和需要加强的方向。
 
-![数据洞察](docs/screenshots/insights.png)
+![成长洞察](docs/screenshots/insights.png)
 
 ### 暗色主题
 
 ![暗色主题](docs/screenshots/dashboard-dark.png)
+
 
 ## 快速开始
 
@@ -132,7 +165,7 @@ Markdown 渲染的题目与答案、复习状态、历史记录、关联面试�
 java -jar server\target\interview-bank.jar
 ```
 
-浏览器访问 <http://127.0.0.1:8090>。首次启动会自动建库并写入 20 道示例题、10 个分类、2 条面试记录；数据保存在 `data/` 的 H2 文件中。
+浏览器访问 <http://127.0.0.1:8090>。首次启动会自动建库并写入 20 道示例题、10 个分类、2 条面试档案；数据保存在 `data/` 的 H2 文件中。
 
 停止：关闭运行窗口，或在项目根目录执行 `.\stop.ps1`。
 
@@ -294,30 +327,32 @@ npm run build
 | `Ctrl / ⌘ + K` | 全局 | 聚焦顶栏搜索 |
 | `Ctrl / ⌘ + N` | 全局 | 快速记一道题 |
 | `Ctrl / ⌘ + S` | 题目 / 面试编辑页 | 保存 |
-| `空格` / `Enter` | 今日复习 | 显示答案 |
-| `1` `2` `3` `4` | 今日复习 | 忘记 / 有点难 / 记得 / 很简单 |
+| `空格` / `Enter` | 记忆训练 | 核对答案 |
+| `1` `2` `3` `4` | 记忆训练 | 忘记 / 有点难 / 记得 / 很简单 |
 
-## 复习算法
+## 回想算法
 
-采用 SM-2 的简化版本，只保留对个人复习最有用的部分：
+采用 SM-2 的简化版本，只保留对个人回想最有用的部分：
 
 | 评价 | 下次间隔 | 难度系数 ease |
 | --- | --- | --- |
-| 忘记了 | +1 天 | −0.25（最低 1.3） |
-| 有点难 | 上次间隔 × 1.2 | 不变 |
+| 忘记了 | 1 天 | −0.25（最低 1.3） |
+| 有点难 | 上次间隔 × 1.2 | −0.15（最低 1.3） |
 | 记得 | 上次间隔 × ease | 不变 |
-| 很简单 | 上次间隔 × ease × 1.3 | +0.1（最高 3.2） |
+| 很简单 | 上次间隔 × ease × 1.3 | +0.15（最高 3.2） |
 
-间隔限制在 1–365 天。复习次数达到 3 次或下次间隔 ≥ 7 天时，题目自动标记为「已掌握」。
+间隔限制在 1–365 天。回想次数达到 3 次或下次间隔 ≥ 7 天时，题目自动标记为「长期记忆」。完整规则见 [记忆方法页](http://127.0.0.1:8090/method) 或 [ARCHITECTURE.md](docs/ARCHITECTURE.md)。
 
 ## 数据说明
 
 - **H2 模式**（默认）：数据保存在运行目录下的 `data/` 文件夹（`interview-bank.mv.db`），单机单用户，无登录。
 - **MySQL 模式**：数据保存在 `interview_bank` 数据库，连接信息由 `DB_URL / DB_USERNAME / DB_PASSWORD` 控制；空库首次启动会自动建表并写入示例数据。
-- 备份：H2 直接复制 `data/` 文件夹；MySQL 使用 `mysqldump`，或在「数据管理」里导出 JSON。
+- 备份：H2 直接复制 `data/` 文件夹；MySQL 使用 `mysqldump`，或在「设置与数据」里导出 JSON。
 - 恢复 / 迁移：把 JSON 导入即可；导入按标题去重，不会覆盖已有题目。H2 → MySQL 的迁移步骤见 [docs/mysql.md](docs/mysql.md)。
 - 重置：H2 停止服务后删除 `data/`；MySQL 删除 `interview_bank` 库后重新创建。
-- 清空全部：在「数据管理」里输入「清空」确认，会删除题目、分类、标签、面试记录与复习历史。
+- 清空全部：在「设置与数据」里输入「清空」确认，会删除题目、分类、标签、面试档案与回想历史。
+
+> 产品改名不影响数据：H2 文件名、jar 名和包名都保持 `interview-bank`，已有数据与脚本可继续使用。
 
 ## 技术栈
 
@@ -347,8 +382,9 @@ interview-bank/
 │  └─ target/interview-bank.jar  可直接运行的产物
 ├─ web/                          Vue 3 前端（独立 SPA）
 │  ├─ src/
-│  │  ├─ views/                  工作台、题库、复习、面试、洞察、数据、设计规范
+│  │  ├─ views/                  今日、记忆训练、题库、面试档案、成长洞察、记忆方法、设置与数据
 │  │  ├─ components/             Markdown 编辑器 / 阅读器、热力图等
+│  │  ├─ config/                 品牌与导航信息架构
 │  │  ├─ layout/                 侧栏与顶栏
 │  │  ├─ store/                  轻量全局状态
 │  │  └─ styles/
@@ -360,9 +396,14 @@ interview-bank/
 │  └─ dist/                      构建产物
 ├─ sql/init.sql                  创建 MySQL 库与开发用户
 ├─ docs/
+│  ├─ PRODUCT.md                 产品定义、闭环、指标与路线
+│  ├─ ARCHITECTURE.md            分层、数据模型、API 与设计决策
+│  ├─ AGENT-SKILLS.md            GitHub Skills 选型、安装与安全
 │  ├─ design-system.md           完整设计规范
 │  ├─ mysql.md                   MySQL 与三端分离部署说明
 │  └─ screenshots/               界面截图
+├─ .claude/skills/               项目本地 Agent Skills
+├─ AGENTS.md                     AI agent 工作入口
 ├─ docker-compose.yml            MySQL + Spring Boot + Nginx 编排
 ├─ start.bat / start.ps1         H2 单机一键启动
 ├─ start-mysql.bat / .ps1        MySQL 模式启动后端
@@ -375,22 +416,30 @@ interview-bank/
 
 | 方法 | 路径 | 说明 |
 | --- | --- | --- |
-| GET | `/api/stats/dashboard` | 工作台统计 |
-| GET | `/api/stats/insights` | 数据洞察 |
-| GET / POST | `/api/questions` | 题目列表（关键词、分类、难度、掌握度、标签、收藏、排序、分页）/ 新建 |
+| GET | `/api/stats/dashboard` | 今日统计（到期、长期记忆、热力图、分类） |
+| GET | `/api/stats/insights` | 成长洞察 |
+| GET / POST | `/api/questions` | 题目列表（关键词、分类、难度、记忆状态、标签、收藏、排序、分页）/ 新建 |
 | GET / PUT / DELETE | `/api/questions/{id}` | 题目详情 / 更新 / 删除 |
 | PATCH | `/api/questions/{id}/star` | 切换收藏 |
-| PATCH | `/api/questions/{id}/mastery?value=` | 修改掌握程度 |
-| POST | `/api/questions/{id}/review` | 提交一次复习评价 |
-| GET | `/api/questions/{id}/reviews` | 复习历史 |
-| GET | `/api/review/queue?limit=` | 今日复习队列 |
-| GET / POST | `/api/interviews` | 面试列表 / 新建 |
-| GET / PUT / DELETE | `/api/interviews/{id}` | 面试详情 / 更新 / 删除 |
+| PATCH | `/api/questions/{id}/mastery?value=` | 修改记忆状态 |
+| POST | `/api/questions/{id}/review` | 提交一次回想评分 |
+| GET | `/api/questions/{id}/reviews` | 回想历史 |
+| GET | `/api/review/queue?limit=` | 今日记忆训练队列 |
+| GET / POST | `/api/interviews` | 面试档案列表 / 新建 |
+| GET / PUT / DELETE | `/api/interviews/{id}` | 面试档案详情 / 更新 / 删除 |
 | GET | `/api/data/export` | 导出 JSON |
 | GET | `/api/data/export/markdown` | 导出 Markdown |
 | POST | `/api/data/import` | 导入 JSON |
 | DELETE | `/api/data/demo` | 清除示例数据 |
-| DELETE | `/api/data/all` | 清空全部数据 |
+| DELETE | `/api/data/all` | 清空全部数据（谨慎） |
+
+## 给 AI agent 的入口
+
+- [AGENTS.md](AGENTS.md)：项目约束、命令与硬红线；
+- [docs/PRODUCT.md](docs/PRODUCT.md)：产品闭环与信息架构；
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)：分层、数据模型与算法；
+- [docs/AGENT-SKILLS.md](docs/AGENT-SKILLS.md)：精选 GitHub Skills 与项目本地 skill；
+- `.claude/skills/`：设计、发布、数据安全三个本地 skill。
 
 ## 常见问题
 
@@ -407,7 +456,7 @@ interview-bank/
 用 `stop.ps1` 检查并停止旧实例，或通过 `SERVER_PORT` 换端口。
 
 **想把自己的数据带到另一台电脑？**  
-在「数据管理」导出 JSON，把文件拷过去后导入即可。H2 也可以直接复制 `data/` 文件夹；MySQL 建议用 JSON 或 `mysqldump`。
+在「设置与数据」导出 JSON，把文件拷过去后导入即可。H2 也可以直接复制 `data/` 文件夹；MySQL 建议用 JSON 或 `mysqldump`。
 
 **示例数据会一直存在吗？**  
 只在第一次启动时写入一次。点击「清除示例数据」后不会再自动生成，除非删掉整个 `data/` 目录或 MySQL 库重新开始；初始化标记保存在数据库的 `app_meta` 表中，H2 与 MySQL 互不影响。

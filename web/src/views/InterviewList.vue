@@ -18,7 +18,7 @@
           <el-option v-for="(v, k) in RESULT" :key="k" :label="v.label" :value="k" />
         </el-select>
         <el-button type="primary" @click="$router.push('/interviews/new')">
-          <el-icon><Plus /></el-icon>新建面试记录
+          <el-icon><Plus /></el-icon>新建面试档案
         </el-button>
       </div>
     </div>
@@ -68,7 +68,7 @@
 
       <EmptyState
         v-else-if="!loading"
-        title="还没有面试记录"
+        title="还没有面试档案"
         description="记下公司、轮次和现场被问到的题，复盘会变成下一次的底气。"
       >
         <template #action>
@@ -126,7 +126,7 @@ async function load() {
 
 async function remove(it) {
   try {
-    await ElMessageBox.confirm(`删除「${it.company} · ${it.round || '面试'}」的记录？`, '删除面试记录', {
+    await ElMessageBox.confirm(`删除「${it.company} · ${it.round || '面试'}」的记录？`, '删除面试档案', {
       type: 'warning'
     })
     await api.interviews.remove(it.id)

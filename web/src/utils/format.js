@@ -23,14 +23,14 @@ export function fromNow(value) {
 }
 
 export function dueLabel(nextReviewAt, reviewCount = 0) {
-  if (!nextReviewAt) return reviewCount === 0 ? '还没复习过' : '待安排'
+  if (!nextReviewAt) return reviewCount === 0 ? '还没开始' : '待安排'
   const target = dayjs(nextReviewAt)
   const now = dayjs()
-  if (target.isBefore(now)) return '现在该复习了'
+  if (target.isBefore(now)) return '现在该回想了'
   const hours = target.diff(now, 'hour')
-  if (hours < 1) return '不到 1 小时后复习'
-  if (hours < 24) return `${hours} 小时后复习`
-  return `${target.diff(now, 'day')} 天后复习`
+  if (hours < 1) return '不到 1 小时后回想'
+  if (hours < 24) return `${hours} 小时后回想`
+  return `${target.diff(now, 'day')} 天后回想`
 }
 
 export function weekdayCN(date) {

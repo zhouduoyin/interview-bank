@@ -3,7 +3,7 @@
     <div class="data-grid">
       <section class="card">
         <div class="card-head"><h3>导出备份</h3></div>
-        <p class="muted">把题库、复习进度和面试记录全部导出，换电脑或重装也不怕丢。</p>
+        <p class="muted">把记忆题库、回想进度和面试档案全部导出，换电脑或重装也不怕丢。</p>
         <div class="data-actions">
           <a class="el-button el-button--primary" href="/api/data/export">
             <el-icon><Download /></el-icon>下载 JSON 备份
@@ -14,7 +14,7 @@
         </div>
         <ul class="data-hints">
           <li>JSON 备份包含全部数据，可以在新环境重新导入。</li>
-          <li>Markdown 版本适合放进 Obsidian、语雀等笔记软件复习。</li>
+          <li>Markdown 版本适合放进 Obsidian、语雀等笔记软件回顾。</li>
         </ul>
       </section>
 
@@ -116,14 +116,14 @@
       <div class="danger-row">
         <div>
           <b>清除示例数据</b>
-          <p>只删除首次启动内置的示例题目、分类和面试记录，自己记录的内容会保留。</p>
+          <p>只删除首次启动内置的示例题目、分类和面试档案，自己记录的内容会保留。</p>
         </div>
         <el-button @click="clearDemo">清除示例数据</el-button>
       </div>
       <div class="danger-row">
         <div>
           <b>清空全部数据</b>
-          <p>删除所有题目、分类、标签、面试记录和复习历史，操作不可恢复，请先导出备份。</p>
+          <p>删除所有题目、分类、标签、面试档案和回想历史，操作不可恢复，请先导出备份。</p>
         </div>
         <el-button type="danger" plain @click="clearAll">清空全部</el-button>
       </div>
@@ -191,7 +191,7 @@ async function doImport() {
   try {
     const result = await api.data.import(payload)
     ElMessage.success(
-      `导入完成：题目 ${result.questions} 道，面试记录 ${result.interviews} 条，跳过重复 ${result.skipped} 道`
+      `导入完成：题目 ${result.questions} 道，面试档案 ${result.interviews} 条，跳过重复 ${result.skipped} 道`
     )
     resetImport()
     await Promise.all([load(), refreshMeta()])
@@ -276,7 +276,7 @@ async function clearDemo() {
       type: 'warning'
     })
     const result = await api.data.clearDemo()
-    ElMessage.success(`已清除：${result.questions} 道题、${result.interviews} 条面试记录`)
+    ElMessage.success(`已清除：${result.questions} 道题、${result.interviews} 条面试档案`)
     await Promise.all([load(), refreshMeta()])
   } catch (e) {
     /* ignore */
@@ -294,7 +294,7 @@ async function clearAll() {
       return
     }
     const result = await api.data.clearAll()
-    ElMessage.success(`已清空 ${result.questions} 道题、${result.interviews} 条面试记录`)
+    ElMessage.success(`已清空 ${result.questions} 道题、${result.interviews} 条面试档案`)
     await Promise.all([load(), refreshMeta()])
   } catch (e) {
     /* ignore */

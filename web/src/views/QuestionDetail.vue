@@ -15,7 +15,7 @@
           </span>
           <span class="mini-pill" :style="diffStyle">{{ diffLabel }}</span>
           <span class="mini-pill" :style="masteryStyle">{{ masteryLabel }}</span>
-          <span v-if="isDue" class="due-flag"><i />待复习</span>
+          <span v-if="isDue" class="due-flag"><i />待回想</span>
           <span v-if="question.starred" class="star-flag">★ 重点</span>
         </div>
         <h1>{{ question.title }}</h1>
@@ -46,13 +46,13 @@
         </el-button>
         <el-dropdown trigger="click" @command="setMastery">
           <el-button>
-            掌握程度<el-icon class="el-icon--right"><ArrowDown /></el-icon>
+            记忆状态<el-icon class="el-icon--right"><ArrowDown /></el-icon>
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="MASTERED">标记为已掌握</el-dropdown-item>
-              <el-dropdown-item command="LEARNING">标记为复习中</el-dropdown-item>
-              <el-dropdown-item command="NEW">重置为未掌握</el-dropdown-item>
+              <el-dropdown-item command="MASTERED">标记为长期记忆</el-dropdown-item>
+              <el-dropdown-item command="LEARNING">标记为加固中</el-dropdown-item>
+              <el-dropdown-item command="NEW">重置为待开始</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -124,11 +124,11 @@
 
       <aside class="detail-side">
         <section class="card review-card">
-          <div class="card-head"><h3>复习状态</h3></div>
+          <div class="card-head"><h3>记忆状态</h3></div>
           <div class="review-stat-row">
             <div>
               <b>{{ question.reviewCount }}</b
-              ><span>复习次数</span>
+              ><span>回想次数</span>
             </div>
             <div>
               <b>{{ question.intervalDays }}</b
@@ -164,7 +164,7 @@
 
         <section class="card">
           <div class="card-head">
-            <h3>复习历史</h3>
+            <h3>回想历史</h3>
             <span class="muted small">{{ logs.length }} 次</span>
           </div>
           <div v-if="logs.length" class="timeline">
@@ -178,7 +178,7 @@
               </div>
             </div>
           </div>
-          <p v-else class="muted small">还没有复习记录，点击上面的按钮开始第一次。</p>
+          <p v-else class="muted small">还没有回想记录，点击上面的按钮开始第一次。</p>
         </section>
       </aside>
     </div>
@@ -280,7 +280,7 @@ async function toggleStar() {
 async function setMastery(value) {
   try {
     question.value = await api.questions.mastery(question.value.id, value)
-    ElMessage.success('掌握程度已更新')
+    ElMessage.success('记忆状态已更新')
     await refreshMeta()
   } catch (e) {
     /* ignore */

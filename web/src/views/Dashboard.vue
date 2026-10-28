@@ -2,18 +2,22 @@
   <div v-loading="loading" class="page dashboard-page">
     <section class="hero-card">
       <div class="hero-main">
-        <div class="hero-eyebrow">{{ greeting() }} · {{ todayText }}</div>
+        <div class="hero-eyebrow">{{ greeting() }} · {{ todayText }} · 记忆助手</div>
         <h2 v-if="ov.due">
-          今天有 <em>{{ ov.due }}</em> 道题等待复习
+          今天有 <em>{{ ov.due }}</em> 道记忆等待加固
         </h2>
-        <h2 v-else>今天的复习任务已经清空了 🎉</h2>
+        <h2 v-else>今天的记忆任务已经清空了 🎉</h2>
         <p>
-          {{ ov.due ? '按遗忘曲线过一遍，比重读十遍更有效。' : '可以去题库里翻翻，或者把今天被问到的题记下来。' }}
+          {{
+            ov.due
+              ? '先合上答案，主动回想一遍；想不起来也没关系，那正是下一次安排的依据。'
+              : '可以去题库里翻翻，或者把今天被问到的题记下来。'
+          }}
         </p>
         <div class="hero-actions">
           <el-button type="primary" size="large" @click="$router.push('/review')">
             <el-icon><AlarmClock /></el-icon>
-            {{ ov.due ? '开始今日复习' : '去复习' }}
+            {{ ov.due ? '开始记忆训练' : '去训练' }}
           </el-button>
           <el-button size="large" class="hero-ghost" @click="$router.push('/questions/new')">
             <el-icon><Plus /></el-icon>
@@ -28,18 +32,18 @@
       <div class="hero-side">
         <div class="hero-streak">
           <span class="streak-num">{{ ov.streakDays || 0 }}</span>
-          <span class="streak-unit">天连续复习</span>
+          <span class="streak-unit">天连续回想</span>
         </div>
         <div class="week-dots">
           <i v-for="d in weekDots" :key="d.date" :class="{ on: d.on }" :title="`${d.date} · ${d.count} 次`" />
         </div>
-        <div class="hero-side-note">本周已复习 {{ weekTotal }} 次</div>
+        <div class="hero-side-note">本周已回想 {{ weekTotal }} 次</div>
       </div>
     </section>
 
     <section class="stat-grid">
       <StatCard
-        label="题库总量"
+        label="记忆题库"
         :value="ov.totalQuestions || 0"
         suffix="题"
         tone="indigo"
@@ -47,23 +51,23 @@
         :hint="`本月新增 ${ov.monthNew || 0} 题`"
       />
       <StatCard
-        label="今日待复习"
+        label="待回想"
         :value="ov.due || 0"
         suffix="题"
         tone="amber"
         :icon="AlarmClock"
-        :hint="`今日已复习 ${ov.todayReviews || 0} 题`"
+        :hint="`今日已回想 ${ov.todayReviews || 0} 题`"
       />
       <StatCard
-        label="已掌握"
+        label="长期记忆"
         :value="ov.mastered || 0"
         suffix="题"
         tone="green"
         :icon="CircleCheck"
-        :hint="`掌握率 ${ov.masteryRate || 0}%`"
+        :hint="`稳固率 ${ov.masteryRate || 0}%`"
       />
       <StatCard
-        label="累计复习"
+        label="累计回想"
         :value="ov.totalReviews || 0"
         suffix="次"
         tone="rose"
@@ -77,9 +81,9 @@
         <section class="card heatmap-card">
           <div class="card-head">
             <div>
-              <h3>复习热力图</h3>
+              <h3>回想热力图</h3>
               <p>
-                过去 17 周共复习 <b>{{ heatTotal }}</b> 次，保持节奏比突击更有效。
+                过去 17 周共回想 <b>{{ heatTotal }}</b> 次，保持节奏比突击更有效。
               </p>
             </div>
             <router-link to="/insights" class="text-link">查看洞察 →</router-link>
@@ -90,10 +94,10 @@
         <section class="card">
           <div class="card-head">
             <div>
-              <h3>最近添加</h3>
+              <h3>最近记录</h3>
               <p>看看最近记下的题，趁记忆还新鲜补上答案。</p>
             </div>
-            <router-link to="/questions" class="text-link">全部题目 →</router-link>
+            <router-link to="/questions" class="text-link">全部题库 →</router-link>
           </div>
           <div v-if="recent.length" class="recent-list">
             <router-link v-for="q in recent" :key="q.id" :to="`/questions/${q.id}`" class="recent-item">
@@ -116,7 +120,7 @@
       <div class="dash-side">
         <section class="card mastery-card">
           <div class="card-head">
-            <h3>掌握情况</h3>
+            <h3>记忆结构</h3>
             <span class="muted">共 {{ ov.totalQuestions || 0 }} 题</span>
           </div>
           <div class="ring-wrap">
@@ -133,20 +137,30 @@
             </svg>
             <div class="ring-label">
               <b>{{ ov.masteryRate || 0 }}%</b>
-              <span>掌握率</span>
+              <span>稳固率</span>
             </div>
           </div>
           <div class="mastery-legend">
             <div>
-              <i class="dot" style="background: var(--accent-2)" /><span>已掌握</span><b>{{ ov.mastered || 0 }}</b>
+              <i class="dot" style="background: var(--accent-2)" /><span>长期记忆</span><b>{{ ov.mastered || 0 }}</b>
             </div>
             <div>
-              <i class="dot" style="background: var(--accent-4)" /><span>复习中</span><b>{{ ov.learning || 0 }}</b>
+              <i class="dot" style="background: var(--accent-4)" /><span>加固中</span><b>{{ ov.learning || 0 }}</b>
             </div>
             <div>
-              <i class="dot" style="background: var(--text-3)" /><span>未掌握</span><b>{{ ov.newCount || 0 }}</b>
+              <i class="dot" style="background: var(--text-3)" /><span>待开始</span><b>{{ ov.newCount || 0 }}</b>
             </div>
           </div>
+          <button
+            v-if="weakCategory"
+            type="button"
+            class="weak-focus"
+            @click="$router.push({ path: '/questions', query: { category: weakCategory.id } })"
+          >
+            <span class="weak-focus-label">优先加固</span>
+            <span class="weak-focus-name">{{ weakCategory.name }}</span>
+            <span class="weak-focus-rate">{{ weakRate }}% →</span>
+          </button>
         </section>
 
         <section class="card">
@@ -192,7 +206,7 @@
             </router-link>
           </div>
           <div v-else class="muted small">
-            还没有面试记录，<router-link to="/interviews/new" class="text-link">记一场 →</router-link>
+            还没有面试档案，<router-link to="/interviews/new" class="text-link">记一场 →</router-link>
           </div>
         </section>
       </div>
@@ -231,6 +245,15 @@ const weekDots = computed(() => {
   return cells.map((c) => ({ ...c, on: c.count > 0 }))
 })
 const weekTotal = computed(() => weekDots.value.reduce((sum, c) => sum + c.count, 0))
+
+const weakCategory = computed(() => {
+  const candidates = categories.value
+    .filter((c) => c.id && c.count >= 3)
+    .map((c) => ({ ...c, rate: Math.round(((c.mastered || 0) / c.count) * 100) }))
+  if (!candidates.length) return null
+  return candidates.sort((a, b) => a.rate - b.rate)[0]
+})
+const weakRate = computed(() => weakCategory.value?.rate || 0)
 
 function masteryStyle(value) {
   const m = MASTERY[value] || MASTERY.NEW

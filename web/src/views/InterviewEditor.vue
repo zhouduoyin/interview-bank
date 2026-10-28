@@ -2,8 +2,8 @@
   <div v-loading="loading" class="page interview-editor">
     <div class="editor-head">
       <div>
-        <router-link to="/interviews" class="back-link">← 返回面试记录</router-link>
-        <h2>{{ isEdit ? '编辑面试记录' : '记录一场面试' }}</h2>
+        <router-link to="/interviews" class="back-link">← 返回面试档案</router-link>
+        <h2>{{ isEdit ? '编辑面试档案' : '记录一场面试' }}</h2>
         <p class="muted">把公司、轮次、被问到的题和复盘放在一起，下次面试前翻一翻。</p>
       </div>
       <div class="editor-actions">
@@ -127,7 +127,7 @@
           <el-button text type="danger" size="small" @click="removeQuestion(i)">移除</el-button>
         </div>
       </div>
-      <p v-else class="muted small">还没有关联题目，面试记录可以先只写复盘。</p>
+      <p v-else class="muted small">还没有关联题目，面试档案可以先只写复盘。</p>
     </section>
 
     <section class="card">
@@ -260,7 +260,7 @@ async function save() {
 
 async function remove() {
   try {
-    await ElMessageBox.confirm('删除这份面试记录？关联的题目不会被删除。', '删除面试记录', { type: 'warning' })
+    await ElMessageBox.confirm('删除这份面试档案？关联的题目不会被删除。', '删除面试档案', { type: 'warning' })
     await api.interviews.remove(route.params.id)
     ElMessage.success('已删除')
     router.push('/interviews')

@@ -22,19 +22,19 @@ export const DIFFICULTY = {
 
 export const MASTERY = {
   NEW: {
-    label: '未掌握',
+    label: '待开始',
     color: 'var(--text-3)',
     bg: 'color-mix(in srgb, var(--text-3) 12%, transparent)',
     dot: 'var(--text-3)'
   },
   LEARNING: {
-    label: '复习中',
+    label: '加固中',
     color: 'var(--accent-4)',
     bg: 'color-mix(in srgb, var(--accent-4) 12%, transparent)',
     dot: 'var(--accent-4)'
   },
   MASTERED: {
-    label: '已掌握',
+    label: '长期记忆',
     color: 'var(--accent-2)',
     bg: 'color-mix(in srgb, var(--accent-2) 12%, transparent)',
     dot: 'var(--accent-2)'

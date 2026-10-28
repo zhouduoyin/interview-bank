@@ -5,8 +5,8 @@
     <template v-else-if="finished">
       <div class="review-done card">
         <div class="done-emoji">🎯</div>
-        <h2>本轮复习完成</h2>
-        <p class="muted">复习了 {{ doneCount }} 道题，记忆正在被加固。</p>
+        <h2>本轮记忆训练完成</h2>
+        <p class="muted">回想并核对了 {{ doneCount }} 道题，记忆正在被加固。</p>
         <div class="done-grid">
           <div v-for="(r, key) in RATING" :key="key" class="done-item" :style="{ color: r.color, background: r.bg }">
             <b>{{ counts[key] }}</b>
@@ -15,16 +15,16 @@
         </div>
         <div class="done-actions">
           <el-button type="primary" @click="restart">再来一轮</el-button>
-          <el-button @click="$router.push('/')">回到工作台</el-button>
+          <el-button @click="$router.push('/')">回到今日</el-button>
         </div>
-        <p class="done-tip">下一批复习会按遗忘曲线自动安排，明天见。</p>
+        <p class="done-tip">下一批训练会按间隔回想自动安排，明天见。</p>
       </div>
     </template>
 
     <template v-else-if="!queue.length">
       <EmptyState
-        title="今天没有需要复习的题"
-        description="所有题目都还在记忆保鲜期内。可以去题库补充新题，或者提前复习收藏的题。"
+        title="今天没有需要加固的记忆"
+        description="所有题目都还在记忆保鲜期内。可以去题库补充新题，或者提前训练收藏的题。"
       >
         <template #action>
           <el-button type="primary" @click="$router.push('/questions/new')">记录一道新题</el-button>
@@ -36,7 +36,7 @@
     <template v-else>
       <div class="review-top">
         <div class="review-progress-text">
-          <span>今日复习</span>
+          <span>今日训练</span>
           <b>{{ index + 1 }}</b>
           <span class="muted">/ {{ queue.length }}</span>
         </div>
@@ -63,7 +63,7 @@
               >第一次见</span
             >
             <span class="spacer" />
-            <span class="muted small">已复习 {{ current.reviewCount }} 次</span>
+            <span class="muted small">已回想 {{ current.reviewCount }} 次</span>
           </div>
 
           <h1 class="review-question-title">{{ current.title }}</h1>
@@ -78,9 +78,9 @@
           <div v-if="!revealed" class="reveal-area">
             <el-button type="primary" size="large" class="reveal-btn" @click="reveal">
               <el-icon><View /></el-icon>
-              显示参考答案
+              核对答案
             </el-button>
-            <p class="key-hint">先在心里过一遍，再按 <kbd>空格</kbd> 看答案</p>
+            <p class="key-hint">先在心里过一遍，再按 <kbd>空格</kbd> 核对</p>
           </div>
 
           <div v-else class="answer-area">

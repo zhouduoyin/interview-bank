@@ -2,27 +2,29 @@
   <div class="app-shell" :class="{ 'is-collapsed': appState.collapsed }">
     <aside class="sidebar">
       <router-link to="/" class="brand">
-        <span class="brand-mark">题</span>
+        <span class="brand-mark">{{ BRAND.mark }}</span>
         <span class="brand-text">
-          <b>面试题库</b>
-          <small>Interview Field Notes</small>
+          <b>{{ BRAND.name }}</b>
+          <small>{{ BRAND.shortEnglish }}</small>
         </span>
       </router-link>
 
-      <nav class="nav">
-        <div class="nav-group-label">工作区</div>
-        <router-link
-          v-for="item in navItems"
-          :key="item.to"
-          :to="item.to"
-          class="nav-item"
-          :class="{ active: isActive(item) }"
-          :title="item.label"
-        >
-          <el-icon><component :is="item.icon" /></el-icon>
-          <span class="nav-label">{{ item.label }}</span>
-          <span v-if="item.badge && appState.dueCount" class="nav-badge">{{ appState.dueCount }}</span>
-        </router-link>
+      <nav class="nav" aria-label="主导航">
+        <div v-for="group in NAV_GROUPS" :key="group.label" class="nav-group">
+          <div class="nav-group-label">{{ group.label }}</div>
+          <router-link
+            v-for="item in group.items"
+            :key="item.to"
+            :to="item.to"
+            class="nav-item"
+            :class="{ active: isActive(item) }"
+            :title="item.label"
+          >
+            <el-icon><component :is="item.icon" /></el-icon>
+            <span class="nav-label">{{ item.label }}</span>
+            <span v-if="item.badge && appState.dueCount" class="nav-badge">{{ appState.dueCount }}</span>
+          </router-link>
+        </div>
       </nav>
 
       <div class="sidebar-bottom">
@@ -30,7 +32,7 @@
           <span class="streak-flame">🔥</span>
           <div>
             <b>{{ appState.streak }} 天</b>
-            <small>连续复习</small>
+            <small>连续回想</small>
           </div>
         </div>
         <button class="theme-toggle" type="button" @click="toggleTheme">
@@ -38,7 +40,7 @@
           <span>{{ isDark ? '浅色模式' : '深色模式' }}</span>
         </button>
         <router-link to="/styleguide" class="sidebar-link">设计规范 <span>↗</span></router-link>
-        <div class="sidebar-tip">数据保存在你的数据库</div>
+        <div class="sidebar-tip">本地优先 · 数据在你手里</div>
       </div>
     </aside>
 
@@ -68,7 +70,7 @@
           <span class="today-label">{{ today }}</span>
           <el-button type="primary" class="quick-btn" @click="quickAdd?.open()">
             <el-icon><Plus /></el-icon>
-            <span>快速记题</span>
+            <span>记一道题</span>
           </el-button>
         </div>
       </header>
@@ -85,22 +87,11 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import {
-  Collection,
-  DataAnalysis,
-  House,
-  ChatLineSquare,
-  AlarmClock,
-  Setting,
-  Plus,
-  Search,
-  Fold,
-  Expand,
-  Moon,
-  Sunny
-} from '@element-plus/icons-vue'
+import { Plus, Search, Fold, Expand, Moon, Sunny } from '@element-plus/icons-vue'
 import QuickAddDialog from '@/components/QuickAddDialog.vue'
 import { appState, refreshMeta, toggleCollapsed, toggleTheme } from '@/store/app'
+import { BRAND } from '@/config/brand'
+import { NAV_GROUPS } from '@/config/navigation'
 import { api } from '@/api'
 import dayjs from 'dayjs'
 
@@ -109,15 +100,6 @@ const router = useRouter()
 const quickAdd = ref(null)
 const searchRef = ref(null)
 const keyword = ref('')
-
-const navItems = [
-  { to: '/', label: '工作台', icon: House },
-  { to: '/questions', label: '题库', icon: Collection },
-  { to: '/review', label: '今日复习', icon: AlarmClock, badge: true },
-  { to: '/interviews', label: '面试记录', icon: ChatLineSquare },
-  { to: '/insights', label: '数据洞察', icon: DataAnalysis },
-  { to: '/data', label: '数据管理', icon: Setting }
-]
 
 const isDark = computed(() => appState.theme === 'dark')
 const today = dayjs().format('M 月 D 日 dddd')

@@ -14,8 +14,8 @@ describe('format utils', () => {
     expect(pct(2, 3)).toBe(67)
   })
 
-  it('returns review labels for missing schedules', () => {
-    expect(dueLabel(null, 0)).toBe('还没复习过')
+  it('returns recall labels for missing schedules', () => {
+    expect(dueLabel(null, 0)).toBe('还没开始')
     expect(dueLabel(null, 2)).toBe('待安排')
   })
 

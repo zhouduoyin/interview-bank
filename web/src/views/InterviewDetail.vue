@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" class="page interview-detail">
     <div class="detail-crumbs">
-      <router-link to="/interviews" class="back-link">← 返回面试记录</router-link>
+      <router-link to="/interviews" class="back-link">← 返回面试档案</router-link>
       <span class="muted">/</span>
       <span class="muted">{{ record?.company || '详情' }}</span>
     </div>
@@ -59,7 +59,7 @@
                   <span class="mini-pill" :style="masteryStyle(iq.question.mastery)">{{
                     masteryLabel(iq.question.mastery)
                   }}</span>
-                  <span class="muted small">{{ iq.question.reviewCount }} 次复习</span>
+                  <span class="muted small">{{ iq.question.reviewCount }} 次回想</span>
                   <router-link :to="`/questions/${iq.question.id}`" class="text-link small">查看答案 →</router-link>
                 </div>
               </div>
@@ -165,7 +165,7 @@ async function load() {
 
 async function remove() {
   try {
-    await ElMessageBox.confirm('删除这份面试记录？关联的题目不会被删除。', '删除面试记录', { type: 'warning' })
+    await ElMessageBox.confirm('删除这份面试档案？关联的题目不会被删除。', '删除面试档案', { type: 'warning' })
     await api.interviews.remove(record.value.id)
     ElMessage.success('已删除')
     router.push('/interviews')

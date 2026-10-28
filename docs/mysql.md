@@ -160,16 +160,16 @@ java -jar target/interview-bank.jar --spring.profiles.active=mysql
 
 MySQL profile 的配置文件在 [application-mysql.yml](../server/src/main/resources/application-mysql.yml)。H2 仍保留在 `application-h2.yml`，用于零配置演示。
 
-首次连接空库时，Hibernate 会自动建表，`SeedRunner` 会写入 20 道示例题、10 个分类和 2 条面试记录。初始化标记保存在数据库的 `app_meta` 表中，因此 H2 与 MySQL、不同数据库之间不会互相影响；删库重建后会重新写入示例数据。
+首次连接空库时，Hibernate 会自动建表，`SeedRunner` 会写入 20 道示例题、10 个分类和 2 条面试档案。初始化标记保存在数据库的 `app_meta` 表中，因此 H2 与 MySQL、不同数据库之间不会互相影响；删库重建后会重新写入示例数据。
 
 表结构：
 
 | 表 | 说明 |
 | --- | --- |
 | `category` | 分类 |
-| `question` | 题目、答案、笔记与复习状态 |
+| `question` | 题目、答案、笔记与记忆状态 |
 | `question_tags` | 题目标签（ElementCollection） |
-| `review_log` | 每次复习记录 |
+| `review_log` | 每次回想记录 |
 | `interview_record` | 面试场次 |
 | `interview_question` | 面试与题目的关联 |
 | `app_meta` | 应用元数据（示例数据初始化标记） |
@@ -178,8 +178,8 @@ MySQL profile 的配置文件在 [application-mysql.yml](../server/src/main/reso
 
 当前 `data/` 里的 H2 数据不会被 MySQL 自动读取。迁移方法：
 
-1. 用 H2 模式启动旧版本，在「数据管理」导出 JSON。
-2. 用 MySQL 模式启动新版本，在「数据管理」导入刚才的 JSON。
+1. 用 H2 模式启动旧版本，在「设置与数据」导出 JSON。
+2. 用 MySQL 模式启动新版本，在「设置与数据」导入刚才的 JSON。
 3. 导入按标题去重，不会覆盖 MySQL 中已有的题目。
 
 如果只是体验示例数据，直接启动 MySQL 空库即可，会自动重新写入示例题。

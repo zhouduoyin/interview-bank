@@ -40,7 +40,7 @@
         >
           <el-option v-for="(v, k) in DIFFICULTY" :key="k" :label="v.label" :value="k" />
         </el-select>
-        <el-select v-model="filters.mastery" placeholder="掌握程度" clearable class="filter-select" @change="reload">
+        <el-select v-model="filters.mastery" placeholder="记忆状态" clearable class="filter-select" @change="reload">
           <el-option v-for="(v, k) in MASTERY" :key="k" :label="v.label" :value="k" />
         </el-select>
         <el-select
@@ -56,8 +56,8 @@
         <el-select v-model="filters.sort" class="filter-select narrow" @change="reload">
           <el-option label="最近更新" value="updated" />
           <el-option label="最近创建" value="created" />
-          <el-option label="复习次数" value="reviews" />
-          <el-option label="优先复习" value="due" />
+          <el-option label="回想次数" value="reviews" />
+          <el-option label="优先回想" value="due" />
         </el-select>
         <el-checkbox v-model="filters.starred" class="filter-star" @change="reload">只看收藏</el-checkbox>
       </div>
@@ -116,9 +116,9 @@
                     <template #dropdown>
                       <el-dropdown-menu>
                         <el-dropdown-item command="edit">编辑</el-dropdown-item>
-                        <el-dropdown-item command="MASTERED" divided>标记为已掌握</el-dropdown-item>
-                        <el-dropdown-item command="LEARNING">标记为复习中</el-dropdown-item>
-                        <el-dropdown-item command="NEW">重置为未掌握</el-dropdown-item>
+                        <el-dropdown-item command="MASTERED" divided>标记为长期记忆</el-dropdown-item>
+                        <el-dropdown-item command="LEARNING">标记为加固中</el-dropdown-item>
+                        <el-dropdown-item command="NEW">重置为待开始</el-dropdown-item>
                         <el-dropdown-item command="delete" divided>删除</el-dropdown-item>
                       </el-dropdown-menu>
                     </template>
@@ -137,8 +137,8 @@
               <div class="q-footer">
                 <span class="mini-pill" :style="diffStyle(q.difficulty)">{{ diffLabel(q.difficulty) }}</span>
                 <span class="mini-pill" :style="masteryStyle(q.mastery)">{{ masteryLabel(q.mastery) }}</span>
-                <span v-if="isDue(q)" class="due-flag"><i />待复习</span>
-                <span v-else class="q-meta">{{ q.reviewCount }} 次复习</span>
+                <span v-if="isDue(q)" class="due-flag"><i />待回想</span>
+                <span v-else class="q-meta">{{ q.reviewCount }} 次回想</span>
                 <span v-if="q.sourceCompany" class="q-company">{{ q.sourceCompany }}</span>
               </div>
             </article>
@@ -160,7 +160,7 @@
             <span
               >已选 <b>{{ selection.length }}</b> 题</span
             >
-            <el-button size="small" @click="batch('mastery', 'MASTERED')">标记已掌握</el-button>
+            <el-button size="small" @click="batch('mastery', 'MASTERED')">标记长期记忆</el-button>
             <el-button size="small" @click="batch('star')">加入收藏</el-button>
             <el-button size="small" type="danger" plain @click="batchDelete">删除</el-button>
             <el-button size="small" text @click="tableRef?.clearSelection()">取消选择</el-button>
@@ -201,14 +201,14 @@
                 <span class="mini-pill" :style="diffStyle(row.difficulty)">{{ diffLabel(row.difficulty) }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="掌握" width="86">
+            <el-table-column label="记忆" width="86">
               <template #default="{ row }">
                 <span class="mini-pill" :style="masteryStyle(row.mastery)">{{ masteryLabel(row.mastery) }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="复习" width="78">
+            <el-table-column label="回想" width="78">
               <template #default="{ row }">
-                <span :class="{ 'due-text': isDue(row) }">{{ isDue(row) ? '待复习' : `${row.reviewCount} 次` }}</span>
+                <span :class="{ 'due-text': isDue(row) }">{{ isDue(row) ? '待回想' : `${row.reviewCount} 次` }}</span>
               </template>
             </el-table-column>
             <el-table-column label="更新时间" width="104">
@@ -420,7 +420,7 @@ async function onCommand(cmd, q) {
   try {
     await api.questions.mastery(q.id, cmd)
     q.mastery = cmd
-    ElMessage.success('掌握程度已更新')
+    ElMessage.success('记忆状态已更新')
   } catch (e) {
     /* ignore */
   }

@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     v-model="visible"
-    title="快速记一道题"
+    title="记一道题"
     width="600px"
     align-center
     :close-on-click-modal="false"
@@ -49,7 +49,7 @@
       </div>
       <div class="quick-add-hint">
         <el-icon><InfoFilled /></el-icon>
-        保存后会立刻进入复习计划，之后可以在详情页补充参考答案。
+        保存后会立刻进入记忆计划，之后可以在详情页补充参考答案。
       </div>
     </div>
     <template #footer>

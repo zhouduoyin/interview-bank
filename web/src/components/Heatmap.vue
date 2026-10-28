@@ -13,7 +13,7 @@
             v-for="(cell, ci) in week"
             :key="ci"
             :class="['heatmap-cell', cell ? `lv-${level(cell.count)}` : 'is-empty']"
-            :title="cell ? `${cell.date} · ${cell.count} 次复习` : ''"
+            :title="cell ? `${cell.date} · ${cell.count} 次回想` : ''"
           />
         </div>
       </div>

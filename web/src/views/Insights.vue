@@ -2,23 +2,23 @@
   <div v-loading="loading" class="page insights-page">
     <section class="stat-grid">
       <StatCard
-        label="题库总量"
+        label="记忆题库"
         :value="ov.totalQuestions || 0"
         suffix="题"
         tone="indigo"
         :icon="Collection"
-        :hint="`${ov.newCount || 0} 题还没开始复习`"
+        :hint="`${ov.newCount || 0} 题还没开始训练`"
       />
       <StatCard
-        label="掌握率"
+        label="稳固率"
         :value="ov.masteryRate || 0"
         suffix="%"
         tone="green"
         :icon="CircleCheck"
-        :hint="`已掌握 ${ov.mastered || 0} 题`"
+        :hint="`长期记忆 ${ov.mastered || 0} 题`"
       />
       <StatCard
-        label="累计复习"
+        label="累计回想"
         :value="ov.totalReviews || 0"
         suffix="次"
         tone="rose"
@@ -26,12 +26,12 @@
         :hint="`平均每题 ${avgReviews} 次`"
       />
       <StatCard
-        label="面试记录"
+        label="面试档案"
         :value="ov.interviewCount || 0"
         suffix="场"
         tone="amber"
         :icon="ChatLineSquare"
-        :hint="`连续复习 ${ov.streakDays || 0} 天`"
+        :hint="`连续回想 ${ov.streakDays || 0} 天`"
       />
     </section>
 
@@ -40,7 +40,7 @@
         <section class="card">
           <div class="card-head">
             <div>
-              <h3>最近 30 天复习趋势</h3>
+              <h3>最近 30 天回想趋势</h3>
               <p>保持每天一点点，比周末突击更稳。</p>
             </div>
             <span class="pill">共 {{ trendTotal }} 次</span>
@@ -79,20 +79,20 @@
         <section class="card">
           <div class="card-head">
             <div>
-              <h3>各分类掌握度</h3>
-              <p>颜色越偏绿，说明这一类掌握得越扎实。</p>
+              <h3>各分类记忆结构</h3>
+              <p>颜色越偏绿，说明这一类记忆越稳固。</p>
             </div>
             <div class="legend-inline">
-              <span><i style="background: var(--text-3)" />未掌握</span>
-              <span><i style="background: var(--accent-4)" />复习中</span>
-              <span><i style="background: var(--accent-2)" />已掌握</span>
+              <span><i style="background: var(--text-3)" />待开始</span>
+              <span><i style="background: var(--accent-4)" />加固中</span>
+              <span><i style="background: var(--accent-2)" />长期记忆</span>
             </div>
           </div>
           <div class="mastery-bars">
             <div v-for="c in masteryByCategory" :key="c.name" class="mastery-bar-row">
               <div class="mastery-bar-head">
                 <span>{{ c.name }}</span>
-                <span class="muted small">{{ c.mastered }}/{{ c.newCount + c.learning + c.mastered }} 已掌握</span>
+                <span class="muted small">{{ c.mastered }}/{{ c.newCount + c.learning + c.mastered }} 长期记忆</span>
               </div>
               <div class="stacked-bar">
                 <i :style="{ width: `${ratio(c.newCount, c)}%`, background: 'var(--text-3)' }" />

@@ -1,10 +1,10 @@
 <template>
   <div class="page sg-page">
     <section class="sg-hero">
-      <div class="hero-eyebrow">Interview Field Notes · Design System v1.0</div>
-      <h1>把面试准备，<em>写成一本手记</em></h1>
+      <div class="hero-eyebrow">面试记忆助手 · Design System v1.0</div>
+      <h1>把面试经历，<em>写成可回想的记忆</em></h1>
       <p>
-        一套为长时间阅读与每日复习而生的界面语言：暖纸、墨色、朱砂批注，
+        一套为长时间阅读与每日回想而生的界面语言：暖纸、墨色、朱砂批注，
         衬线标题负责记忆点，无衬线正文负责效率。它不追求“更像一个后台”， 而是让每一次记录都像在纸上落下一笔。
       </p>
       <div class="sg-hero-meta">
@@ -40,7 +40,7 @@
         <div>
           <h3 class="sg-h3">朱砂只做批注</h3>
           <p class="sg-small">
-            主色只出现在需要行动或需要被记住的位置：主按钮、今日待复习、错误与危险操作。
+            主色只出现在需要行动或需要被记住的位置：主按钮、今日待回想、错误与危险操作。
             其余颜色退到颜料盘里，安静地做分类。
           </p>
         </div>
@@ -95,17 +95,17 @@
         <span
           class="mini-pill"
           style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)"
-          >已掌握</span
+          >长期记忆</span
         >
         <span
           class="mini-pill"
           style="color: var(--accent-4); background: color-mix(in srgb, var(--accent-4) 12%, transparent)"
-          >复习中</span
+          >加固中</span
         >
         <span
           class="mini-pill"
           style="color: var(--text-3); background: color-mix(in srgb, var(--text-3) 12%, transparent)"
-          >未掌握</span
+          >待开始</span
         >
         <span
           class="mini-pill"
@@ -137,11 +137,11 @@
         </div>
         <div class="sg-type-row">
           <span class="tag">H1 · 30</span>
-          <div class="demo"><div class="sg-h1">今天有 11 道题等待复习</div></div>
+          <div class="demo"><div class="sg-h1">今天有 11 道记忆等待加固</div></div>
         </div>
         <div class="sg-type-row">
           <span class="tag">H2 · 22</span>
-          <div class="demo"><div class="sg-h2">复习热力图</div></div>
+          <div class="demo"><div class="sg-h2">回想热力图</div></div>
         </div>
         <div class="sg-type-row">
           <span class="tag">H3 · 17</span>
@@ -151,7 +151,7 @@
           <span class="tag">BODY · 14</span>
           <div class="demo">
             <p class="sg-body">
-              按遗忘曲线过一遍，比重读十遍更有效。每道题都保留自己的复习轨迹， 答不上来也没关系，下一次会更牢。
+              先合上答案主动回想，比重读十遍更有效。每道题都保留自己的回想轨迹， 答不上来也没关系，下一次会更牢。
             </p>
           </div>
         </div>
@@ -227,7 +227,7 @@
             <tr>
               <td><code>--radius</code></td>
               <td>8px</td>
-              <td>卡片、题目、面试记录</td>
+              <td>卡片、题目、面试档案</td>
             </tr>
             <tr>
               <td><code>--radius-lg</code></td>
@@ -283,7 +283,7 @@
           </label>
           <label class="field field-wide">
             <span>补充说明</span>
-            <el-input type="textarea" :rows="2" model-value="用一句话写清楚考点，之后复习会更快。" />
+            <el-input type="textarea" :rows="2" model-value="用一句话写清楚考点，之后回想会更快。" />
           </label>
         </div>
       </div>
@@ -305,12 +305,12 @@
           <span
             class="mini-pill"
             style="color: var(--accent-2); background: color-mix(in srgb, var(--accent-2) 12%, transparent)"
-            >已掌握</span
+            >长期记忆</span
           >
           <span class="tag-chip">#HashMap</span>
           <span class="tag-chip">#扩容</span>
           <span class="star-flag">重点</span>
-          <span class="due-flag"><i />今日到期</span>
+          <span class="due-flag"><i />待回想</span>
         </div>
       </div>
 
@@ -332,7 +332,7 @@
           <div class="q-excerpt">数组 + 链表 + 红黑树，负载因子 0.75，扩容时 rehash 的过程与并发问题。</div>
           <div class="q-tags"><span class="tag-chip">#HashMap</span><span class="tag-chip">#扩容</span></div>
           <div class="q-footer">
-            <span class="q-meta">3 天前 · 复习 4 次</span>
+            <span class="q-meta">3 天前 · 回想 4 次</span>
             <span class="q-company">字节跳动</span>
           </div>
         </div>
@@ -346,7 +346,7 @@
               <th>题目</th>
               <th>分类</th>
               <th>难度</th>
-              <th>下次复习</th>
+              <th>下次回想</th>
             </tr>
           </thead>
           <tbody>
@@ -450,7 +450,7 @@
     </section>
 
     <div class="sg-footer">
-      <span>Interview Field Notes · 2026</span>
+      <span>面试记忆助手 · 2026</span>
       <button class="sg-theme-btn" type="button" @click="toggleTheme">
         {{ isDark ? '切换到浅色纸面' : '切换到夜读模式' }}
       </button>

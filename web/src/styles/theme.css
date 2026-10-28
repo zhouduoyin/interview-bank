@@ -658,7 +658,7 @@ button:focus-visible {
   background: var(--surface);
 }
 
-/* ---------- 工作台 Hero：封面页 ---------- */
+/* ---------- 今日页 Hero：封面页 ---------- */
 .hero-card {
   border-radius: 12px;
   background-color: var(--ink-panel);
@@ -1046,7 +1046,7 @@ html.dark .hero-card {
   border-bottom-color: var(--border);
 }
 
-/* ---------- 详情 / 复习 / 面试 ---------- */
+/* ---------- 详情 / 回想 / 面试 ---------- */
 .detail-meta,
 .iv-meta-row,
 .q-meta,
