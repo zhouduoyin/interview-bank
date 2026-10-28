@@ -1,0 +1,190 @@
+/* ==========================================================================
+   面试手记 · Design Tokens
+   所有颜色、字体、间距、圆角、阴影与动效的唯一来源。
+   修改主题时只改这里；组件样式见 main.css / theme.css。
+   ========================================================================== */
+
+:root {
+  /* ---- 纸张与墨色 (Light) ---- */
+  --paper: #f2ecdf;
+  --bg: var(--paper);
+  --surface: #fbf6ea;
+  --surface-2: #f5eddd;
+  --surface-3: #e9dfcc;
+  --border: #d9cdb7;
+  --border-strong: #bfae91;
+
+  --text: #201d16;
+  --text-2: #5b5346;
+  --text-3: #756a58;
+
+  /* ---- 朱砂主色与颜料辅色 ---- */
+  --primary: #b8432a;
+  --primary-strong: #97331d;
+  --primary-soft: #f0d9cf;
+  --on-primary: #fff6e8;
+
+  --accent-2: #3f5b45; /* 苔绿 */
+  --accent-3: #8a6420; /* 赭石 */
+  --accent-4: #2e5a74; /* 石青 */
+  --rose: #a34a5f;
+  --green: var(--accent-2);
+  --amber: var(--accent-3);
+  --red: var(--primary);
+
+  /* ---- 深色侧栏（书的封面） ---- */
+  --ink-panel: #1e1a14;
+  --ink-panel-2: #26211a;
+  --on-ink: #efe4cf;
+  --on-ink-2: #b8ab94;
+
+  /* ---- 热力图：朱砂浓度 ---- */
+  --hm-0: #e9dfcc;
+  --hm-1: #e7c7b5;
+  --hm-2: #d99a7d;
+  --hm-3: #c46a46;
+  --hm-4: #a33a20;
+
+  /* ---- 结构 ---- */
+  --radius-lg: 12px;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --sidebar-w: 248px;
+  --sidebar-w-collapsed: 78px;
+
+  --shadow: 0 1px 0 rgba(32, 29, 22, 0.04), 0 10px 24px -20px rgba(32, 29, 22, 0.35);
+  --shadow-lg: 0 24px 50px -34px rgba(32, 29, 22, 0.4);
+  --shadow-hard: 3px 3px 0 rgba(32, 29, 22, 0.06);
+
+  /* ---- 间距 ---- */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+
+  /* ---- 字体 ---- */
+  --font-display: Georgia, 'Times New Roman', 'Songti SC', 'Noto Serif SC', 'Source Han Serif SC', SimSun, serif;
+  --font-body: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --font-mono: 'Consolas', 'SFMono-Regular', 'Courier New', monospace;
+
+  --fs-display: 44px;
+  --fs-h1: 30px;
+  --fs-h2: 22px;
+  --fs-h3: 17px;
+  --fs-body: 14px;
+  --fs-small: 12px;
+  --fs-micro: 10.5px;
+
+  /* ---- 动效 ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 260ms;
+
+  /* ---- Element Plus ---- */
+  --el-color-primary: #b8432a;
+  --el-color-primary-light-3: #ca725e;
+  --el-color-primary-light-5: #dca093;
+  --el-color-primary-light-7: #edcec7;
+  --el-color-primary-light-8: #f3dfda;
+  --el-color-primary-light-9: #f9efec;
+  --el-color-primary-dark-2: #933621;
+  --el-color-success: #3f6b4f;
+  --el-color-warning: #8a6420;
+  --el-color-danger: #b8432a;
+  --el-color-error: #b8432a;
+  --el-color-info: #6b6253;
+
+  --el-border-radius-base: 6px;
+  --el-border-radius-small: 4px;
+  --el-font-family: var(--font-body);
+  --el-text-color-primary: var(--text);
+  --el-text-color-regular: var(--text-2);
+  --el-text-color-secondary: var(--text-3);
+  --el-text-color-placeholder: var(--text-3);
+  --el-border-color: var(--border);
+  --el-border-color-light: var(--border);
+  --el-border-color-lighter: var(--surface-3);
+  --el-border-color-extra-light: var(--surface-2);
+  --el-fill-color: var(--surface-2);
+  --el-fill-color-light: var(--surface-2);
+  --el-fill-color-lighter: var(--surface);
+  --el-fill-color-blank: var(--surface);
+  --el-bg-color: var(--surface);
+  --el-bg-color-overlay: var(--surface);
+  --el-bg-color-page: var(--bg);
+  --el-mask-color: rgba(32, 29, 22, 0.45);
+}
+
+html.dark {
+  /* ---- 夜读 (Dark) ---- */
+  --paper: #131110;
+  --bg: var(--paper);
+  --surface: #1a1714;
+  --surface-2: #211d19;
+  --surface-3: #2a251f;
+  --border: #322c24;
+  --border-strong: #4a4033;
+
+  --text: #ede4d3;
+  --text-2: #b5a992;
+  --text-3: #9a8c76;
+
+  --primary: #e07654;
+  --primary-strong: #f0906f;
+  --primary-soft: #39241d;
+  --on-primary: #1d120c;
+
+  --accent-2: #83a98c;
+  --accent-3: #d2a75c;
+  --accent-4: #7fa9c3;
+  --rose: #d08a9c;
+
+  --ink-panel: #100e0c;
+  --ink-panel-2: #1b1712;
+  --on-ink: #e9dfcd;
+  --on-ink-2: #a89b84;
+
+  --hm-0: #2a251f;
+  --hm-1: #4b2a1f;
+  --hm-2: #7a3a26;
+  --hm-3: #b25434;
+  --hm-4: #e07654;
+
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 18px 40px -26px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 30px 70px -34px rgba(0, 0, 0, 0.9);
+  --shadow-hard: 3px 3px 0 rgba(0, 0, 0, 0.25);
+
+  --el-bg-color: var(--surface);
+  --el-bg-color-overlay: var(--surface-2);
+  --el-bg-color-page: var(--bg);
+  --el-text-color-primary: var(--text);
+  --el-text-color-regular: var(--text-2);
+  --el-text-color-secondary: var(--text-3);
+  --el-border-color: var(--border);
+  --el-border-color-light: var(--border);
+  --el-border-color-lighter: var(--surface-3);
+  --el-fill-color-blank: var(--surface);
+  --el-fill-color: var(--surface-2);
+  --el-fill-color-light: var(--surface-2);
+  --el-fill-color-lighter: var(--surface);
+  --el-mask-color: rgba(0, 0, 0, 0.72);
+
+  --el-color-primary: #e07654;
+  --el-color-primary-light-3: #a9553c;
+  --el-color-primary-light-5: #7a3d2c;
+  --el-color-primary-light-7: #4c271d;
+  --el-color-primary-light-8: #3a2018;
+  --el-color-primary-light-9: #2a1712;
+  --el-color-primary-dark-2: #e89073;
+  --el-color-success: #83a98c;
+  --el-color-warning: #d2a75c;
+  --el-color-danger: #e07654;
+  --el-color-error: #e07654;
+  --el-color-info: #a89b84;
+}

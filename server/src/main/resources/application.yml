@@ -1,0 +1,38 @@
+server:
+  port: ${SERVER_PORT:8090}
+
+spring:
+  application:
+    name: interview-bank
+  datasource:
+    url: jdbc:h2:file:./data/interview-bank;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  web:
+    resources:
+      static-locations: file:./web/dist/,classpath:/static/
+      cache:
+        cachecontrol:
+          max-age: 0
+
+logging:
+  level:
+    root: INFO
+    com.interviewbank: INFO
