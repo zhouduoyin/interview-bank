@@ -62,17 +62,12 @@
 
     <div v-if="question" class="detail-grid">
       <div class="detail-main">
-        <section class="card">
+        <section v-if="question.content" class="card">
           <div class="card-head">
             <h3>题目</h3>
             <span class="muted small">Markdown 渲染</span>
           </div>
-          <MarkdownView v-if="question.content" :content="question.content" />
-          <p v-else class="muted">
-            还没有填写题目描述，<router-link class="text-link" :to="`/questions/${question.id}/edit`"
-              >去补充</router-link
-            >
-          </p>
+          <MarkdownView :content="question.content" />
         </section>
 
         <section class="card answer-card">

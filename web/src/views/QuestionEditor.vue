@@ -4,7 +4,13 @@
       <div>
         <router-link to="/questions" class="back-link">← 返回题库</router-link>
         <h2>{{ isEdit ? '编辑题目' : '记录一道新题' }}</h2>
-        <p class="muted">参考答案写下来才算真正消化；标签和分类能让以后更快找到它。</p>
+        <p class="muted">
+          {{
+            isEdit
+              ? '参考答案写下来才算真正消化；标签和分类能让以后更快找到它。'
+              : '只填问题和答案就够了，分类、标签等以后随时补。'
+          }}
+        </p>
       </div>
       <div class="editor-actions">
         <el-button v-if="isEdit" type="danger" plain @click="remove">删除</el-button>
@@ -15,109 +21,132 @@
       </div>
     </div>
 
-    <section class="card">
-      <div class="card-head">
-        <h3>基本信息</h3>
-        <span class="muted">Ctrl / ⌘ + S 快速保存</span>
-      </div>
-      <el-input
-        v-model="form.title"
-        class="title-input"
-        size="large"
-        maxlength="300"
-        show-word-limit
-        placeholder="题目，例如：MySQL 索引为什么使用 B+ 树？"
-      />
-      <div class="form-grid">
-        <label class="field">
-          <span>分类</span>
-          <el-select v-model="form.categoryId" placeholder="选择分类" clearable>
-            <el-option v-for="c in appState.categories" :key="c.id" :label="c.name" :value="c.id">
-              <span class="dot" :style="{ background: c.color || 'var(--text-3)' }" />
-              <span>{{ c.name }}</span>
-            </el-option>
-          </el-select>
-        </label>
-        <label class="field">
-          <span>难度</span>
-          <el-select v-model="form.difficulty">
-            <el-option v-for="(v, k) in DIFFICULTY" :key="k" :label="v.label" :value="k" />
-          </el-select>
-        </label>
-        <label class="field">
-          <span>掌握程度</span>
-          <el-select v-model="form.mastery">
-            <el-option v-for="(v, k) in MASTERY" :key="k" :label="v.label" :value="k" />
-          </el-select>
-        </label>
-        <label class="field">
-          <span>收藏</span>
-          <el-switch v-model="form.starred" active-text="重点关注" />
-        </label>
-        <label class="field">
-          <span>来源公司</span>
-          <el-input v-model="form.sourceCompany" placeholder="例如：字节跳动" maxlength="120" />
-        </label>
-        <label class="field">
-          <span>岗位</span>
-          <el-input v-model="form.sourcePosition" placeholder="例如：Java 后端" maxlength="120" />
-        </label>
-        <label class="field field-wide">
-          <span>标签</span>
-          <el-select
-            v-model="form.tags"
-            multiple
-            filterable
-            allow-create
-            default-first-option
-            placeholder="输入后回车创建，如：Redis、并发"
+    <template v-if="isEdit">
+      <section class="card">
+        <div class="card-head">
+          <h3>基本信息</h3>
+          <span class="muted">Ctrl / ⌘ + S 快速保存</span>
+        </div>
+        <el-input
+          v-model="form.title"
+          class="title-input"
+          size="large"
+          maxlength="300"
+          show-word-limit
+          placeholder="题目，例如：MySQL 索引为什么使用 B+ 树？"
+        />
+        <div class="form-grid">
+          <label class="field">
+            <span>分类</span>
+            <el-select v-model="form.categoryId" placeholder="选择分类" clearable>
+              <el-option v-for="c in appState.categories" :key="c.id" :label="c.name" :value="c.id">
+                <span class="dot" :style="{ background: c.color || 'var(--text-3)' }" />
+                <span>{{ c.name }}</span>
+              </el-option>
+            </el-select>
+          </label>
+          <label class="field">
+            <span>难度</span>
+            <el-select v-model="form.difficulty">
+              <el-option v-for="(v, k) in DIFFICULTY" :key="k" :label="v.label" :value="k" />
+            </el-select>
+          </label>
+          <label class="field">
+            <span>掌握程度</span>
+            <el-select v-model="form.mastery">
+              <el-option v-for="(v, k) in MASTERY" :key="k" :label="v.label" :value="k" />
+            </el-select>
+          </label>
+          <label class="field">
+            <span>收藏</span>
+            <el-switch v-model="form.starred" active-text="重点关注" />
+          </label>
+          <label class="field">
+            <span>来源公司</span>
+            <el-input v-model="form.sourceCompany" placeholder="例如：字节跳动" maxlength="120" />
+          </label>
+          <label class="field">
+            <span>岗位</span>
+            <el-input v-model="form.sourcePosition" placeholder="例如：Java 后端" maxlength="120" />
+          </label>
+          <label class="field field-wide">
+            <span>标签</span>
+            <el-select
+              v-model="form.tags"
+              multiple
+              filterable
+              allow-create
+              default-first-option
+              placeholder="输入后回车创建，如：Redis、并发"
+            >
+              <el-option v-for="t in appState.tags" :key="t.name" :label="t.name" :value="t.name" />
+            </el-select>
+          </label>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h3>题目描述</h3>
+            <p>可以放面试官的原话、追问，或者代码片段。</p>
+          </div>
+        </div>
+        <MarkdownEditor
+          v-model="form.content"
+          :min-height="200"
+          placeholder="面试官问：…&#10;&#10;要求 / 场景 / 追问："
+        />
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h3>参考答案</h3>
+            <p>用自己的话写一遍，比复制标准答案更有效。</p>
+          </div>
+          <el-button v-if="!form.answer" size="small" text type="primary" @click="insertAnswerTemplate"
+            >插入答案模板</el-button
           >
-            <el-option v-for="t in appState.tags" :key="t.name" :label="t.name" :value="t.name" />
-          </el-select>
-        </label>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-head">
-        <div>
-          <h3>题目描述</h3>
-          <p>可以放面试官的原话、追问，或者代码片段。</p>
         </div>
-      </div>
-      <MarkdownEditor
-        v-model="form.content"
-        :min-height="200"
-        placeholder="面试官问：…&#10;&#10;要求 / 场景 / 追问："
-      />
-    </section>
+        <MarkdownEditor
+          v-model="form.answer"
+          :min-height="320"
+          placeholder="## 一句话回答&#10;&#10;## 关键点&#10;&#10;- …"
+        />
+      </section>
 
-    <section class="card">
-      <div class="card-head">
-        <div>
-          <h3>参考答案</h3>
-          <p>用自己的话写一遍，比复制标准答案更有效。</p>
+      <section class="card">
+        <div class="card-head">
+          <div>
+            <h3>我的理解 / 追问备忘</h3>
+            <p>记录面试官追问、自己踩过的坑，下次不会忘。</p>
+          </div>
         </div>
-        <el-button v-if="!form.answer" size="small" text type="primary" @click="insertAnswerTemplate"
-          >插入答案模板</el-button
-        >
-      </div>
-      <MarkdownEditor
-        v-model="form.answer"
-        :min-height="320"
-        placeholder="## 一句话回答&#10;&#10;## 关键点&#10;&#10;- …"
-      />
-    </section>
+        <el-input v-model="form.note" type="textarea" :rows="3" placeholder="例如：被追问为什么是 0.75 负载因子……" />
+      </section>
+    </template>
 
-    <section class="card">
-      <div class="card-head">
-        <div>
-          <h3>我的理解 / 追问备忘</h3>
-          <p>记录面试官追问、自己踩过的坑，下次不会忘。</p>
+    <template v-else>
+      <section class="card simple-editor">
+        <div class="field">
+          <span>问题</span>
+          <el-input
+            v-model="form.title"
+            class="title-input simple-title-input"
+            size="large"
+            maxlength="300"
+            show-word-limit
+            autofocus
+            placeholder="例如：MySQL 索引为什么使用 B+ 树？"
+          />
         </div>
-      </div>
-      <el-input v-model="form.note" type="textarea" :rows="3" placeholder="例如：被追问为什么是 0.75 负载因子……" />
-    </section>
+        <div class="field">
+          <span>答案</span>
+          <MarkdownEditor v-model="form.answer" :min-height="360" placeholder="写下你的回答：先给结论，再写关键点…" />
+        </div>
+      </section>
+    </template>
   </div>
 </template>
 

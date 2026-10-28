@@ -1516,6 +1516,20 @@ span.tag-chip:hover {
   padding-top: 20px;
 }
 
+.simple-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.simple-editor .field > span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+.simple-editor .simple-title-input {
+  margin-bottom: 0;
+}
+
 .md-editor {
   border: 1px solid var(--border);
   border-radius: var(--radius);
