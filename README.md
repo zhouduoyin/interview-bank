@@ -222,6 +222,8 @@ npm run preview     # 预览生产构建
 - 代码规范：`eslint.config.js`、`.prettierrc.json`、`.editorconfig`
 - CI：`.github/workflows/web-ci.yml` 执行 `npm ci` → lint → test → build
 
+> 更新依赖后，建议在 Linux / WSL 中重新生成 `package-lock.json`。Windows 上生成的 lockfile 可能缺少 Rolldown、Lightning CSS 的 Linux 可选依赖，导致 CI / Docker 的 `npm ci` 报 `EUSAGE`。
+
 ### 重新构建
 
 单 jar（H2 演示 / 最简单）仍然使用：
