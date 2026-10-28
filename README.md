@@ -4,6 +4,21 @@
 
 [![web-ci](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml/badge.svg)](https://github.com/zhouduoyin/interview-bank/actions/workflows/web-ci.yml)
 
+> 第一次运行、分不清前端 / 后端 / 数据库？先看 **[START-HERE.txt](START-HERE.txt)**。  
+> 最简启动：双击 `start.bat`，浏览器打开 <http://127.0.0.1:8090>。
+
+## 先认识三个部分
+
+| 你看到的目录 | 是什么 | 最简模式要不要单独启动 |
+| --- | --- | --- |
+| `web/` | 前端，Vue 3 + Vite，放页面、组件、样式 | 不用。前端已经打包进 jar |
+| `server/` | 后端，Spring Boot + Java，放 API 和业务逻辑 | 不用手动启动，`start.bat` 会启动 jar |
+| `data/` | 默认数据库 H2，就是一个本地文件 | 不用安装，也不用单独启动 |
+| `sql/init.sql` | 可选 MySQL 的建库脚本，不是数据库程序 | 只有切 MySQL 时才用 |
+
+关键点：`server/target/interview-bank.jar` 是**已经打包好的最终程序**，里面包含前端页面。  
+所以日常使用只需要双击 `start.bat`，不用开前端、后端、数据库三个窗口。
+
 > 记录每一道被问到的题，写下自己的答案，在忘记之前复习它。
 
 界面采用「暖纸 · 墨色 · 朱砂」的**面试手记**视觉体系：像一本摊在桌上的工作笔记，而不是又一个蓝紫渐变后台。完整设计规范见 [docs/design-system.md](docs/design-system.md)，启动后也可以访问 `/styleguide` 查看活文档。
