@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" class="page detail-page">
     <div class="detail-crumbs">
-      <router-link to="/questions" class="back-link">← 题库</router-link>
+      <button type="button" class="back-link" @click="goBack">← 返回题库</button>
       <span class="muted">/</span>
       <span class="muted">题目详情</span>
     </div>
@@ -262,6 +262,15 @@ async function load() {
   } finally {
     loading.value = false
   }
+}
+
+function goBack() {
+  const from = window.history.state?.back
+  if (from === '/questions' || (typeof from === 'string' && from.startsWith('/questions?'))) {
+    router.back()
+    return
+  }
+  router.push('/questions')
 }
 
 async function toggleStar() {

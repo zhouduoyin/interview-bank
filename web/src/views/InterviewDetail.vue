@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading" class="page interview-detail">
     <div class="detail-crumbs">
-      <router-link to="/interviews" class="back-link">← 面试记录</router-link>
+      <router-link to="/interviews" class="back-link">← 返回面试记录</router-link>
       <span class="muted">/</span>
       <span class="muted">{{ record?.company || '详情' }}</span>
     </div>
