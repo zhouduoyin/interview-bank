@@ -1,8 +1,8 @@
 {
   "app": "interview-bank",
   "version": 1,
-  "exportedAt": "2026-10-28T09:55:46.060Z",
-  "source": "2025-2026 前端面试高频方向整理",
+  "exportedAt": "2026-10-28T10:08:48.954Z",
+  "source": "2025-2026 前端面试高频方向整理；React 部分参考掘金《2026 最新 React 面试题》",
   "categories": [
     {
       "name": "JavaScript 核心",
@@ -25,7 +25,7 @@
     {
       "name": "React 19",
       "color": "#2e6f8e",
-      "description": "Actions、Hooks、Fiber 与 RSC",
+      "description": "核心、Hooks、并发与 React 19 新特性",
       "sortOrder": 14
     },
     {
@@ -1128,6 +1128,244 @@
         "算法",
         "哈希表",
         "两数之和"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 和 Vue 的核心设计差异是什么？",
+      "content": "",
+      "answer": "### 设计重心\n\nReact 把 UI 当成函数：UI = f(state)，单向数据流，JSX 加 useState/setState 手动描述更新；Vue 使用模板加响应式依赖追踪，v-model 只是双向绑定的语法糖。\n\n### 更新方式\n\nReact 状态变化后重新执行组件函数，靠 Fiber 协调和 diff 决定真实 DOM 怎么更新；Vue 通过 Proxy 精确追踪依赖，编译器还会做静态提升、Patch Flags 等优化。\n\n### 生态与取舍\n\nReact 更灵活，状态、路由、表单方案多，适合大型团队和跨端；Vue 上手快、模板直观、官方方案更统一。没有绝对优劣，主要看团队经验、项目周期和生态要求。",
+      "note": "追问：如果让你选一个做新项目，你会考虑哪些因素？",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "Vue",
+        "框架对比"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "JSX 编译后是什么？为什么说它不是模板引擎？",
+      "content": "",
+      "answer": "JSX 是 React.createElement 或 JSX runtime 的语法糖。编译后得到的是描述 UI 的普通对象（React Element），不是 HTML 字符串模板。\n\n~~~jsx\nconst el = <h1 className=\"title\">Hello</h1>\n\n// React 17+ 编译结果近似：\nimport { jsx as _jsx } from 'react/jsx-runtime'\nconst el = _jsx('h1', { className: 'title', children: 'Hello' })\n~~~\n\n它把表达式、组件和 props 放在 JavaScript 里，组合和类型检查更自然；真正的 DOM 创建由 React 运行时完成。Vue 模板则由编译器生成渲染函数，两者最终都在描述 UI，只是开发体验不同。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "JSX",
+        "编译"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 列表的 key 有什么用？为什么不要用数组下标？",
+      "content": "",
+      "answer": "key 是 React 在兄弟节点之间识别元素身份的标记。diff 时用它判断哪些节点可以复用、哪些需要新增、移动或删除。\n\n用数组下标的问题：在头部插入、删除或排序后，同一个下标对应的内容已经变了，React 会复用错误的 DOM 或组件实例，导致输入框状态错位、动画异常，严重时还会多渲染。\n\n稳定 key 优先用业务 id；没有 id 时再考虑组合字段。不要用随机数，因为每次渲染都会生成新 key，等于强制重建。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "key",
+        "Diff"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "受控组件和非受控组件有什么区别？表单里怎么选？",
+      "content": "",
+      "answer": "受控组件的 value 来自 state，onChange 更新 state，组件是唯一数据源。适合实时校验、字段联动、格式化输入和动态表单。\n\n非受控组件的值由 DOM 自己管理，用 ref 读取，defaultValue 设置初始值。代码更少，适合简单表单、文件输入，以及和第三方 DOM 库集成。\n\n选择原则：需要实时控制和校验就用受控；只在提交时取值、字段很多且性能敏感时可以用非受控。两者不要混在同一个字段上，否则容易出现值不同步。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "表单",
+        "受控组件"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 合成事件和原生 DOM 事件有什么区别？",
+      "content": "",
+      "answer": "React 合成事件是对原生事件的跨浏览器包装，提供统一 API，并通过事件委托减少监听器数量。\n\n- React 17 之前委托到 document，17 开始委托到根容器\n- 旧版本有事件池，异步访问事件对象需要 e.persist()，新版本已移除事件池\n- JSX 使用驼峰命名并传函数，原生事件用全小写或 addEventListener\n- 合成事件最终仍由原生事件驱动，阻止原生传播可能影响合成事件\n\n合成事件让不同浏览器下的 event.target、preventDefault 等行为更一致，但它不是另一套完全独立的事件系统。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "合成事件",
+        "事件委托"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React Hooks 的闭包陷阱是什么？怎么避免？",
+      "content": "",
+      "answer": "Hooks 闭包陷阱：回调或 effect 捕获了某一次渲染的 state/props，异步执行时读到的还是旧值。\n\n~~~jsx\n// 连续调用可能只加一次\nsetCount(count + 1)\n\n// 基于最新值更新\nsetCount((count) => count + 1)\n~~~\n\nuseEffect 里空依赖加 setInterval 会一直读初始 count。解决方式：把依赖写全、用 ref 保存最新值，或者用函数式更新。\n\n不要靠关闭 exhaustive-deps 来掩盖问题；先想清楚这个副作用到底依赖哪些值。",
+      "note": "追问：为什么 useEffect 的清理函数里读到的往往是旧 state？",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "Hooks",
+        "闭包"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "useEffect 里怎么正确使用 async/await？",
+      "content": "",
+      "answer": "useEffect 的回调不能直接写成 async 函数，因为它必须返回清理函数，而 async 函数返回的是 Promise。\n\n写法是在内部定义 async 函数并调用，或者使用 IIFE；组件卸载时用 AbortController 或取消标记避免继续 setState。\n\n~~~jsx\nuseEffect(() => {\n  const controller = new AbortController()\n\n  ;(async () => {\n    const res = await fetch(url, { signal: controller.signal })\n    const data = await res.json()\n    if (!controller.signal.aborted) setData(data)\n  })()\n\n  return () => controller.abort()\n}, [url])\n~~~\n\n请求的竞态、错误处理和 loading 状态仍然要单独设计，不能只靠 useEffect。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "useEffect",
+        "async"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "useReducer 和 useState 怎么选？",
+      "content": "",
+      "answer": "useState 适合简单、独立的状态，比如一个输入值、一个开关。\n\nuseReducer 适合状态字段多、更新逻辑复杂、下一个状态依赖多个字段的场景。它把更新逻辑收敛到纯 reducer，便于测试和追踪 action，配合 Context 可以做轻量全局状态。\n\n如果只是几个布尔值或字符串，useState 更直接；不要为了“看起来高级”上 reducer。反过来，状态更新开始出现大量条件分支时，就是考虑 useReducer 的信号。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "useReducer",
+        "状态管理"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React 组件之间有哪些通信方式？",
+      "content": "",
+      "answer": "- 父子：props 下行，回调或自定义事件上行\n- 跨层级：Context，或者状态管理库\n- 兄弟：状态提升到共同父级\n- 全局：Redux、Zustand、URL、localStorage\n- 命令式：ref 加 useImperativeHandle\n- 服务端：请求缓存或 Query 库\n\n选择看组件距离和状态生命周期。能局部解决就不要上全局状态；Context 适合低频变化的主题、用户信息，不适合高频更新的大对象。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "组件通信",
+        "Context"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "React.lazy 和 Suspense 的懒加载原理是什么？",
+      "content": "",
+      "answer": "React.lazy 接收一个返回 Promise 的 import()，把组件拆成独立 chunk；Suspense 在加载期间显示 fallback。\n\n流程：渲染时发现组件还没加载，就抛出一个 Promise；Suspense 捕获并显示 fallback，加载完成后 React 重试渲染。\n\n要注意错误边界、预加载和 SSR 限制。不要把首屏关键组件也懒加载，否则会把 LCP 推后；路由级和低频弹层更适合拆包。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "懒加载",
+        "Suspense"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "setState 是同步还是异步？React 18 的自动批处理是怎么回事？",
+      "content": "",
+      "answer": "React 18 之前，合成事件和生命周期里的 setState 会批量合并，表现为“异步”；setTimeout、Promise、原生事件里通常同步触发多次渲染。\n\nReact 18 从 createRoot 开始，所有更新默认自动批处理，包括 Promise、setTimeout 和原生事件。更新仍然是异步调度，不是立刻修改 state。\n\n需要基于旧值更新时用函数式 setState；需要读取更新后的 DOM 时用 useEffect 或 useLayoutEffect。不要用 setTimeout 猜更新时机。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "setState",
+        "批处理"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "startTransition 和 useDeferredValue 有什么区别？",
+      "content": "",
+      "answer": "startTransition 用来标记“非紧急更新”，让 React 优先处理输入、点击等紧急更新；useTransition 额外提供 isPending 状态。\n\nuseDeferredValue 接收一个值，返回它的延迟版本，适合让昂贵列表或搜索结果“慢半拍”更新，而不阻塞输入框。\n\n区别：startTransition 包裹更新动作，useDeferredValue 延迟一个值。两者都不是防抖，不会减少请求，只是调整渲染优先级；真正的请求节流仍要自己做。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "HARD",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "并发",
+        "Transition"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": true
+    },
+    {
+      "title": "React 性能优化你会从哪些方面入手？",
+      "content": "",
+      "answer": "- 减少渲染范围：拆分组件、状态下移、拆分 Context\n- 避免无效渲染：memo、useMemo、useCallback，但先用 Profiler 确认瓶颈\n- 长列表：虚拟列表、分页、惰性渲染\n- 代码分割：路由和组件懒加载，减少首屏 JS\n- 数据：请求缓存、并发请求，避免请求瀑布\n- 资源：图片、字体、CDN、HTTP 缓存\n- 交互：拆分长任务、Web Worker、Transition\n\n性能优化要指标驱动。不要默认给所有组件套 memo，比较成本和代码复杂度可能比收益更高。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "性能优化",
+        "Profiler"
+      ],
+      "sourceCompany": null,
+      "sourcePosition": "前端开发",
+      "starred": false
+    },
+    {
+      "title": "Redux 的核心原则是什么？和 Zustand 怎么选？",
+      "content": "",
+      "answer": "Redux 三原则：单一数据源、state 只读、用纯 reducer 修改。\n\n它适合需要可预测状态、时间旅行调试、复杂跨组件共享的场景；代价是概念多、样板代码多。\n\nZustand 更轻：store 就是一个 Hook，直接读写，按需订阅，样板少，适合中小型应用和渐进式状态管理。\n\n选择看团队、调试需求和生态，不是所有 React 应用都需要 Redux。小型项目用 Context 加 useReducer 也可能足够。",
+      "note": "",
+      "categoryName": "React 19",
+      "difficulty": "MEDIUM",
+      "mastery": "NEW",
+      "tags": [
+        "React",
+        "Redux",
+        "Zustand"
       ],
       "sourceCompany": null,
       "sourcePosition": "前端开发",

@@ -40,13 +40,15 @@
 
 ## 内置前端 2026 题库
 
-仓库里的 [`docs/frontend-2026-question-bank.json`](docs/frontend-2026-question-bank.json) 是一份按 2025–2026 前端面试常见方向整理的可导入题库，共 **61 道题、10 个新分类**（另有 3 道算法题归入现有的「算法与数据结构」分类）：
+仓库里的 [`docs/frontend-2026-question-bank.json`](docs/frontend-2026-question-bank.json) 是一份按 2025–2026 前端面试常见方向整理的可导入题库，共 **75 道题、10 个新分类**（另有 3 道算法题归入现有的「算法与数据结构」分类）：
 
 - JavaScript 核心、CSS 与布局、Vue 3、React 19
 - 浏览器与网络、前端工程化、性能优化、TypeScript
 - 手写代码、前端场景（权限、上传、主题、监控、AI 流式）
 
-题目覆盖闭包、事件循环、Vue 编译优化、React 19 Actions / `use` / RSC、HTTP 缓存与 HTTP/3、Core Web Vitals 的 INP、Vite、Tree Shaking、Monorepo、容器查询、`satisfies`、防抖节流、Promise.all、LRU 等高频考点。答案按面试口述的深度编写，不是一句话结论。
+题目覆盖闭包、事件循环、Vue 编译优化、React 19 Actions / `use` / RSC、JSX / key / 受控组件 / Hooks 闭包陷阱 / setState 批处理 / Transition、HTTP 缓存与 HTTP/3、Core Web Vitals 的 INP、Vite、Tree Shaking、Monorepo、容器查询、`satisfies`、防抖节流、Promise.all、LRU 等高频考点。答案按面试口述的深度编写，不是一句话结论。
+
+React 部分参考了掘金文章 [《2026 最新 React 面试题》](https://juejin.cn/post/7348651815759282226) 的题目方向，答案按本仓库的面试口述风格重新整理。
 
 本地已经导入时无需重复操作；新环境可以在应用启动后导入：
 
