@@ -366,7 +366,7 @@ button {
 
 .content {
   padding: 26px 32px 70px;
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -1226,6 +1226,33 @@ span.tag-chip:hover {
   grid-template-columns: 204px minmax(0, 1fr);
   gap: 18px;
   align-items: start;
+}
+/* 表格视图：分类栏改为顶部横向筛选，把整行宽度让给表格 */
+.question-browser.table-mode {
+  grid-template-columns: minmax(0, 1fr);
+}
+.question-browser.table-mode .category-rail {
+  position: static;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+  max-height: none;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  padding: 8px;
+}
+.question-browser.table-mode .category-rail::-webkit-scrollbar {
+  display: none;
+}
+.question-browser.table-mode .category-rail-head,
+.question-browser.table-mode .category-manage {
+  display: none;
+}
+.question-browser.table-mode .category-item {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 7px 10px;
 }
 .question-results {
   min-width: 0;

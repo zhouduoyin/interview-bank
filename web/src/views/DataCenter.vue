@@ -70,16 +70,16 @@
         <el-button type="primary" :disabled="!newCategory.name.trim()" @click="addCategory">添加分类</el-button>
       </div>
       <el-table :data="categories" size="small">
-        <el-table-column label="分类" min-width="160">
+        <el-table-column label="分类" min-width="140">
           <template #default="{ row }">
             <span class="cat-pill simple">
               <i class="dot" :style="{ background: row.color || 'var(--text-3)' }" />{{ row.name }}
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="描述" min-width="180" show-overflow-tooltip />
-        <el-table-column prop="questionCount" label="题目数" width="90" />
-        <el-table-column label="操作" width="150" align="right">
+        <el-table-column prop="description" label="描述" min-width="160" show-overflow-tooltip />
+        <el-table-column prop="questionCount" label="题目数" width="80" />
+        <el-table-column label="操作" width="140" align="right">
           <template #default="{ row }">
             <el-button link size="small" @click="editCategory(row)">重命名</el-button>
             <el-button link size="small" type="danger" @click="deleteCategory(row)">删除</el-button>

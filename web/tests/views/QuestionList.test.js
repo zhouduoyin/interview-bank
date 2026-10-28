@@ -102,4 +102,16 @@ describe('QuestionList 分类导航', () => {
     expect(wrapper.find('.q-card').exists()).toBe(true)
     expect(wrapper.text()).not.toContain('还没有填写题目描述')
   })
+
+  it('切换表格视图时使用整行宽度', async () => {
+    const router = makeRouter()
+    await router.push('/questions')
+    await router.isReady()
+
+    const wrapper = mount(QuestionList, { global: { plugins: [router, ElementPlus] } })
+    await flushPromises()
+
+    await wrapper.find('button[title="表格视图"]').trigger('click')
+    expect(wrapper.find('.question-browser').classes()).toContain('table-mode')
+  })
 })

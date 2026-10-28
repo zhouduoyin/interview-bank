@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="question-browser">
+    <div class="question-browser" :class="{ 'table-mode': view === 'table' }">
       <aside class="category-rail" aria-label="题库分类">
         <div class="category-rail-head">
           <span>题库分类</span>
@@ -173,7 +173,7 @@
             @selection-change="(rows) => (selection = rows)"
           >
             <el-table-column type="selection" width="44" />
-            <el-table-column label="题目" min-width="300">
+            <el-table-column label="题目" min-width="218">
               <template #default="{ row }">
                 <div class="table-title">
                   <button
@@ -188,7 +188,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="分类" width="120">
+            <el-table-column label="分类" width="116">
               <template #default="{ row }">
                 <span class="cat-pill simple clickable" @click.stop="openCategory(row)">
                   <i class="dot" :style="{ background: row.category?.color || 'var(--text-3)' }" />
@@ -196,27 +196,27 @@
                 </span>
               </template>
             </el-table-column>
-            <el-table-column label="难度" width="90">
+            <el-table-column label="难度" width="78">
               <template #default="{ row }">
                 <span class="mini-pill" :style="diffStyle(row.difficulty)">{{ diffLabel(row.difficulty) }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="掌握" width="100">
+            <el-table-column label="掌握" width="86">
               <template #default="{ row }">
                 <span class="mini-pill" :style="masteryStyle(row.mastery)">{{ masteryLabel(row.mastery) }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="复习" width="90">
+            <el-table-column label="复习" width="78">
               <template #default="{ row }">
                 <span :class="{ 'due-text': isDue(row) }">{{ isDue(row) ? '待复习' : `${row.reviewCount} 次` }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="更新时间" width="120">
+            <el-table-column label="更新时间" width="104">
               <template #default="{ row }">
                 <span class="muted">{{ fromNow(row.updatedAt) }}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作" width="120" fixed="right">
+            <el-table-column label="操作" width="108" fixed="right">
               <template #default="{ row }">
                 <el-button link type="primary" size="small" @click="$router.push(`/questions/${row.id}`)"
                   >查看</el-button
