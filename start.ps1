@@ -1,4 +1,4 @@
-﻿# 面试题库 · 一键启动
+﻿# 面试记忆助手 · 一键启动
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $jar = Join-Path $root 'server\target\interview-bank.jar'
@@ -17,7 +17,7 @@ if (-not (Test-Path $jar)) {
 
 Set-Location $root
 Write-Host ''
-Write-Host '  面试题库正在启动...' -ForegroundColor Cyan
+Write-Host '  面试记忆助手正在启动...' -ForegroundColor Cyan
 Write-Host '  首次启动会创建本地数据库并写入示例题，大约需要 20 秒。' -ForegroundColor DarkGray
 Write-Host "  启动完成后会自动打开 $url" -ForegroundColor DarkGray
 Write-Host ''
@@ -25,7 +25,7 @@ Write-Host ''
 # 如果已经有一个实例在跑，直接打开浏览器即可
 try {
     Invoke-WebRequest -Uri "$url/api/stats/dashboard" -UseBasicParsing -TimeoutSec 2 | Out-Null
-    Write-Host '  检测到面试题库已经在运行，直接打开页面。' -ForegroundColor Green
+    Write-Host '  检测到面试记忆助手已经在运行，直接打开页面。' -ForegroundColor Green
     Start-Process $url
     exit 0
 } catch {
